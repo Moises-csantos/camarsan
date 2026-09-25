@@ -10,7 +10,7 @@
 
 const CONFIG = {
     // Endereço da API da CamarSan
-    API_URL: "http://127.0.0.1:5000",
+    API_URL: "https://aliancascamarsan1993.pythonanywhere.com",
 
     // Nome da aplicação
     APP_NAME: "CamarSan"
