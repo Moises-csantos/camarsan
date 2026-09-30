@@ -1059,6 +1059,132 @@ footer a:hover {
 .miniatura.ativa {
     border-color: var(--dourado);
 }
+/* =========================================================
+   15. PAINEL ADMINISTRATIVO (LOGIN E GESTÃO)
+   ========================================================= */
+
+.container-admin {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, var(--grafite), var(--bordo-escuro));
+}
+
+#secao-login, 
+#secao-painel {
+    background-color: var(--branco);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: var(--sombra);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+#secao-login h2, 
+#secao-painel h2 {
+    color: var(--bordo);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+#secao-painel h3 {
+    color: var(--dourado-escuro);
+    font-size: 1.3rem;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+#secao-painel p {
+    color: var(--cinza);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Formulários do Painel e Login */
+#form-login input,
+#form-produto input,
+#form-produto textarea {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1px solid var(--cinza-claro);
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--creme);
+    color: var(--grafite);
+    outline: none;
+    transition: var(--transicao);
+}
+
+#form-produto textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+#form-login input:focus,
+#form-produto input:focus,
+#form-produto textarea:focus {
+    border-color: var(--dourado);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+}
+
+/* Botões do Painel */
+#form-login button,
+#form-produto button {
+    width: 100%;
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+#form-login button:hover,
+#form-produto button:hover {
+    background-color: var(--dourado-claro);
+    transform: translateY(-2px);
+}
+
+#btn-sair {
+    width: 100%;
+    background-color: transparent;
+    color: var(--bordo);
+    border: 1px solid var(--bordo);
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+#btn-sair:hover {
+    background-color: var(--bordo);
+    color: var(--branco);
+}
+
+/* Links de navegação interna do painel */
+#secao-login p {
+    margin-top: 20px;
+}
+
+#secao-login p a {
+    color: var(--dourado-escuro);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+#secao-login p a:hover {
+    color: var(--bordo);
+    text-decoration: underline;
+}
 
 
 /* =========================================================
