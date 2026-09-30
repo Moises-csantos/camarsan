@@ -33,7 +33,7 @@ formProduto.addEventListener('submit', async function (e) {
     }
 
     try {
-        const resposta = await fetch('https://SUA_URL_DO_PYTHONANYWHERE/produtos', {
+        const resposta = await fetch('https://aliancascamarsan1993.pythonanywhere.com/produtos', {
             method: 'POST',
             // Nota: Quando usamos FormData, NÃO definimos o Content-Type nos headers, 
             // o navegador faz isso automaticamente junto com o envio do arquivo.
