@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,11 @@
     <!-- Ligação com o seu arquivo CSS (ajuste o caminho se necessário dependendo de onde a pasta pages está) -->
     <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
 
     <main class="container-admin">
-        
+
         <!-- SECÇÃO DE LOGIN (Aparece primeiro) -->
         <section id="secao-login">
             <h2>Área Administrativa</h2>
@@ -25,17 +27,21 @@
         <section id="secao-painel" style="display: none;">
             <h2>Painel de Gestão - CamarSan</h2>
             <p>Bem-vindo, Administrador!</p>
-            
+
             <h3>Cadastrar Novo Produto</h3>
-            <form id="form-produto">
+            <form id="form-produto" enctype="multipart/form-data">
                 <input type="text" id="nome-prod" placeholder="Nome da Aliança (ex: Modelo 04)" required><br>
                 <textarea id="desc-prod" placeholder="Descrição do produto"></textarea><br>
                 <input type="number" id="preco-prod" step="0.01" placeholder="Preço (ex: 120.00)" required><br>
-                <input type="text" id="imagem-prod" placeholder="Caminho da imagem (ex: assets/produtos/modelo-4.jpg)" required><br>
-                
+
+                <!-- Alterado para aceitar imagens da galeria/câmara do telemóvel -->
+                <label for="imagem-prod"
+                    style="color: var(--cinza); font-size: 0.9rem; text-align: left; display: block; margin-bottom: 5px;">Selecione
+                    a foto do produto:</label>
+                <input type="file" id="imagem-prod" accept="image/*" required><br>
+
                 <button type="submit">Salvar Produto no Banco</button>
             </form>
-
             <button id="btn-sair" style="margin-top: 20px;">Sair / Bloquear Painel</button>
         </section>
 
@@ -44,4 +50,5 @@
     <!-- Script específico para controlar o login e o envio para a API -->
     <script src="../js/admin.js"></script>
 </body>
+
 </html>
