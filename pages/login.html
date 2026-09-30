@@ -42,11 +42,12 @@
                 <input type="text" id="personalizacao" placeholder="Personalização (ex: Disponível)"><br>
                 <input type="text" id="disponibilidade" placeholder="Disponibilidade (ex: Em estoque)"><br>
 
-                <!-- Seleção de imagem -->
+                <!-- Seleção de múltiplas imagens -->
                 <label for="imagem-prod"
-                    style="color: var(--cinza); font-size: 0.9rem; text-align: left; display: block; margin-bottom: 5px;">Selecione
-                    a foto do produto:</label>
-                <input type="file" id="imagem-prod" accept="image/*" required><br>
+                    style="color: var(--cinza); font-size: 0.9rem; text-align: left; display: block; margin-bottom: 5px;">
+                    Selecione as fotos do produto (pode escolher várias):
+                </label>
+                <input type="file" id="imagem-prod" accept="image/*" multiple required><br>
 
                 <button type="submit">Salvar Produto no Banco</button>
             </form>
