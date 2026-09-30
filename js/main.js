@@ -90,6 +90,10 @@ function inicializarAno() {
 // API - ESTRUTURA FUTURA
 // -----------------------------------------------------
 
+// -----------------------------------------------------
+// API - ESTRUTURA FUTURA
+// -----------------------------------------------------
+
 async function inicializarProdutosDestaque() {
 
     const container = document.querySelector("#produtos-destaque");
@@ -111,31 +115,39 @@ async function inicializarProdutosDestaque() {
 
         container.innerHTML = "";
 
-        produtos
-            .filter(produto => produto.destaque)
-            .forEach(produto => {
+        if (produtos.length === 0) {
+            container.innerHTML = "<p>Nenhuma aliança cadastrada no momento.</p>";
+            return;
+        }
 
-                const card = document.createElement("article");
+        // Pega os produtos (ou usa slice para mostrar por exemplo os 4 primeiros)
+        produtos.slice(0, 4).forEach(produto => {
 
-                card.classList.add("produto-card");
+            const card = document.createElement("article");
 
-                card.innerHTML = `
-                    <img
-                      src="${produto.imagens[0]}"
-                      alt="${produto.nome}"
-                    >
+            card.classList.add("produto-card");
 
-                    <h3>${produto.nome}</h3>
+            const fotoUrl = produto.imagens && produto.imagens.length > 0 ? produto.imagens[0] : '';
 
-                    <p>${produto.descricao}</p>
+            card.innerHTML = `
+                <img
+                  src="${fotoUrl}"
+                  alt="${produto.nome}"
+                >
 
-                    <a href="pages/produto.html?id=${produto.id}">
-                        Ver detalhes
-                    </a>
-                `;
+                <h3>${produto.nome}</h3>
 
-                container.appendChild(card);
-            });
+                <p>${produto.descricao || ''}</p>
+
+                <p class="produto-preco">R$ ${produto.preco.toFixed(2).replace(".", ",")}</p>
+
+                <a href="pages/produto.html?id=${produto.id}">
+                    Ver detalhes
+                </a>
+            `;
+
+            container.appendChild(card);
+        });
 
         console.log(`${produtos.length} produtos carregados pela API.`);
 
