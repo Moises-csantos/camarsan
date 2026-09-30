@@ -35,10 +35,10 @@ formProduto.addEventListener('submit', async function (e) {
     formData.append('personalizacao', document.getElementById('personalizacao').value);
     formData.append('disponibilidade', document.getElementById('disponibilidade').value);
 
-    // Pega o ficheiro selecionado no input file
+    // Pega todos os ficheiros selecionados no input file
     const inputImagem = document.getElementById('imagem-prod');
-    if (inputImagem.files.length > 0) {
-        formData.append('imagem', inputImagem.files[0]);
+    for (let i = 0; i < inputImagem.files.length; i++) {
+        formData.append('imagens', inputImagem.files[i]);
     }
 
     try {
@@ -79,7 +79,7 @@ async function carregarProdutosAdmin() {
         produtos.forEach(produto => {
             const itemDiv = document.createElement('div');
             itemDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 10px; margin-bottom: 8px; border-radius: 5px; border: 1px solid #ddd;';
-            
+
             itemDiv.innerHTML = `
                 <span><strong>${produto.nome}</strong> - R$ ${produto.preco.toFixed(2)}</span>
                 <button type="button" class="btn-excluir" data-id="${produto.id}" style="background: #d9534f; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Excluir</button>
@@ -92,7 +92,7 @@ async function carregarProdutosAdmin() {
         document.querySelectorAll('.btn-excluir').forEach(botao => {
             botao.addEventListener('click', async (e) => {
                 const idProduto = e.target.dataset.id;
-                
+
                 if (confirm('Tem a certeza que deseja excluir este produto?')) {
                     try {
                         const res = await fetch(`https://aliancascamarsan1993.pythonanywhere.com/produtos/${idProduto}`, {
