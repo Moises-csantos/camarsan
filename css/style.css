@@ -1296,13 +1296,20 @@ footer a:hover {
    ESTILOS DO CARRINHO DE COMPRAS
 =================================================== */
 
-
 #carrinho-conteudo {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    /* Começa sempre em 1 coluna (ideal para celulares e telas menores) */
+    grid-template-columns: 1fr;
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+/* Apenas em telas grandes (computador), divide lado a lado */
+@media (min-width: 900px) {
+    #carrinho-conteudo {
+        grid-template-columns: 2fr 1fr;
+    }
 }
 
 .carrinho-item {
@@ -1330,11 +1337,6 @@ footer a:hover {
 
 /* Responsividade específica para o Carrinho em telas pequenas */
 @media (max-width: 768px) {
-    #carrinho-conteudo {
-        grid-template-columns: 1fr !important; /* Coloca a lista em cima e o resumo em baixo */
-        gap: 20px;
-    }
-
     .carrinho-item {
         flex-direction: row;
         align-items: center;
@@ -1344,9 +1346,9 @@ footer a:hover {
 
     .carrinho-painel {
         margin-top: 10px;
+        width: 100%;
     }
 }
-
 
 /* =========================================================
    14. RESPONSIVIDADE
