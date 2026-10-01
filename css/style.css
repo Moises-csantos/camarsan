@@ -1296,21 +1296,55 @@ footer a:hover {
    ESTILOS DO CARRINHO DE COMPRAS
 =================================================== */
 
-.carrinho-item {
-    display: flex;
-    gap: 20px;
-    background: #fff;
-    padding: 15px;
-    border: 1px solid #e1e1e1;
-    border-radius: 8px;
-    align-items: center;
+
+#carrinho-conteudo {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.carrinho-painel {
-    background: #f9f9f9;
-    padding: 25px;
+.carrinho-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid var(--cinza-claro, #eee);
+    border-radius: 12px;
+    box-shadow: var(--sombra);
+}
+
+.carrinho-item img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
     border-radius: 8px;
-    border: 1px solid #e1e1e1;
+    flex-shrink: 0;
+}
+
+.carrinho-item div {
+    flex-grow: 1;
+}
+
+/* Responsividade específica para o Carrinho em telas pequenas */
+@media (max-width: 768px) {
+    #carrinho-conteudo {
+        grid-template-columns: 1fr !important; /* Coloca a lista em cima e o resumo em baixo */
+        gap: 20px;
+    }
+
+    .carrinho-item {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+    }
+
+    .carrinho-painel {
+        margin-top: 10px;
+    }
 }
 
 
