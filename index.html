@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -15,7 +14,6 @@
 
     <title>CamarSan | Alianças de Moedas Antigas</title>
 
-    <!-- Futuramente vamos adicionar aqui o arquivo CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/png" href="assets/icones/favicon.png">
 </head>
@@ -25,12 +23,8 @@
     <!-- ==================================================
          CABEÇALHO
     =================================================== -->
-
     <header>
-
         <nav>
-
-            <!-- Logo -->
             <!-- Logo -->
             <a href="index.html" aria-label="Página inicial da CamarSan">
                 <img src="assets/logo/logo.png" alt="CamarSan - Alianças de Moedas Antigas">
@@ -38,34 +32,19 @@
 
             <!-- Menu principal -->
             <ul>
-                <li>
-                    <a href="index.html">Início</a>
-                </li>
-
-                <li>
-                    <a href="pages/catalogo.html">Alianças</a>
-                </li>
-
-                <li>
-                    <a href="pages/historia.html">Nossa História</a>
-                </li>
-
-                <li>
-                    <a href="pages/como-funciona.html">Como Funciona</a>
-                </li>
-
-                <li>
-                    <a href="pages/contato.html">Contato</a>
-                </li>
+                <li><a href="index.html" class="ativo">Início</a></li>
+                <li><a href="pages/catalogo.html">Alianças</a></li>
+                <li><a href="pages/historia.html">Nossa História</a></li>
+                <li><a href="pages/como-funciona.html">Como Funciona</a></li>
+                <li><a href="pages/contato.html">Contato</a></li>
             </ul>
 
-            <!-- Conta do cliente -->
-            <a href="pages/login.html">
-                Minha Conta
-            </a>
-
+            <!-- Ações do cliente (Carrinho + Conta) -->
+            <div class="menu-acoes-cliente">
+                <a href="pages/carrinho.html">Carrinho (<span id="contador-carrinho">0</span>)</a>
+                <a href="pages/login.html">Minha Conta</a>
+            </div>
         </nav>
-
     </header>
 
 
@@ -550,4 +529,3 @@
 </body>
 
 </html>
-```
