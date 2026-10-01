@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catálogo completo de alianças artesanais de moedas antigas da CamarSan.">
+    <title>Catálogo de Alianças | CamarSan</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" type="image/png" href="../assets/icones/favicon.png">
+</head>
+
+<body>
+
+    <!-- ==================================================
+         CABEÇALHO
+    =================================================== -->
+    <header>
+        <nav>
+            <a href="../index.html" aria-label="Página inicial da CamarSan">
+                <img src="../assets/logo/logo.png" alt="CamarSan - Alianças de Moedas Antigas">
+            </a>
+
+            <ul>
+                <li><a href="../index.html">Início</a></li>
+                <li><a href="catalogo.html" class="ativo">Alianças</a></li>
+                <li><a href="historia.html">Nossa História</a></li>
+                <li><a href="como-funciona.html">Como Funciona</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+
+            <div class="menu-acoes-cliente">
+                <a href="carrinho.html">Carrinho (<span id="contador-carrinho">0</span>)</a>
+                <a href="login.html">Minha Conta</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ==================================================
+         CONTEÚDO PRINCIPAL (CATÁLOGO)
+    =================================================== -->
+    <main>
+        <section id="catalogo-principal" class="secao-catalogo">
+            
+            <div class="catalogo-cabecalho-texto">
+                <p class="subtitulo-colecao">Nossa Coleção</p>
+                <h1>Catálogo de Alianças</h1>
+                <p>
+                    Explore todas as nossas peças forjadas artesanalmente. Clique em um modelo para ver os detalhes, especificações e múltiplas fotos.
+                </p>
+            </div>
+
+            <!-- Onde a lista de produtos da API será injetada dinamicamente -->
+            <div id="lista-catalogo" class="produtos-grid">
+                <!-- Os produtos cadastrados no ADM aparecerão aqui automaticamente -->
+                <p class="carregando-texto">A carregar alianças...</p>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ==================================================
+         RODAPÉ
+    =================================================== -->
+    <footer>
+        <div class="footer-marca">
+            <h2>CamarSan</h2>
+            <p>Alianças de Moedas Antigas</p>
+            <p>Forjadas para contar histórias e perpetuar gerações.</p>
+        </div>
+
+        <div class="footer-navegacao">
+            <h3>Navegação</h3>
+            <a href="../index.html">Início</a>
+            <a href="catalogo.html">Alianças</a>
+            <a href="historia.html">Nossa História</a>
+            <a href="como-funciona.html">Como Funciona</a>
+            <a href="contato.html">Contato</a>
+            <a href="login.html">Minha Conta</a>
+        </div>
+
+        <div class="footer-direitos">
+            <p>© <span id="ano-atual"></span> CamarSan Alianças de Moedas Antigas. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script específico para carregar os produtos do catálogo -->
+    <script src="../js/catalogo.js"></script>
+</body>
+
+</html>
