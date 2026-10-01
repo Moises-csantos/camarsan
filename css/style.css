@@ -1420,11 +1420,6 @@ footer a:hover {
     }
 
 
-    nav>a:last-child {
-        display: none;
-    }
-
-
     #hero {
         min-height: auto;
 
