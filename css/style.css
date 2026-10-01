@@ -1292,24 +1292,85 @@ footer a:hover {
 }
 
 
-/* ==================================================
-   ESTILOS DO CARRINHO DE COMPRAS
-=================================================== */
+/* =========================================================
+   ESTILOS DO CARRINHO DE COMPRAS E RESPONSIVIDADE
+   ========================================================= */
 
 #carrinho-conteudo {
     display: grid;
-    /* Começa sempre em 1 coluna (ideal para celulares e telas menores) */
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr 1fr;
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
 }
 
-/* Apenas em telas grandes (computador), divide lado a lado */
-@media (min-width: 900px) {
-    #carrinho-conteudo {
-        grid-template-columns: 2fr 1fr;
-    }
+#lista-carrinho {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.carrinho-painel {
+    background: #f9f9f9;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid var(--cinza-claro, #eee);
+    box-shadow: var(--sombra);
+}
+
+.carrinho-painel h3 {
+    color: var(--bordo);
+    margin-bottom: 15px;
+}
+
+.resumo-linha {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.resumo-total-linha {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+#resumo-total {
+    color: var(--dourado-escuro);
+}
+
+.btn-whatsapp {
+    width: 100%;
+    background-color: #25d366;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transicao);
+}
+
+.btn-whatsapp:hover {
+    background-color: #1ebd56;
+}
+
+.btn-limpar {
+    width: 100%;
+    background-color: transparent;
+    color: var(--cinza, #666);
+    border: 1px solid var(--cinza-claro, #ccc);
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: var(--transicao);
+}
+
+.btn-limpar:hover {
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .carrinho-item {
@@ -1324,32 +1385,67 @@ footer a:hover {
 }
 
 .carrinho-item img {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 8px;
     flex-shrink: 0;
 }
 
-.carrinho-item div {
+.carrinho-item-info {
     flex-grow: 1;
 }
 
-/* Responsividade específica para o Carrinho em telas pequenas */
+.carrinho-item-info h4 {
+    color: var(--bordo);
+    margin-bottom: 5px;
+}
+
+.carrinho-item-info p {
+    color: var(--dourado-escuro);
+    font-weight: bold;
+}
+
+.btn-remover {
+    background: transparent;
+    border: none;
+    color: #cc0000;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 8px;
+    transition: var(--transicao);
+}
+
+.btn-remover:hover {
+    opacity: 0.8;
+}
+
+.carrinho-vazio {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #e1e1e1;
+    grid-column: 1 / -1;
+}
+
+.carrinho-vazio p {
+    color: var(--cinza, #666);
+    margin-bottom: 15px;
+}
+
+/* Responsividade para Telemóveis */
 @media (max-width: 768px) {
-    .carrinho-item {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px;
+    #carrinho-conteudo {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+        padding: 0 10px;
     }
 
     .carrinho-painel {
-        margin-top: 10px;
         width: 100%;
     }
 }
-
 /* =========================================================
    14. RESPONSIVIDADE
    ========================================================= */
