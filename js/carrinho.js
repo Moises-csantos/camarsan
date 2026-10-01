@@ -74,18 +74,25 @@ function enviarPedidoWhatsApp() {
         return;
     }
 
-    let mensagem = "Olá! Gostaria de encomendar as seguintes alianças da CamarSan:\n\n";
+    let mensagem = "💍 *Novo Pedido - CamarSan Alianças*\n\n";
     let totalGeral = 0;
 
     carrinho.forEach((produto, i) => {
-        mensagem += `${i + 1}. *${produto.nome}* - R$ ${Number(produto.preco).toFixed(2)}\n`;
+        let imagemCapa = (produto.imagens && produto.imagens.length > 0) ? produto.imagens[0] : '';
+        
+        mensagem += `${i + 1}. *${produto.nome}*\n`;
+        mensagem += `   Preço: R$ ${Number(produto.preco).toFixed(2)}\n`;
+        if (imagemCapa) {
+            mensagem += `   📷 Foto do modelo: ${imagemCapa}\n`;
+        }
+        mensagem += `\n`;
+        
         totalGeral += Number(produto.preco || 0);
     });
 
-    mensagem += `\n*Total do Pedido:* R$ ${totalGeral.toFixed(2)}`;
+    mensagem += `*Total do Pedido:* R$ ${totalGeral.toFixed(2)}`;
     mensagem += `\n\nPoderia me orientar sobre os tamanhos e o prazo de fabricação?`;
 
-    // Número oficial da CamarSan com DDI (54) e DDD
     const numeroWhatsApp = "5554996322787"; 
     const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
 
