@@ -159,7 +159,7 @@ nav ul a:hover {
 }
 
 
-/* Minha conta */
+/* Minha conta / Ações */
 
 nav>a:last-child {
     border: 1px solid var(--dourado);
@@ -179,6 +179,27 @@ nav>a:last-child:hover {
 
     color: var(--grafite);
 }
+
+.menu-acoes-cliente {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.menu-acoes-cliente a {
+    border: 1px solid var(--dourado);
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: var(--dourado-claro);
+    transition: var(--transicao);
+}
+
+.menu-acoes-cliente a:hover {
+    background-color: var(--dourado);
+    color: var(--grafite);
+}
+
+
 /* =========================================================
    LOGO CAMARSAN
    ========================================================= */
@@ -418,7 +439,7 @@ nav > a:first-child img {
 
 
 /* =========================================================
-   6. PRODUTOS EM DESTAQUE
+   6. PRODUTOS EM DESTAQUE E CATÁLOGO (UNIFICADO)
    ========================================================= */
 
 #destaques {
@@ -445,32 +466,50 @@ nav > a:first-child img {
     margin: 10px 0 45px;
 }
 
-
-.produtos-destaque {
+.secao-catalogo {
+    background-color: var(--branco);
+    padding: 40px 20px;
     max-width: 1200px;
+    margin: 0 auto;
+}
 
+.catalogo-cabecalho-texto {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.subtitulo-colecao {
+    color: var(--dourado, #c5a059);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+}
+
+.carregando-texto {
+    text-align: center;
+    grid-column: 1 / -1;
+    color: var(--cinza, #666);
+}
+
+.produtos-destaque,
+.produtos-grid {
+    max-width: 1200px;
     margin: auto;
-
     display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
 
 
 .produto-card {
-    background-color: var(--creme);
-
+    background-color: var(--branco);
+    border: 1px solid var(--cinza-claro);
     border-radius: 15px;
-
     overflow: hidden;
-
     box-shadow: var(--sombra);
-
     text-align: left;
-
+    display: flex;
+    flex-direction: column;
     transition: var(--transicao);
 }
 
@@ -480,45 +519,107 @@ nav > a:first-child img {
 }
 
 
-.produto-card img {
+/* Suporte para imagem direta (Estático / Home) */
+.produto-card > img {
     width: 100%;
-
     aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
 
+/* Suporte para imagem com contentor (Catálogo Dinâmico) */
+.produto-card-img {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background: #f9f9f9;
+}
+
+.produto-card-img img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
 
+/* Corpo do Card (Textos e Botões) */
+.produto-card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
 .produto-card h3,
-.produto-card p,
-.produto-card a {
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-
-.produto-card h3 {
-    margin-top: 20px;
-
+.produto-card-body h3 {
+    margin-top: 5px;
+    margin-bottom: 10px;
     color: var(--bordo);
+    font-size: 1.2rem;
 }
 
 
-.produto-card p {
+.produto-card p,
+.produto-card-body p {
     color: var(--cinza);
-
-    margin-top: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    flex-grow: 1;
 }
 
 
-.produto-card a {
-    display: inline-block;
-
-    margin-top: 15px;
-    margin-bottom: 20px;
-
+.produto-preco {
+    font-size: 1.1rem;
+    font-weight: bold;
     color: var(--dourado-escuro);
+    margin-bottom: 15px;
+}
 
+.produto-botoes {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.btn-detalhes {
+    flex: 1;
+    text-align: center;
+    background-color: var(--grafite);
+    color: var(--branco);
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transicao);
+}
+
+.btn-detalhes:hover {
+    background-color: var(--bordo);
+}
+
+.btn-add-carrinho {
+    flex: 1;
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transicao);
+}
+
+.btn-add-carrinho:hover {
+    background-color: var(--dourado-claro);
+}
+
+
+/* Links antigos de texto nos cards estáticos */
+.produto-card > a:not(.btn-detalhes) {
+    display: inline-block;
+    margin: 0 20px 20px 20px;
+    color: var(--dourado-escuro);
     font-weight: bold;
 }
 
@@ -990,6 +1091,8 @@ footer a {
 footer a:hover {
     color: var(--dourado-claro);
 }
+
+
 /* =========================================================
    GALERIA DO PRODUTO
    ========================================================= */
@@ -1059,6 +1162,8 @@ footer a:hover {
 .miniatura.ativa {
     border-color: var(--dourado);
 }
+
+
 /* =========================================================
    15. PAINEL ADMINISTRATIVO (LOGIN E GESTÃO)
    ========================================================= */
@@ -1185,101 +1290,12 @@ footer a:hover {
     color: var(--bordo);
     text-decoration: underline;
 }
+
+
 /* ==================================================
-   ESTILOS DO CATÁLOGO E CARRINHO (CAMARSAN)
+   ESTILOS DO CARRINHO DE COMPRAS
 =================================================== */
 
-.produtos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-.produto-card {
-    background: #fff;
-    border: 1px solid #e1e1e1;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s ease;
-}
-
-.produto-card:hover {
-    transform: translateY(-3px);
-}
-
-.produto-card-img {
-    width: 100%;
-    height: 250px;
-    overflow: hidden;
-    background: #f9f9f9;
-}
-
-.produto-card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.produto-card-body {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.produto-card-body h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.produto-card-body p {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-    flex-grow: 1;
-}
-
-.produto-preco {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: var(--dourado, #c5a059);
-    margin-bottom: 15px;
-}
-
-.produto-botoes {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-detalhes {
-    flex: 1;
-    text-align: center;
-    background: #333;
-    color: #fff;
-    padding: 10px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-
-.btn-add-carrinho {
-    flex: 1;
-    background: var(--dourado, #c5a059);
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-    font-weight: 500;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
-/* Carrinho de Compras */
 .carrinho-item {
     display: flex;
     gap: 20px;
@@ -1296,6 +1312,7 @@ footer a:hover {
     border-radius: 8px;
     border: 1px solid #e1e1e1;
 }
+
 
 /* =========================================================
    14. RESPONSIVIDADE
@@ -1392,6 +1409,7 @@ footer a:hover {
 
     .diferenciais-container,
     .produtos-destaque,
+    .produtos-grid,
     #como-funciona>div,
     .opcoes-recebimento {
         grid-template-columns: 1fr;
