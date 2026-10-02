@@ -1425,7 +1425,165 @@ footer a:hover {
     position: relative;
     z-index: 2;
 }
+/* =========================================================
+   ESTILOS DA PÁGINA NOSSA HISTÓRIA (COM MÚLTIPLAS FOTOS)
+   ========================================================= */
 
+.secao-historia {
+    background-color: var(--branco);
+    padding: 60px 5%;
+    max-width: 1250px;
+    margin: 40px auto;
+    border-radius: 20px;
+    box-shadow: var(--sombra);
+}
+
+.historia-cabecalho {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.historia-cabecalho p {
+    color: var(--dourado-escuro);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.historia-cabecalho h1 {
+    color: var(--bordo);
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.historia-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.historia-conteudo-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+}
+
+.bloco-historia {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 25px;
+    align-items: center;
+    background: var(--creme);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--cinza-claro);
+}
+
+.bloco-historia.reverso {
+    grid-template-columns: 0.8fr 1.2fr;
+}
+
+.bloco-historia.reverso .texto-bloco {
+    order: 2;
+}
+
+.bloco-historia.reverso .foto-bloco {
+    order: 1;
+}
+
+.texto-bloco p {
+    color: var(--cinza);
+    font-size: 1.02rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.citacao-historia {
+    border-left: 4px solid var(--dourado);
+    padding-left: 15px;
+    margin-top: 20px;
+    font-style: italic;
+    color: var(--bordo);
+    font-size: 1.05rem;
+    font-weight: bold;
+}
+
+.foto-bloco {
+    text-align: center;
+}
+
+.foto-bloco img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 8px;
+}
+
+.foto-bloco span {
+    font-size: 0.8rem;
+    color: var(--bordo);
+    font-weight: bold;
+    display: block;
+}
+
+.historia-lateral {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.card-imagem-historica {
+    background: var(--creme);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: var(--sombra);
+    border: 1px solid var(--cinza-claro);
+    width: 100%;
+}
+
+.card-imagem-historica img {
+    max-height: 320px;
+    margin: 0 auto 15px auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+}
+
+.legenda-foto {
+    font-size: 0.9rem;
+    color: var(--bordo);
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+@media (max-width: 992px) {
+    .historia-grid {
+        grid-template-columns: 1fr;
+    }
+    .historia-lateral {
+        position: relative;
+        top: 0;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 650px) {
+    .bloco-historia, 
+    .bloco-historia.reverso {
+        grid-template-columns: 1fr;
+    }
+    .bloco-historia.reverso .texto-bloco,
+    .bloco-historia.reverso .foto-bloco {
+        order: unset;
+    }
+}
 /* =========================================================
    RESPONSIVIDADE PARA TELEMÓVEIS (CRUCIAL)
    ========================================================= */
