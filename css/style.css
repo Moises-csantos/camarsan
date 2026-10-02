@@ -93,121 +93,70 @@ section {
 header {
     background-color: var(--grafite);
     color: var(--branco);
-
     position: sticky;
     top: 0;
-
     z-index: 1000;
-
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
-
 
 nav {
     width: 100%;
     max-width: 1400px;
-
     margin: auto;
-
-    padding: 18px 8%;
-
+    padding: 6px 4%; /* Altura mínima para ocupar o menor espaço possível */
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    gap: 25px;
+    gap: 10px;
 }
 
-
-/* Logo */
-
-nav>a:first-child {
-    color: var(--dourado);
-
-    font-size: 1.8rem;
-    font-weight: bold;
-
-    letter-spacing: 1px;
+/* Logo super enxuta */
+nav > a:first-child img {
+    width: 100px; /* Reduzida para ocupar pouco espaço vertical */
+    height: auto;
+    display: block;
 }
 
-
-/* Menu */
-
+/* Menu de Navegação horizontal */
 nav ul {
     list-style: none;
-
-    display: flex;
-    align-items: center;
-
-    gap: 25px;
-}
-
-
-nav ul a {
-    color: var(--branco);
-
-    font-size: 0.95rem;
-
-    transition: var(--transicao);
-}
-
-
-nav ul a:hover {
-    color: var(--dourado-claro);
-}
-
-
-/* Minha conta / Ações */
-
-nav>a:last-child {
-    border: 1px solid var(--dourado);
-
-    padding: 8px 16px;
-
-    border-radius: 20px;
-
-    color: var(--dourado-claro);
-
-    transition: var(--transicao);
-}
-
-
-nav>a:last-child:hover {
-    background-color: var(--dourado);
-
-    color: var(--grafite);
-}
-
-.menu-acoes-cliente {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
+nav ul a {
+    color: var(--branco);
+    font-size: 0.85rem;
+    transition: var(--transicao);
+}
+
+nav ul a:hover,
+nav ul a.ativo {
+    color: var(--dourado-claro);
+}
+
+/* Ações do Cliente (Carrinho / Conta) compactas */
+.menu-acoes-cliente {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .menu-acoes-cliente a {
     border: 1px solid var(--dourado);
-    padding: 8px 16px;
-    border-radius: 20px;
+    padding: 4px 10px;
+    border-radius: 15px;
     color: var(--dourado-claro);
+    font-size: 0.8rem;
     transition: var(--transicao);
+    white-space: nowrap;
 }
 
 .menu-acoes-cliente a:hover {
     background-color: var(--dourado);
     color: var(--grafite);
 }
-
-
-/* =========================================================
-   LOGO CAMARSAN
-   ========================================================= */
-
-nav > a:first-child img {
-    width: 150px;
-    height: auto;
-    display: block;
-}
-
 
 /* =========================================================
    3. HERO
