@@ -86,8 +86,6 @@ section {
     width: 100%;
     padding: 80px 8%;
 }
-
-
 /* =========================================================
    2. CABEÇALHO
    ========================================================= */
@@ -1512,27 +1510,39 @@ footer a:hover {
 /* Celulares */
 
 @media (max-width: 700px) {
-
     section {
-        padding: 60px 6%;
+        padding: 40px 5%;
     }
-
 
     nav {
+        padding: 8px 4%;
         flex-wrap: wrap;
-
-        justify-content: center;
+        justify-content: space-between;
+        gap: 8px;
     }
 
+    nav > a:first-child img {
+        width: 110px; /* Logo ainda mais compacta no telemóvel */
+    }
+
+    .menu-acoes-cliente a {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
 
     nav ul {
         width: 100%;
-
         justify-content: center;
-
         flex-wrap: wrap;
+        gap: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 6px;
+        margin-top: 2px;
     }
 
+    nav ul a {
+        font-size: 0.82rem;
+    }
 
     #hero {
         min-height: auto;
