@@ -238,14 +238,14 @@ function exibirProduto(produto) {
             mensagem += `Olá! Gostaria de saber mais sobre este modelo:\n`;
             mensagem += `*${produto.nome}*\n`;
             mensagem += `Preço: ${precoFormatado}\n`;
-            
+
             if (imagemCapa) {
                 mensagem += `📷 Foto do modelo: ${imagemCapa}\n`;
             }
-            
+
             mensagem += `\nPoderia me dar mais detalhes sobre tamanhos e disponibilidade?`;
 
-            const numeroWhatsApp = "5554996322787"; 
+            const numeroWhatsApp = "5554996322787";
             const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
 
             window.open(url, "_blank");
