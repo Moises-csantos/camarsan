@@ -19,6 +19,82 @@ formLogin.addEventListener('submit', function (e) {
     }
 });
 
+// Variável global para gerir a ordem das imagens antes do envio
+let arquivosSelecionados = [];
+
+const inputImagem = document.getElementById('imagem-prod');
+
+// Criar dinamicamente uma área para pré-visualizar e escolher a capa
+if (inputImagem) {
+    const containerPreview = document.createElement('div');
+    containerPreview.id = 'preview-imagens-admin';
+    containerPreview.style.cssText = 'display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;';
+    inputImagem.parentNode.insertBefore(containerPreview, inputImagem.nextSibling);
+
+    inputImagem.addEventListener('change', function (e) {
+        // Converte a lista de ficheiros num array manipulável
+        arquivosSelecionados = Array.from(e.target.files);
+        atualizarPreviewImagens();
+    });
+}
+
+function atualizarPreviewImagens() {
+    const containerPreview = document.getElementById('preview-imagens-admin');
+    if (!containerPreview) return;
+    containerPreview.innerHTML = '';
+
+    if (arquivosSelecionados.length > 0) {
+        const aviso = document.createElement('p');
+        aviso.style.cssText = 'width: 100%; font-size: 0.85rem; color: #666; margin-bottom: 5px;';
+        aviso.innerHTML = '⭐ <strong>Capa actual:</strong> (A primeira imagem com moldura dourada será a capa). Clique noutra para definir como capa:';
+        containerPreview.appendChild(aviso);
+    }
+
+    arquivosSelecionados.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const miniaturaWrapper = document.createElement('div');
+            // A primeira imagem do array é a capa (destacada com borda dourada)
+            const ehCapa = index === 0;
+            
+            miniaturaWrapper.style.cssText = `
+                position: relative;
+                width: 70px;
+                height: 70px;
+                border: 3px solid ${ehCapa ? 'var(--dourado, #c9a227)' : 'transparent'};
+                border-radius: 8px;
+                overflow: hidden;
+                cursor: pointer;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                transition: transform 0.2s;
+            `;
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+            miniaturaWrapper.appendChild(img);
+
+            if (ehCapa) {
+                const badge = document.createElement('span');
+                badge.innerText = 'CAPA';
+                badge.style.cssText = 'position: absolute; bottom: 0; left: 0; right: 0; background: rgba(201,162,39,0.9); color: #1d1d1d; font-size: 9px; font-weight: bold; text-align: center;';
+                miniaturaWrapper.appendChild(badge);
+            }
+
+            // Ao clicar numa imagem, ela passa a ser a primeira (capa)
+            miniaturaWrapper.addEventListener('click', () => {
+                const imagemClicada = arquivosSelecionados.splice(index, 1)[0];
+                arquivosSelecionados.unshift(imagemClicada); // Move para a primeira posição
+                atualizarPreviewImagens(); // Redesenha as miniaturas
+            });
+
+            containerPreview.appendChild(miniaturaWrapper);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+// Envio do formulário com os arquivos ordenados
 formProduto.addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -27,7 +103,6 @@ formProduto.addEventListener('submit', async function (e) {
     formData.append('descricao', document.getElementById('desc-prod').value);
     formData.append('preco', document.getElementById('preco-prod').value);
 
-    // Adicionar as novas especificações da aliança
     formData.append('largura_mm', document.getElementById('largura-mm').value);
     formData.append('material', document.getElementById('material').value);
     formData.append('acabamento', document.getElementById('acabamento').value);
@@ -35,11 +110,10 @@ formProduto.addEventListener('submit', async function (e) {
     formData.append('personalizacao', document.getElementById('personalizacao').value);
     formData.append('disponibilidade', document.getElementById('disponibilidade').value);
 
-    // Pega todos os ficheiros selecionados no input file
-    const inputImagem = document.getElementById('imagem-prod');
-    for (let i = 0; i < inputImagem.files.length; i++) {
-        formData.append('imagens', inputImagem.files[i]);
-    }
+    // Envia os ficheiros respeitando a ordem escolhida (o primeiro é a capa)
+    arquivosSelecionados.forEach(file => {
+        formData.append('imagens', file);
+    });
 
     try {
         const resposta = await fetch('https://aliancascamarsan1993.pythonanywhere.com/produtos', {
@@ -48,9 +122,12 @@ formProduto.addEventListener('submit', async function (e) {
         });
 
         if (resposta.ok) {
-            alert('Produto, foto e especificações cadastrados com sucesso!');
+            alert('Produto cadastrado com sucesso!');
             formProduto.reset();
-            carregarProdutosAdmin(); // Atualiza a lista na tela
+            arquivosSelecionados = [];
+            const containerPreview = document.getElementById('preview-imagens-admin');
+            if (containerPreview) containerPreview.innerHTML = '';
+            carregarProdutosAdmin();
         } else {
             alert('Erro ao comunicar com a API.');
         }
@@ -58,67 +135,4 @@ formProduto.addEventListener('submit', async function (e) {
         console.error('Erro:', erro);
         alert('Não foi possível ligar à API.');
     }
-});
-
-// Função para listar os produtos no painel administrativo com opção de excluir
-async function carregarProdutosAdmin() {
-    const containerLista = document.getElementById('lista-produtos-admin');
-    if (!containerLista) return;
-
-    try {
-        const resposta = await fetch('https://aliancascamarsan1993.pythonanywhere.com/produtos');
-        const produtos = await resposta.json();
-
-        containerLista.innerHTML = '';
-
-        if (produtos.length === 0) {
-            containerLista.innerHTML = '<p>Nenhum produto cadastrado.</p>';
-            return;
-        }
-
-        produtos.forEach(produto => {
-            const itemDiv = document.createElement('div');
-            itemDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 10px; margin-bottom: 8px; border-radius: 5px; border: 1px solid #ddd;';
-
-            itemDiv.innerHTML = `
-                <span><strong>${produto.nome}</strong> - R$ ${produto.preco.toFixed(2)}</span>
-                <button type="button" class="btn-excluir" data-id="${produto.id}" style="background: #d9534f; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Excluir</button>
-            `;
-
-            containerLista.appendChild(itemDiv);
-        });
-
-        // Adicionar eventos aos botões de excluir
-        document.querySelectorAll('.btn-excluir').forEach(botao => {
-            botao.addEventListener('click', async (e) => {
-                const idProduto = e.target.dataset.id;
-
-                if (confirm('Tem a certeza que deseja excluir este produto?')) {
-                    try {
-                        const res = await fetch(`https://aliancascamarsan1993.pythonanywhere.com/produtos/${idProduto}`, {
-                            method: 'DELETE'
-                        });
-
-                        if (res.ok) {
-                            alert('Produto excluído com sucesso!');
-                            carregarProdutosAdmin(); // Recarrega a lista
-                        } else {
-                            alert('Erro ao excluir o produto.');
-                        }
-                    } catch (err) {
-                        console.error('Erro na requisição de exclusão:', err);
-                    }
-                }
-            });
-        });
-
-    } catch (erro) {
-        console.error('Erro ao carregar produtos para a administração:', erro);
-    }
-}
-
-btnSair.addEventListener('click', function () {
-    secaoPainel.style.display = 'none';
-    secaoLogin.style.display = 'block';
-    document.getElementById('senha-admin').value = '';
 });
