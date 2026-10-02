@@ -1396,6 +1396,35 @@ footer a:hover {
     color: var(--cinza, #666);
     margin-bottom: 15px;
 }
+/* =========================================================
+   AJUSTE PARA A PÁGINA DE DETALHES DO PRODUTO (EVITAR SOBREPOSIÇÃO)
+   ========================================================= */
+
+.produto-detalhe-container,
+#produto-container > div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 20px;
+}
+
+.produto-detalhe-info,
+.produto-detalhe-container p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+/* Garante que os botões de ação fiquem organizados e nunca por cima do texto */
+.produto-detalhe-botoes,
+.produto-botoes {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+}
 
 /* =========================================================
    RESPONSIVIDADE PARA TELEMÓVEIS (CRUCIAL)
@@ -1409,6 +1438,10 @@ footer a:hover {
 
     .carrinho-painel {
         width: 100%;
+    }
+    .produto-detalhe-container,
+    #produto-container > div {
+        flex-direction: column;
     }
 }
 /* =========================================================
