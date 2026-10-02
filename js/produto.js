@@ -210,7 +210,9 @@ function exibirProduto(produto) {
             <a
                 href="#"
                 class="btn-whatsapp"
-                id="produto-whatsapp">
+                id="produto-whatsapp"
+                target="_blank"
+                rel="noopener noreferrer">
 
                 Quero saber mais
 
@@ -222,6 +224,33 @@ function exibirProduto(produto) {
 
 
     inicializarGaleria(produto);
+
+    // --- CONFIGURAR BOTÃO WHATSAPP DO PRODUTO (IGUAL AO CARRINHO) ---
+    const btnWhatsapp = document.getElementById("produto-whatsapp");
+    if (btnWhatsapp) {
+        btnWhatsapp.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            const imagemCapa = (produto.imagens && produto.imagens.length > 0) ? produto.imagens[0] : '';
+            const precoFormatado = `R$ ${Number(produto.preco).toFixed(2)}`;
+
+            let mensagem = `💍 *Consulta sobre Produto - CamarSan*\n\n`;
+            mensagem += `Olá! Gostaria de saber mais sobre este modelo:\n`;
+            mensagem += `*${produto.nome}*\n`;
+            mensagem += `Preço: ${precoFormatado}\n`;
+            
+            if (imagemCapa) {
+                mensagem += `📷 Foto do modelo: ${imagemCapa}\n`;
+            }
+            
+            mensagem += `\nPoderia me dar mais detalhes sobre tamanhos e disponibilidade?`;
+
+            const numeroWhatsApp = "5554996322787"; 
+            const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
+
+            window.open(url, "_blank");
+        });
+    }
 }
 
 
