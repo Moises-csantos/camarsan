@@ -1464,35 +1464,32 @@ footer a:hover {
     }
 
     nav {
-        padding: 8px 4%;
+        padding: 5px 3%;
         flex-wrap: wrap;
         justify-content: space-between;
-        gap: 8px;
     }
 
     nav > a:first-child img {
-        width: 110px; /* Logo ainda mais compacta no telemóvel */
+        width: 90px; /* Logo minimalista em telemóveis */
     }
 
     .menu-acoes-cliente a {
-        padding: 5px 10px;
-        font-size: 0.8rem;
+        padding: 3px 8px;
+        font-size: 0.75rem;
     }
 
     nav ul {
         width: 100%;
         justify-content: center;
-        flex-wrap: wrap;
         gap: 10px;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 6px;
+        padding-top: 4px;
         margin-top: 2px;
     }
 
     nav ul a {
-        font-size: 0.82rem;
+        font-size: 0.78rem;
     }
-
     #hero {
         min-height: auto;
 
