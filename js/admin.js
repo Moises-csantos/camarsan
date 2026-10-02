@@ -136,24 +136,25 @@ formProduto.addEventListener('submit', async function (e) {
         alert('Não foi possível ligar à API.');
     }
 });
-// --- BOTÃO SAIR / BLOQUEAR PAINEL ---
-const botaoSair = document.getElementById('btn-sair');
+// --- BOTÃO SAIR / BLOQUEAR PAINEL (VERSÃO SEGURA) ---
+document.addEventListener('click', function (e) {
+    // Verifica se o elemento clicado é o botão sair (mesmo que seja gerido dinamicamente)
+    if (e.target && (e.target.id === 'btn-sair' || e.target.closest('#btn-sair'))) {
+        e.preventDefault();
 
-if (botaoSair) {
-    botaoSair.addEventListener('click', function () {
-        // Esconde o painel administrativo e volta a mostrar a tela de login
+        // Esconde o painel e mostra a tela de login
         if (secaoPainel) secaoPainel.style.display = 'none';
         if (secaoLogin) secaoLogin.style.display = 'block';
-        
-        // Limpa o campo de senha digitada
+
+        // Limpa a senha
         const inputSenha = document.getElementById('senha-admin');
         if (inputSenha) inputSenha.value = '';
-        
-        // Reseta o formulário de produtos e o painel de imagens selecionadas
+
+        // Limpa formulários e pré-visualizações
         if (formProduto) formProduto.reset();
         arquivosSelecionados = [];
-        
+
         const containerPreview = document.getElementById('preview-imagens-admin');
         if (containerPreview) containerPreview.innerHTML = '';
-    });
-}
+    }
+});
