@@ -1561,7 +1561,49 @@ footer a:hover {
     font-weight: bold;
     margin-top: 10px;
 }
+/* =========================================================
+   BOTÕES DE AÇÃO NA PÁGINA COMO FUNCIONA
+   ========================================================= */
 
+.botoes-acao-como-funciona {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.btn-secundario-catalogo {
+    display: inline-block;
+    background-color: transparent;
+    color: var(--dourado-claro);
+    border: 2px solid var(--dourado);
+    padding: 14px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: var(--transicao);
+    font-size: 1.05rem;
+    text-align: center;
+}
+
+.btn-secundario-catalogo:hover {
+    background-color: var(--dourado);
+    color: var(--grafite);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .botoes-acao-como-funciona {
+        flex-direction: column;
+        width: 100%;
+    }
+    .btn-secundario-catalogo,
+    .cta-whatsapp-box .btn-whatsapp {
+        width: 100%;
+    }
+}
 @media (max-width: 992px) {
     .historia-grid {
         grid-template-columns: 1fr;
@@ -1584,6 +1626,7 @@ footer a:hover {
         order: unset;
     }
 }
+
 /* =========================================================
    RESPONSIVIDADE PARA TELEMÓVEIS (CRUCIAL)
    ========================================================= */
