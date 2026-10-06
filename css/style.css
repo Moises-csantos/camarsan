@@ -1717,7 +1717,84 @@ footer a:hover {
         order: unset;
     }
 }
+/* =========================================================
+   ESTILO DA PÁGINA "COMO FUNCIONA" (PASSO A PASSO)
+   ========================================================= */
 
+.como-funciona-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.como-funciona-container h1 {
+    font-size: 2.2rem;
+    color: var(--bordo); /* Ajustado para combinar com o tom principal da marca */
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.como-funciona-container .subtitulo-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--cinza); /* Texto legível no fundo claro */
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+/* Grelha ou Lista de Passos em Cartões */
+.passos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.passo-card {
+    background: var(--branco); /* Fundo branco igual aos outros cards do site */
+    border: 1px solid var(--cinza-claro); /* Borda suave */
+    border-radius: 12px;
+    padding: 25px 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: var(--sombra); /* Sombra padrão do site */
+}
+
+.passo-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--dourado);
+}
+
+/* Número do Passo em destaque */
+.passo-numero {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--dourado-escuro);
+    background: var(--creme);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid var(--dourado);
+}
+
+/* Conteúdo do Passo */
+.passo-conteudo h3 {
+    font-size: 1.3rem;
+    color: var(--bordo); /* Título em tom de bordo/vinho da marca */
+    margin-bottom: 10px;
+}
+
+.passo-conteudo p {
+    color: var(--cinza); /* Texto cinza escuro perfeitamente legível */
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
 /* =========================================================
    RESPONSIVIDADE PARA TELEMÓVEIS (CRUCIAL)
    ========================================================= */
