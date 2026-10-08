@@ -14,17 +14,18 @@ formLogin.addEventListener('submit', function (e) {
     if (senhaDigitada === SENHA_MESTRE) {
         secaoLogin.style.display = 'none';
         secaoPainel.style.display = 'block';
-        carregarProdutosAdmin(); // Carrega a lista ao entrar
+        carregarProdutosAdmin(); // Carrega a lista ao entrar[cite: 10]
+        carregarDepoimentosAdmin(); // Carrega os depoimentos ao entrar
     } else {
         alert('Senha incorreta!');
     }
 });
 
-// Variável global para gerir a ordem das imagens antes do envio
+// Variável global para gerir a ordem das imagens antes do envio[cite: 10]
 let arquivosSelecionados = [];
 const inputImagem = document.getElementById('imagem-prod');
 
-// Criar dinamicamente uma área para pré-visualizar e escolher a capa
+// Criar dinamicamente uma área para pré-visualizar e escolher a capa[cite: 10]
 if (inputImagem) {
     const containerPreview = document.createElement('div');
     containerPreview.id = 'preview-imagens-admin';
@@ -91,7 +92,7 @@ function atualizarPreviewImagens() {
     });
 }
 
-// --- FUNÇÃO PARA CARREGAR PRODUTOS NO PAINEL ADMIN ---
+// --- FUNÇÃO PARA CARREGAR PRODUTOS NO PAINEL ADMIN ---[cite: 10]
 async function carregarProdutosAdmin() {
     const listaDiv = document.getElementById('lista-produtos-admin');
     if (!listaDiv) return;
@@ -110,7 +111,6 @@ async function carregarProdutosAdmin() {
         let html = '<h3>Produtos Cadastrados (Gerir)</h3><div style="display: flex; flex-direction: column; gap: 10px;">';
 
         produtos.forEach(prod => {
-            // Nota: certifique-se de que o ID do produto vem como id ou _id da sua API
             const produtoId = prod.id || prod._id;
             html += `
                 <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
@@ -135,7 +135,7 @@ async function carregarProdutosAdmin() {
     }
 }
 
-// --- FUNÇÃO PARA EXCLUIR PRODUTO ---
+// --- FUNÇÃO PARA EXCLUIR PRODUTO ---[cite: 10]
 window.excluirProduto = async function(id) {
     if (!confirm('Tem certeza de que deseja excluir este produto?')) return;
 
@@ -156,11 +156,10 @@ window.excluirProduto = async function(id) {
     }
 }
 
-// --- FUNÇÃO PARA PREPARAR A EDIÇÃO ---
+// --- FUNÇÃO PARA PREPARAR A EDIÇÃO ---[cite: 10]
 window.prepararEdicao = function(id, prodJsonStr) {
     const prod = JSON.parse(decodeURIComponent(prodJsonStr));
 
-    // Preenche os campos do formulário com os dados atuais
     document.getElementById('edit-produto-id').value = id;
     document.getElementById('nome-prod').value = prod.nome || '';
     document.getElementById('desc-prod').value = prod.descricao || '';
@@ -172,15 +171,12 @@ window.prepararEdicao = function(id, prodJsonStr) {
     document.getElementById('personalizacao').value = prod.personalizacao || '';
     document.getElementById('disponibilidade').value = prod.disponibilidade || '';
 
-    // Altera o visual do botão e mostra o botão de cancelar
     document.getElementById('btn-salvar-prod').innerText = 'Atualizar Produto';
     document.getElementById('btn-cancelar-edicao').style.display = 'block';
 
-    // Rola a página para o topo do formulário
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Botão de cancelar edição
 document.getElementById('btn-cancelar-edicao')?.addEventListener('click', function() {
     formProduto.reset();
     document.getElementById('edit-produto-id').value = '';
@@ -191,7 +187,7 @@ document.getElementById('btn-cancelar-edicao')?.addEventListener('click', functi
     if (containerPreview) containerPreview.innerHTML = '';
 });
 
-// --- ENVIO DO FORMULÁRIO (CRIAÇÃO OU ATUALIZAÇÃO) ---
+// --- ENVIO DO FORMULÁRIO (CRIAÇÃO OU ATUALIZAÇÃO) ---[cite: 10]
 formProduto.addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -213,7 +209,6 @@ formProduto.addEventListener('submit', async function (e) {
         formData.append('imagens', file);
     });
 
-    // Define a URL e o método (POST para criar, PUT para atualizar)
     const urlDestino = isEditando ? `${URL_API}/${idEdicao}` : URL_API;
     const metodoHttp = isEditando ? 'PUT' : 'POST';
 
@@ -244,7 +239,7 @@ formProduto.addEventListener('submit', async function (e) {
     }
 });
 
-// --- BOTÃO SAIR / BLOQUEAR PAINEL ---
+// --- BOTÃO SAIR / BLOQUEAR PAINEL ---[cite: 10]
 document.addEventListener('click', function (e) {
     if (e.target && (e.target.id === 'btn-sair' || e.target.closest('#btn-sair'))) {
         e.preventDefault();
@@ -266,3 +261,96 @@ document.addEventListener('click', function (e) {
         if (containerPreview) containerPreview.innerHTML = '';
     }
 });
+
+
+// =====================================================
+// GESTÃO DE DEPOIMENTOS NO PAINEL ADMIN (ADICIONADO AQUI)
+// =====================================================
+
+const URL_API_DEPOIMENTOS = "https://aliancascamarsan1993.pythonanywhere.com/depoimentos";
+
+async function carregarDepoimentosAdmin() {
+    const listaDiv = document.getElementById('lista-depoimentos-admin');
+    if (!listaDiv) return;
+
+    listaDiv.innerHTML = '<p>A carregar depoimentos...</p>';
+
+    try {
+        const resposta = await fetch(URL_API_DEPOIMENTOS);
+        const depoimentos = await resposta.json();
+
+        if (depoimentos.length === 0) {
+            listaDiv.innerHTML = '<p>Nenhum depoimento cadastrado no momento.</p>';
+            return;
+        }
+
+        let html = '<div class="admin-lista-depoimentos">';
+
+        depoimentos.forEach(dep => {
+            const idDep = dep.id || dep._id;
+            const statusClass = dep.aprovado ? 'badge-aprovado' : 'badge-pendente';
+            const statusTexto = dep.aprovado ? 'Aprovado' : 'Pendente';
+
+            html += `
+                <div class="admin-depoimento-card">
+                    <div class="admin-depoimento-info">
+                        <div>
+                            <span class="badge-status ${statusClass}">${statusTexto}</span> 
+                            <strong>${dep.nome}</strong> (${dep.cidade}) - ${dep.estrelas} ⭐
+                        </div>
+                        <p>"${dep.mensagem}"</p>
+                    </div>
+                    <div class="admin-depoimento-acoes">
+                        ${!dep.aprovado ? `<button type="button" class="btn-aprovar-admin" onclick="aprovarDepoimento('${idDep}')">Aprovar</button>` : ''}
+                        <button type="button" class="btn-excluir-admin" onclick="excluirDepoimento('${idDep}')">Excluir</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        listaDiv.innerHTML = html;
+
+    } catch (erro) {
+        console.error('Erro ao carregar depoimentos:', erro);
+        listaDiv.innerHTML = '<p>Erro ao carregar a lista de depoimentos.</p>';
+    }
+}
+
+window.aprovarDepoimento = async function(id) {
+    try {
+        const resposta = await fetch(`${URL_API_DEPOIMENTOS}/${id}/aprovar`, {
+            method: 'PUT'
+        });
+
+        if (resposta.ok) {
+            alert('Depoimento aprovado com sucesso!');
+            carregarDepoimentosAdmin();
+        } else {
+            alert('Erro ao aprovar o depoimento.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível comunicar com a API.');
+    }
+}
+
+window.excluirDepoimento = async function(id) {
+    if (!confirm('Tem certeza de que deseja excluir permanentemente este depoimento?')) return;
+
+    try {
+        const resposta = await fetch(`${URL_API_DEPOIMENTOS}/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (resposta.ok) {
+            alert('Depoimento excluído com sucesso!');
+            carregarDepoimentosAdmin();
+        } else {
+            alert('Erro ao excluir o depoimento.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível comunicar com a API para excluir.');
+    }
+}
