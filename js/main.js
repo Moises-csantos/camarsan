@@ -37,6 +37,8 @@ function inicializarSite() {
     inicializarBotoes();
     inicializarAno();
     inicializarProdutosDestaque();
+    inicializarDepoimentos();      // <--- Adicionado para carregar os depoimentos
+    inicializarEnvioDepoimento();  // <--- Adicionado para processar o formulário
 }
 
 
@@ -87,11 +89,7 @@ function inicializarAno() {
 
 
 // -----------------------------------------------------
-// API - ESTRUTURA FUTURA
-// -----------------------------------------------------
-
-// -----------------------------------------------------
-// API - ESTRUTURA FUTURA
+// API - PRODUTOS EM DESTAQUE
 // -----------------------------------------------------
 
 async function inicializarProdutosDestaque() {
@@ -159,4 +157,108 @@ async function inicializarProdutosDestaque() {
             <p>Não foi possível carregar os produtos.</p>
         `;
     }
+}
+
+
+// -----------------------------------------------------
+// API - DEPOIMENTOS PÚBLICOS
+// -----------------------------------------------------
+
+async function inicializarDepoimentos() {
+    const container = document.querySelector("#lista-depoimentos-publicos");
+
+    if (!container) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`${CONFIG.API_URL}/depoimentos`);
+
+        if (!resposta.ok) {
+            throw new Error(`Erro HTTP: ${resposta.status}`);
+        }
+
+        const depoimentos = await resposta.json();
+        container.innerHTML = "";
+
+        if (depoimentos.length === 0) {
+            container.innerHTML = "<p>Ainda não há depoimentos publicados. Seja o primeiro a avaliar!</p>";
+            return;
+        }
+
+        depoimentos.forEach(d => {
+            const estrelasStr = "⭐".repeat(d.estrelas);
+            const imagemHtml = d.foto_path ? `<img src="${CONFIG.API_URL}/uploads/${d.foto_path}" alt="Foto do cliente" style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-top: 10px;">` : '';
+
+            const card = document.createElement("div");
+            card.classList.add("card-depoimento-publico");
+
+            card.innerHTML = `
+                <div>
+                    <div style="color: #f39c12; margin-bottom: 8px; font-size: 0.9rem;">${estrelasStr}</div>
+                    <p>"${d.mensagem}"</p>
+                </div>
+                <div>
+                    ${imagemHtml}
+                    <div style="margin-top: 12px; border-top: 1px solid #f0f0f0; padding-top: 8px;">
+                        <strong style="display: block; font-size: 0.9rem; color: #222;">${d.nome}</strong>
+                        <small style="color: #777;">${d.cidade}</small>
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+        console.log(`${depoimentos.length} depoimentos carregados pela API.`);
+
+    } catch (erro) {
+        console.error("Erro ao carregar depoimentos:", erro);
+        container.innerHTML = "<p>Não foi possível carregar os depoimentos no momento.</p>";
+    }
+}
+
+
+// -----------------------------------------------------
+// API - ENVIO DE NOVO DEPOIMENTO
+// -----------------------------------------------------
+
+function inicializarEnvioDepoimento() {
+    const form = document.querySelector("#form-enviar-depoimento");
+
+    if (!form) {
+        return;
+    }
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('nome', document.querySelector("#depo-nome").value);
+        formData.append('cidade', document.querySelector("#depo-cidade").value);
+        formData.append('estrelas', document.querySelector("#depo-estrelas").value);
+        formData.append('mensagem', document.querySelector("#depo-mensagem").value);
+
+        const fotoInput = document.querySelector("#depo-foto");
+        if (fotoInput && fotoInput.files.length > 0) {
+            formData.append('foto', fotoInput.files[0]);
+        }
+
+        try {
+            const resposta = await fetch(`${CONFIG.API_URL}/depoimentos`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (resposta.ok) {
+                alert("Muito obrigado! O seu depoimento foi enviado com sucesso e será publicado após a nossa verificação.");
+                form.reset();
+            } else {
+                alert("Erro ao enviar o depoimento. Tente novamente.");
+            }
+        } catch (erro) {
+            console.error("Erro:", erro);
+            alert("Não foi possível conectar ao servidor para enviar o depoimento.");
+        }
+    });
 }
