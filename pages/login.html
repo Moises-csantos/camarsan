@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo - CamarSan</title>
-    <!-- Ligação com o seu arquivo CSS (ajuste o caminho se necessário dependendo de onde a pasta pages está) -->
+    <!-- Ligação com o seu arquivo CSS -->
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -37,7 +37,6 @@
                 <textarea id="desc-prod" placeholder="Descrição do produto"></textarea><br>
                 <input type="number" id="preco-prod" step="0.01" placeholder="Preço (ex: 120.00)" required><br>
 
-                <!-- Restante dos campos continuam iguais -->
                 <input type="text" id="largura-mm" placeholder="Largura em mm (ex: 6)"><br>
                 <input type="text" id="material" placeholder="Material (ex: Moeda Antiga)"><br>
                 <input type="text" id="acabamento" placeholder="Acabamento (ex: Polido)"><br>
@@ -45,34 +44,31 @@
                 <input type="text" id="personalizacao" placeholder="Personalização (ex: Disponível)"><br>
                 <input type="text" id="disponibilidade" placeholder="Disponibilidade (ex: Em estoque)"><br>
 
-                <label for="imagem-prod"
-                    style="color: var(--cinza); font-size: 0.9rem; text-align: left; display: block; margin-bottom: 5px;">
+                <label for="imagem-prod" class="label-arquivo">
                     Selecione as fotos do produto (pode escolher várias):
                 </label>
                 <input type="file" id="imagem-prod" accept="image/*" multiple><br>
 
                 <button type="submit" id="btn-salvar-prod">Salvar Produto no Banco</button>
-                <button type="button" id="btn-cancelar-edicao"
-                    style="display: none; background: #666; margin-top: 10px;">Cancelar Edição</button>
+                <button type="button" id="btn-cancelar-edicao" style="display: none;">Cancelar Edição</button>
             </form>
-            <!-- Área onde a lista de produtos com a opção de excluir vai aparecer -->
-            <div id="lista-produtos-admin" style="margin-top: 20px;"></div>
-            <button type="button" id="btn-sair" style="margin-top: 20px;">Sair / Bloquear Painel</button>
+
+            <!-- Lista de Produtos Cadastrados -->
+            <div id="lista-produtos-admin"></div>
+
+            <!-- GESTÃO DE DEPOIMENTOS -->
+            <hr class="admin-divisor">
+            <h3>Gerir Depoimentos de Clientes</h3>
+            <p>Aprove novos depoimentos ou exclua os que já estão salvos no sistema.</p>
+            <div id="lista-depoimentos-admin"></div>
+
+            <!-- Botão Sair -->
+            <button type="button" id="btn-sair">Sair / Bloquear Painel</button>
         </section>
-        <!-- Lista de Produtos -->
-        <div id="lista-produtos-admin"></div>
-
-        <!-- GESTÃO DE DEPOIMENTOS -->
-        <hr class="admin-divisor">
-        <h3>Gerir Depoimentos de Clientes</h3>
-        <p>Aprove novos depoimentos ou exclua os que já estão salvos no sistema.</p>
-        <div id="lista-depoimentos-admin"></div>
-
-        <button type="button" id="btn-sair">Sair / Bloquear Painel</button>
 
     </main>
 
-    <!-- Script específico para controlar o login e o envio para a API -->
+    <!-- Script específico para controlar o painel -->
     <script src="../js/admin.js"></script>
 </body>
 
