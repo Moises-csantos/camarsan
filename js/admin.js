@@ -1,5 +1,8 @@
 const SENHA_MESTRE = "12345";
-const URL_API = "https://aliancascamarsan1993.pythonanywhere.com/produtos";
+const URL_API_BASE = "https://aliancascamarsan1993.pythonanywhere.com";
+const URL_API_PRODUTOS = `${URL_API_BASE}/produtos`;
+const URL_API_DEPOIMENTOS = `${URL_API_BASE}/depoimentos`;
+const URL_API_ADMIN_DEPOIMENTOS = `${URL_API_BASE}/admin/depoimentos`;
 
 const secaoLogin = document.getElementById('secao-login');
 const secaoPainel = document.getElementById('secao-painel');
@@ -14,18 +17,18 @@ formLogin.addEventListener('submit', function (e) {
     if (senhaDigitada === SENHA_MESTRE) {
         secaoLogin.style.display = 'none';
         secaoPainel.style.display = 'block';
-        carregarProdutosAdmin(); // Carrega a lista ao entrar[cite: 10]
-        carregarDepoimentosAdmin(); // Carrega os depoimentos ao entrar
+        carregarProdutosAdmin(); 
+        carregarDepoimentosAdmin(); 
     } else {
         alert('Senha incorreta!');
     }
 });
 
-// Variável global para gerir a ordem das imagens antes do envio[cite: 10]
+// Variável global para gerir a ordem das imagens antes do envio
 let arquivosSelecionados = [];
 const inputImagem = document.getElementById('imagem-prod');
 
-// Criar dinamicamente uma área para pré-visualizar e escolher a capa[cite: 10]
+// Criar dinamicamente uma área para pré-visualizar e escolher a capa
 if (inputImagem) {
     const containerPreview = document.createElement('div');
     containerPreview.id = 'preview-imagens-admin';
@@ -92,7 +95,7 @@ function atualizarPreviewImagens() {
     });
 }
 
-// --- FUNÇÃO PARA CARREGAR PRODUTOS NO PAINEL ADMIN ---[cite: 10]
+// --- FUNÇÃO PARA CARREGAR PRODUTOS NO PAINEL ADMIN ---
 async function carregarProdutosAdmin() {
     const listaDiv = document.getElementById('lista-produtos-admin');
     if (!listaDiv) return;
@@ -100,7 +103,7 @@ async function carregarProdutosAdmin() {
     listaDiv.innerHTML = '<p>A carregar produtos...</p>';
 
     try {
-        const resposta = await fetch(URL_API);
+        const resposta = await fetch(URL_API_PRODUTOS);
         const produtos = await resposta.json();
 
         if (produtos.length === 0) {
@@ -135,12 +138,12 @@ async function carregarProdutosAdmin() {
     }
 }
 
-// --- FUNÇÃO PARA EXCLUIR PRODUTO ---[cite: 10]
+// --- FUNÇÃO PARA EXCLUIR PRODUTO ---
 window.excluirProduto = async function(id) {
     if (!confirm('Tem certeza de que deseja excluir este produto?')) return;
 
     try {
-        const resposta = await fetch(`${URL_API}/${id}`, {
+        const resposta = await fetch(`${URL_API_PRODUTOS}/${id}`, {
             method: 'DELETE'
         });
 
@@ -156,7 +159,7 @@ window.excluirProduto = async function(id) {
     }
 }
 
-// --- FUNÇÃO PARA PREPARAR A EDIÇÃO ---[cite: 10]
+// --- FUNÇÃO PARA PREPARAR A EDIÇÃO ---
 window.prepararEdicao = function(id, prodJsonStr) {
     const prod = JSON.parse(decodeURIComponent(prodJsonStr));
 
@@ -187,7 +190,7 @@ document.getElementById('btn-cancelar-edicao')?.addEventListener('click', functi
     if (containerPreview) containerPreview.innerHTML = '';
 });
 
-// --- ENVIO DO FORMULÁRIO (CRIAÇÃO OU ATUALIZAÇÃO) ---[cite: 10]
+// --- ENVIO DO FORMULÁRIO (CRIAÇÃO OU ATUALIZAÇÃO) ---
 formProduto.addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -209,7 +212,7 @@ formProduto.addEventListener('submit', async function (e) {
         formData.append('imagens', file);
     });
 
-    const urlDestino = isEditando ? `${URL_API}/${idEdicao}` : URL_API;
+    const urlDestino = isEditando ? `${URL_API_PRODUTOS}/${idEdicao}` : URL_API_PRODUTOS;
     const metodoHttp = isEditando ? 'PUT' : 'POST';
 
     try {
@@ -239,7 +242,7 @@ formProduto.addEventListener('submit', async function (e) {
     }
 });
 
-// --- BOTÃO SAIR / BLOQUEAR PAINEL ---[cite: 10]
+// --- BOTÃO SAIR / BLOQUEAR PAINEL ---
 document.addEventListener('click', function (e) {
     if (e.target && (e.target.id === 'btn-sair' || e.target.closest('#btn-sair'))) {
         e.preventDefault();
@@ -262,13 +265,7 @@ document.addEventListener('click', function (e) {
     }
 });
 
-
-// =====================================
-// GESTÃO DE DEPOIMENTOS NO PAINEL ADMIN 
-// =====================================
-
-const URL_API_DEPOIMENTOS = "https://aliancascamarsan1993.pythonanywhere.com/admin/depoimentos";
-
+// --- GESTÃO DE DEPOIMENTOS NO ADMIN ---
 async function carregarDepoimentosAdmin() {
     const listaDiv = document.getElementById('lista-depoimentos-admin');
     if (!listaDiv) return;
@@ -276,7 +273,7 @@ async function carregarDepoimentosAdmin() {
     listaDiv.innerHTML = '<p>A carregar depoimentos...</p>';
 
     try {
-        const resposta = await fetch(URL_API_DEPOIMENTOS);
+        const resposta = await fetch(URL_API_ADMIN_DEPOIMENTOS);
         const depoimentos = await resposta.json();
 
         if (depoimentos.length === 0) {
