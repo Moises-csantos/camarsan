@@ -35,7 +35,7 @@
                 <li><a href="index.html" class="ativo">Início</a></li>
                 <li><a href="pages/catalogo.html">Alianças</a></li>
                 <li><a href="pages/historia.html">Nossa História</a></li>
-                <li><a href="pages/funciona.html">Como Funciona</a></li>
+                <li><a href="pages/como-funciona.html">Como Funciona</a></li>
                 <li><a href="pages/contato.html">Contato</a></li>
             </ul>
 
@@ -341,31 +341,58 @@
 
         </section>
 
-
         <!-- ==================================================
-             DEPOIMENTOS
+             DEPOIMENTOS E AVALIAÇÕES
         =================================================== -->
+        <section class="secao-depoimentos-publicos">
+            <h2>O que dizem os nossos clientes</h2>
+            <p>Histórias reais de quem eternizou momentos com a CamarSan.</p>
 
-        <section id="depoimentos">
-
-            <p>Experiências de nossos clientes</p>
-
-            <h2>Depoimentos</h2>
-
-            <div class="depoimentos-container" id="depoimentos-container">
-
-                <!--
-            Os depoimentos aprovados serão carregados pela API.
-            Futuramente o administrador poderá moderar,
-            aprovar ou remover depoimentos pelo painel administrativo.
-        -->
-
+            <!-- Onde os depoimentos aprovados vão aparecer dinamicamente -->
+            <div id="lista-depoimentos-publicos">
+                <p>A carregar depoimentos...</p>
             </div>
 
-            <a href="pages/cadastro.html">
-                Quero deixar meu depoimento
-            </a>
+            <!-- Formulário para o cliente enviar o depoimento -->
+            <div class="container-form-depoimento">
+                <h3>Deixe o seu depoimento</h3>
 
+                <form id="form-enviar-depoimento" enctype="multipart/form-data">
+                    <div class="form-grupo-depo">
+                        <label for="depo-nome">O seu Nome:</label>
+                        <input type="text" id="depo-nome" placeholder="Ex: Lucas Silva" required>
+                    </div>
+
+                    <div class="form-grupo-depo">
+                        <label for="depo-cidade">Cidade / Estado:</label>
+                        <input type="text" id="depo-cidade" placeholder="Ex: Caxias do Sul - RS" required>
+                    </div>
+
+                    <div class="form-grupo-depo">
+                        <label for="depo-estrelas">Avaliação (Estrelas de 1 a 5):</label>
+                        <select id="depo-estrelas" required>
+                            <option value="5">⭐⭐⭐⭐⭐ (5/5 - Excelente)</option>
+                            <option value="4">⭐⭐⭐⭐ (4/5 - Muito bom)</option>
+                            <option value="3">⭐⭐⭐ (3/5 - Bom)</option>
+                            <option value="2">⭐⭐ (2/5 - Regular)</option>
+                            <option value="1">⭐ (1/5 - Ruim)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-grupo-depo">
+                        <label for="depo-mensagem">A sua Mensagem:</label>
+                        <textarea id="depo-mensagem" rows="4"
+                            placeholder="Conte como foi a sua experiência com as alianças..." required></textarea>
+                    </div>
+
+                    <div class="form-grupo-depo">
+                        <label for="depo-foto">Foto do produto ou com as alianças (Opcional):</label>
+                        <input type="file" id="depo-foto" accept="image/*">
+                    </div>
+
+                    <button type="submit" class="btn-enviar-depoimento">Enviar Depoimento</button>
+                </form>
+            </div>
         </section>
 
 
