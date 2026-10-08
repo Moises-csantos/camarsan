@@ -1593,6 +1593,310 @@ footer a:hover {
     color: var(--grafite);
     transform: translateY(-2px);
 }
+/* =========================================================
+   ESTILO DA PÁGINA "COMO FUNCIONA" (PASSO A PASSO)
+   ========================================================= */
+
+.como-funciona-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.como-funciona-container h1 {
+    font-size: 2.2rem;
+    color: var(--dourado-claro, #d4af37);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.como-funciona-container .subtitulo-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+/* Grelha ou Lista de Passos em Cartões */
+.passos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.passo-card {
+    background: #1a1a1a; /* Fundo escuro elegante combinando com o tema */
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Linha subtil dourada */
+    border-radius: 12px;
+    padding: 25px 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.passo-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--dourado, #d4af37);
+}
+
+/* Número do Passo em destaque */
+.passo-numero {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--dourado, #d4af37);
+    background: rgba(212, 175, 55, 0.1);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+/* Conteúdo do Passo */
+.passo-conteudo h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.passo-conteudo p {
+    color: #bbb;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+/* =========================================================
+   ESTILO DA PÁGINA "COMO FUNCIONA" (PADRÃO IDÊNTICO À INDEX)
+   ========================================================= */
+
+/* Fundo geral da página igual ao Hero da Index (Grafite e Bordo) */
+body.pagina-como-funciona, 
+#como-funciona-pagina {
+    background: linear-gradient(120deg, var(--grafite), var(--bordo-escuro));
+    color: var(--branco);
+    min-height: 100vh;
+}
+
+.como-funciona-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    text-align: center; /* Centraliza todos os textos iniciais */
+}
+
+/* Subtítulo em cima do título principal (Dourado e em letras maiúsculas) */
+.como-funciona-container .subtitulo-topo {
+    color: var(--dourado-claro);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.como-funciona-container h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem); /* Tamanho responsivo igual ao título principal */
+    color: var(--branco);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.como-funciona-container .subtitulo-intro {
+    font-size: 1.1rem;
+    color: #eeeeee; /* Texto claro legível sobre o fundo escuro */
+    margin-bottom: 50px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Lista de Passos padronizada (Garante que o Passo 05 fique igual aos outros) */
+.passos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: left; /* Mantém o texto interno alinhado à esquerda para leitura confortável */
+}
+
+.passo-card {
+    background-color: rgba(255, 255, 255, 0.05); /* Fundo translúcido elegante sobre o bordô */
+    border: 1px solid rgba(201, 162, 39, 0.3); /* Borda dourada subtil */
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    transition: var(--transicao);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 100%; /* Força todos (incluindo o 5) a terem a mesma largura */
+}
+
+.passo-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--dourado);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Número do Passo */
+.passo-numero {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--dourado-claro);
+    background-color: rgba(201, 162, 39, 0.15);
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid var(--dourado);
+}
+
+/* Conteúdo do Passo */
+.passo-conteudo h3 {
+    font-size: 1.4rem;
+    color: var(--dourado-claro);
+    margin-bottom: 10px;
+}
+
+.passo-conteudo p {
+    color: #dddddd;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+/* =========================================================
+   16. SECÇÃO DE DEPOIMENTOS PÚBLICOS E FORMULÁRIO
+   ========================================================= */
+
+.secao-depoimentos-publicos {
+    background-color: var(--creme);
+    padding: 80px 8%;
+    text-align: center;
+}
+
+.secao-depoimentos-publicos h2 {
+    font-size: 2.8rem;
+    color: var(--grafite);
+    margin-bottom: 10px;
+}
+
+.secao-depoimentos-publicos > p {
+    color: var(--cinza);
+    margin-bottom: 40px;
+}
+
+#lista-depoimentos-publicos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto 50px auto;
+    text-align: left;
+}
+
+.card-depoimento-publico {
+    background: var(--branco);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--cinza-claro);
+    box-shadow: var(--sombra);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transicao);
+}
+
+.card-depoimento-publico:hover {
+    transform: translateY(-5px);
+}
+
+.card-depoimento-publico p {
+    color: var(--cinza);
+    font-style: italic;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.container-form-depoimento {
+    max-width: 650px;
+    margin: 0 auto;
+    background: var(--branco);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--sombra);
+    text-align: left;
+    border: 1px solid var(--cinza-claro);
+}
+
+.container-form-depoimento h3 {
+    color: var(--bordo);
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.form-grupo-depo {
+    margin-bottom: 20px;
+}
+
+.form-grupo-depo label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: var(--grafite);
+    font-weight: 500;
+}
+
+.form-grupo-depo input,
+.form-grupo-depo select,
+.form-grupo-depo textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--cinza-claro);
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--creme);
+    color: var(--grafite);
+    outline: none;
+    transition: var(--transicao);
+}
+
+.form-grupo-depo input:focus,
+.form-grupo-depo select:focus,
+.form-grupo-depo textarea:focus {
+    border-color: var(--dourado);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+}
+
+.btn-enviar-depoimento {
+    width: 100%;
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transicao);
+}
+
+.btn-enviar-depoimento:hover {
+    background-color: var(--dourado-claro);
+    transform: translateY(-2px);
+}
 /* Responsivo para telemóveis */
 @media (max-width: 600px) {
     .passo-card {
@@ -1602,7 +1906,7 @@ footer a:hover {
         padding: 20px;
     }
     .como-funciona-container h1 {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
     }
 }
 
@@ -1638,84 +1942,7 @@ footer a:hover {
         order: unset;
     }
 }
-/* =========================================================
-   ESTILO DA PÁGINA "COMO FUNCIONA" (PASSO A PASSO)
-   ========================================================= */
 
-.como-funciona-container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-.como-funciona-container h1 {
-    font-size: 2.2rem;
-    color: var(--bordo); /* Ajustado para combinar com o tom principal da marca */
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.como-funciona-container .subtitulo-intro {
-    text-align: center;
-    font-size: 1.1rem;
-    color: var(--cinza); /* Texto legível no fundo claro */
-    margin-bottom: 40px;
-    line-height: 1.6;
-}
-
-/* Grelha ou Lista de Passos em Cartões */
-.passos-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-.passo-card {
-    background: var(--branco); /* Fundo branco igual aos outros cards do site */
-    border: 1px solid var(--cinza-claro); /* Borda suave */
-    border-radius: 12px;
-    padding: 25px 30px;
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    box-shadow: var(--sombra); /* Sombra padrão do site */
-}
-
-.passo-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--dourado);
-}
-
-/* Número do Passo em destaque */
-.passo-numero {
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--dourado-escuro);
-    background: var(--creme);
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid var(--dourado);
-}
-
-/* Conteúdo do Passo */
-.passo-conteudo h3 {
-    font-size: 1.3rem;
-    color: var(--bordo); /* Título em tom de bordo/vinho da marca */
-    margin-bottom: 10px;
-}
-
-.passo-conteudo p {
-    color: var(--cinza); /* Texto cinza escuro perfeitamente legível */
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 0;
-}
 /* =========================================================
    RESPONSIVIDADE PARA TELEMÓVEIS (CRUCIAL)
    ========================================================= */
