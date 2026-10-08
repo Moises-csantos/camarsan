@@ -30,11 +30,14 @@
 
             <h3>Cadastrar Novo Produto</h3>
             <form id="form-produto" enctype="multipart/form-data">
+                <!-- Campo oculto para controlar a edição -->
+                <input type="hidden" id="edit-produto-id" value="">
+
                 <input type="text" id="nome-prod" placeholder="Nome da Aliança (ex: Modelo 04)" required><br>
                 <textarea id="desc-prod" placeholder="Descrição do produto"></textarea><br>
                 <input type="number" id="preco-prod" step="0.01" placeholder="Preço (ex: 120.00)" required><br>
 
-                <!-- Novas Especificações das Alianças -->
+                <!-- Restante dos campos continuam iguais -->
                 <input type="text" id="largura-mm" placeholder="Largura em mm (ex: 6)"><br>
                 <input type="text" id="material" placeholder="Material (ex: Moeda Antiga)"><br>
                 <input type="text" id="acabamento" placeholder="Acabamento (ex: Polido)"><br>
@@ -42,14 +45,15 @@
                 <input type="text" id="personalizacao" placeholder="Personalização (ex: Disponível)"><br>
                 <input type="text" id="disponibilidade" placeholder="Disponibilidade (ex: Em estoque)"><br>
 
-                <!-- Seleção de múltiplas imagens -->
                 <label for="imagem-prod"
                     style="color: var(--cinza); font-size: 0.9rem; text-align: left; display: block; margin-bottom: 5px;">
                     Selecione as fotos do produto (pode escolher várias):
                 </label>
-                <input type="file" id="imagem-prod" accept="image/*" multiple required><br>
+                <input type="file" id="imagem-prod" accept="image/*" multiple><br>
 
-                <button type="submit">Salvar Produto no Banco</button>
+                <button type="submit" id="btn-salvar-prod">Salvar Produto no Banco</button>
+                <button type="button" id="btn-cancelar-edicao"
+                    style="display: none; background: #666; margin-top: 10px;">Cancelar Edição</button>
             </form>
             <!-- Área onde a lista de produtos com a opção de excluir vai aparecer -->
             <div id="lista-produtos-admin" style="margin-top: 20px;"></div>
