@@ -263,11 +263,11 @@ document.addEventListener('click', function (e) {
 });
 
 
-// =====================================================
-// GESTÃO DE DEPOIMENTOS NO PAINEL ADMIN (ADICIONADO AQUI)
-// =====================================================
+// =====================================
+// GESTÃO DE DEPOIMENTOS NO PAINEL ADMIN 
+// =====================================
 
-const URL_API_DEPOIMENTOS = "https://aliancascamarsan1993.pythonanywhere.com/depoimentos";
+const URL_API_DEPOIMENTOS = "https://aliancascamarsan1993.pythonanywhere.com/admin/depoimentos";
 
 async function carregarDepoimentosAdmin() {
     const listaDiv = document.getElementById('lista-depoimentos-admin');
