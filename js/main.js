@@ -24,8 +24,6 @@ const CONFIG = {
 document.addEventListener("DOMContentLoaded", () => {
     inicializarSite();
 });
-
-
 // -----------------------------------------------------
 // INICIALIZAÇÃO DO SITE
 // -----------------------------------------------------
@@ -37,11 +35,44 @@ function inicializarSite() {
     inicializarBotoes();
     inicializarAno();
     inicializarProdutosDestaque();
-    inicializarDepoimentos();      // <--- Adicionado para carregar os depoimentos
-    inicializarEnvioDepoimento();  // <--- Adicionado para processar o formulário
+    inicializarDepoimentos();      // <--- Carrega os depoimentos
+    inicializarEnvioDepoimento();  // <--- Processa o formulário
+    inicializarCarrosselDiferenciais(); // <--- CHAMADA OBRIGATÓRIA DA FUNÇÃO
 }
 
+// A função fica fora (separada), logo abaixo:
+function inicializarCarrosselDiferenciais() {
+    const container = document.querySelector("#carrossel-diferenciais");
+    const containerIndicadores = document.querySelector("#indicadores-diferenciais");
 
+    if (!container || !containerIndicadores) return;
+
+    const cards = container.querySelectorAll(".diferencial-card");
+    containerIndicadores.innerHTML = "";
+
+    // Cria uma bolinha para cada cartão
+    cards.forEach((_, index) => {
+        const ponto = document.createElement("div");
+        ponto.classList.add("indicador-ponto");
+        if (index === 0) ponto.classList.add("ativo");
+        containerIndicadores.appendChild(ponto);
+    });
+
+    const pontos = containerIndicadores.querySelectorAll(".indicador-ponto");
+
+    // Monitora o scroll horizontal para atualizar a bolinha ativa
+    container.addEventListener("scroll", () => {
+        const indexAtivo = Math.round(container.scrollLeft / container.clientWidth);
+        
+        pontos.forEach((ponto, index) => {
+            if (index === indexAtivo) {
+                ponto.classList.add("ativo");
+            } else {
+                ponto.classList.remove("ativo");
+            }
+        });
+    });
+}
 // -----------------------------------------------------
 // MENU
 // -----------------------------------------------------
