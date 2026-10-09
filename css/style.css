@@ -1983,6 +1983,71 @@ body.pagina-como-funciona,
     background-color: #fff3cd;
     color: #856404;
 }
+/* =========================================================
+   CARROSSEL HORIZONTAL DE DIFERENCIAIS (MÓVEL)
+   ========================================================= */
+
+.diferenciais-wrapper-horizontal {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* Oculta a barra de rolagem mas permite o deslize suave */
+.diferenciais-container::-webkit-scrollbar {
+    display: none;
+}
+.diferenciais-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Bolinhas indicadoras (Dots) */
+.indicadores-diferenciais {
+    display: none; /* Por padrão oculto em computadores */
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.indicador-ponto {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+    transition: var(--transicao);
+    border: 1px solid var(--dourado-escuro);
+}
+
+.indicador-ponto.ativo {
+    background-color: var(--dourado);
+    transform: scale(1.25);
+    box-shadow: 0 0 10px var(--dourado-claro); /* Efeito brilhante */
+}
+
+/* Regras específicas para telemóveis */
+@media (max-width: 700px) {
+    .diferenciais-container {
+        display: flex !important;
+        grid-template-columns: none !important;
+        overflow-x: auto;
+        gap: 15px;
+        padding: 10px 5px 20px 5px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        text-align: left;
+    }
+
+    .diferenciais-container article {
+        flex: 0 0 85%; /* O cartão ocupa 85% da largura da tela do telemóvel */
+        scroll-snap-align: center;
+        margin: 0;
+    }
+
+    .indicadores-diferenciais {
+        display: flex; /* Mostra as bolinhas apenas no telemóvel */
+    }
+}
 /* Responsivo para telemóveis */
 @media (max-width: 600px) {
     .passo-card {
