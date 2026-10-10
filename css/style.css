@@ -467,26 +467,19 @@ nav ul a.ativo {
     transform: translateY(-8px);
 }
 
-
-/* Suporte para imagem direta (Estático / Home) */
-.produto-card > img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-}
-
-/* Suporte para imagem com contentor (Catálogo Dinâmico igual à Home) */
+.produto-card > img,
 .produto-card-img {
-    width: 100%;
-    aspect-ratio: 1 / 1; /* Mantém a proporção quadrada perfeita */
-    overflow: hidden;
-    background: #f9f9f9;
+    width: 100% !important;
+    aspect-ratio: 1 / 1 !important;
+    overflow: hidden !important;
+    background: #f9f9f9 !important;
 }
 
+.produto-card > img,
 .produto-card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Mostra a imagem inteira sem cortes */
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* Mostra a imagem inteira sem cortes e sem distorcer */
 }
 
 
@@ -571,7 +564,6 @@ nav ul a.ativo {
     color: var(--dourado-escuro);
     font-weight: bold;
 }
-
 
 #destaques>a:last-child {
     display: inline-block;
