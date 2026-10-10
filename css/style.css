@@ -1,12 +1,3 @@
-/* =========================================================
-   CAMARSAN - ESTILO PRINCIPAL
-   Alianças de Moedas Antigas
-   ========================================================= */
-
-
-/* =========================================================
-   1. CONFIGURAÇÕES GERAIS
-   ========================================================= */
 
 :root {
     --dourado: #c9a227;
@@ -2144,128 +2135,12 @@ body.pagina-como-funciona,
     background-color: var(--dourado-claro);
 }
 
-/* Adjustes para ecrãs menores/telemóveis pequenos */
-@media (max-width: 600px) {
-    #conversa-mascote {
-        padding: 25px 3%;
-    }
-
-    .mascote-img {
-        max-height: 220px; /* Reduz um pouco a altura no telemóvel para caber a lateral */
-    }
-
-    .balao-fala {
-        max-width: 230px; /* Adapta a largura para ecrãs mais estreitos */
-        padding: 14px;
-        margin-left: -25px; /* Mantém a sobreposição proporcional */
-    }
-
-    #texto-fala {
-        font-size: 0.85rem;
-        margin-bottom: 10px;
-    }
-
-    .btn-conversa {
-        padding: 8px 12px;
-        font-size: 0.82rem;
-    }
-}
-
-@media (max-width: 700px) {
-    .diferenciais-container {
-        display: flex !important;
-        grid-template-columns: none !important;
-        overflow-x: auto;
-        gap: 15px;
-        padding: 10px 5px 20px 5px;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        text-align: left;
-    }
-
-    .diferenciais-container article {
-        flex: 0 0 85%; /* O cartão ocupa 85% da largura da tela do telemóvel */
-        scroll-snap-align: center;
-        margin: 0;
-    }
-
-    .indicadores-diferenciais {
-        display: flex; /* Mostra as bolinhas apenas no telemóvel */
-    }
-}
-/* Responsivo para telemóveis */
-@media (max-width: 600px) {
-    .passo-card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 20px;
-    }
-    .como-funciona-container h1 {
-        font-size: 2.2rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .botoes-acao-como-funciona {
-        flex-direction: column;
-        width: 100%;
-    }
-    .btn-secundario-catalogo,
-    .cta-whatsapp-box .btn-whatsapp {
-        width: 100%;
-    }
-}
-@media (max-width: 992px) {
-    .historia-grid {
-        grid-template-columns: 1fr;
-    }
-    .historia-lateral {
-        position: relative;
-        top: 0;
-        max-width: 350px;
-        margin: 0 auto;
-    }
-}
-
-@media (max-width: 650px) {
-    .bloco-historia, 
-    .bloco-historia.reverso {
-        grid-template-columns: 1fr;
-    }
-    .bloco-historia.reverso .texto-bloco,
-    .bloco-historia.reverso .foto-bloco {
-        order: unset;
-    }
-}
-
 /* =========================================================
-   RESPONSIVIDADE PARA TELEMÓVEIS (CRUCIAL)
+   RESPONSIVIDADE E AJUSTES PARA TELEMÓVEIS / TABLETS
    ========================================================= */
-@media (max-width: 768px) {
-    #carrinho-conteudo {
-        grid-template-columns: 1fr !important; /* Joga o resumo para baixo da lista */
-        gap: 20px;
-        padding: 0 10px;
-    }
-
-    .carrinho-painel {
-        width: 100%;
-    }
-    .produto-detalhe-container,
-    #produto-container > div {
-        flex-direction: column;
-    }
-}
-/* =========================================================
-   14. RESPONSIVIDADE
-   ========================================================= */
-
 
 /* Tablets */
-
 @media (max-width: 1000px) {
-
     nav ul {
         gap: 12px;
     }
@@ -2288,23 +2163,54 @@ body.pagina-como-funciona,
         grid-template-columns: repeat(2, 1fr);
     }
 
-    #como-funciona>div {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .opcoes-recebimento {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
+    #como-funciona>div,
+    .opcoes-recebimento,
     footer {
         grid-template-columns: repeat(2, 1fr);
     }
-
 }
 
-/* Celulares */
+@media (max-width: 992px) {
+    .historia-grid {
+        grid-template-columns: 1fr;
+    }
+    .historia-lateral {
+        position: relative;
+        top: 0;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+}
 
+@media (max-width: 768px) {
+    #carrinho-conteudo {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+        padding: 0 10px;
+    }
 
+    .carrinho-painel {
+        width: 100%;
+    }
+
+    .produto-detalhe-container,
+    #produto-container > div {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 650px) {
+    .bloco-historia, 
+    .bloco-historia.reverso {
+        grid-template-columns: 1fr;
+    }
+    .bloco-historia.reverso .texto-bloco,
+    .bloco-historia.reverso .foto-bloco {
+        order: unset;
+    }
+}
+
+/* Celulares (Ajuste Unificado até 700px) */
 @media (max-width: 700px) {
     section {
         padding: 40px 5%;
@@ -2317,7 +2223,7 @@ body.pagina-como-funciona,
     }
 
     nav > a:first-child img {
-        width: 90px; /* Logo minimalista em telemóveis */
+        width: 90px;
     }
 
     .menu-acoes-cliente a {
@@ -2337,32 +2243,32 @@ body.pagina-como-funciona,
     nav ul a {
         font-size: 0.78rem;
     }
+
     #hero {
         min-height: auto;
-
         padding-top: 70px;
         padding-bottom: 70px;
     }
-
 
     .hero-conteudo h1 {
         font-size: 2.5rem;
     }
 
-
     .hero-mascote {
         width: 250px;
     }
 
-
-    /* EXCLUI .produtos-destaque daqui para manter o carrossel horizontal de 2 em 2 */
     .diferenciais-container,
-    .produtos-grid,
     #como-funciona>div,
-    .opcoes-recebimento {
+    .opcoes-recebimento,
+    footer {
         grid-template-columns: 1fr;
+        text-align: center;
     }
 
+    footer a {
+        display: block;
+    }
 
     #destaques h2,
     #recebimento h2,
@@ -2372,85 +2278,11 @@ body.pagina-como-funciona,
         font-size: 2.2rem;
     }
 
-
     #contato h2 {
         font-size: 2.3rem;
     }
 
-
-    footer {
-        grid-template-columns: 1fr;
-
-        text-align: center;
-    }
-
-
-    footer a {
-        display: block;
-    }
-
-    /* Carrossel de destaques dois a dois compacto */
-    .produtos-destaque {
-        display: flex !important;
-        overflow-x: auto !important;
-        gap: 12px !important;
-        padding: 10px 5px 20px 5px !important;
-        scroll-snap-type: x mandatory !important;
-        -webkit-overflow-scrolling: touch !important;
-        align-items: flex-start !important; /* Impede que o card se estique na vertical */
-    }
-
-    .produtos-destaque .produto-card {
-        flex: 0 0 calc(50% - 6px) !important;
-        min-width: calc(50% - 6px) !important;
-        scroll-snap-align: start !important;
-        margin: 0 !important;
-        height: auto !important; /* Altura automática ajustada ao conteúdo */
-        padding-bottom: 12px !important;
-    }
-
-    /* Reduz o espaço da descrição e retira o alinhamento que empurra o botão */
-    .produtos-destaque .produto-card p {
-        font-size: 0.78rem !important;
-        line-height: 1.3 !important;
-        margin-bottom: 8px !important;
-        padding: 0 8px !important;
-        flex-grow: 0 !important; /* Impede o texto de empurrar o fundo */
-        display: -webkit-box;
-        -webkit-line-clamp: 2; /* Limita a descrição a no máximo 2 linhas */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .produtos-destaque .produto-card h3 {
-        font-size: 0.95rem !important;
-        margin-top: 8px !important;
-        margin-bottom: 4px !important;
-        padding: 0 8px !important;
-    }
-
-    .produtos-destaque .produto-preco {
-        font-size: 0.95rem !important;
-        margin-bottom: 10px !important;
-        padding: 0 8px !important;
-    }
-
-    .produtos-destaque .produto-card > a {
-        font-size: 0.8rem !important;
-        margin: 0 8px !important;
-        padding: 8px 10px !important;
-        text-align: center;
-        background-color: var(--bordo);
-        color: var(--branco);
-        border-radius: 8px;
-        display: block;
-    }
-}
-@media (max-width: 700px) {
-
-    /* =========================================================
-       1. DESTAQUES DA PÁGINA INICIAL (Linha única lateral)
-       ========================================================= */
+    /* 1. DESTAQUES DA HOME (Carrossel Horizontal de 1 Linha) */
     .produtos-destaque {
         display: flex !important;
         overflow-x: auto !important;
@@ -2470,17 +2302,14 @@ body.pagina-como-funciona,
         padding-bottom: 12px !important;
     }
 
-
-    /* =========================================================
-       2. CATÁLOGO / ALIANÇAS (Duas fileiras paralelas com deslize lateral)
-       ========================================================= */
+    /* 2. CATÁLOGO / ALIANÇAS (2 Fileiras Paralelas com Deslize Lateral) */
     .produtos-grid {
         display: grid !important;
-        grid-template-rows: repeat(2, auto) !important; /* Cria 2 fileiras uma em cima da outra */
-        grid-auto-flow: column !important; /* Expande para a direita conforme novos produtos entram */
-        grid-auto-columns: calc(50% - 6px) !important; /* Cada cartão ocupa 50% da largura do ecrã */
+        grid-template-rows: repeat(2, auto) !important;
+        grid-auto-flow: column !important;
+        grid-auto-columns: calc(50% - 6px) !important;
         gap: 12px !important;
-        overflow-x: auto !important; /* Habilita o deslize horizontal */
+        overflow-x: auto !important;
         scroll-snap-type: x mandatory !important;
         -webkit-overflow-scrolling: touch !important;
         padding: 10px 5px 20px 5px !important;
@@ -2496,10 +2325,7 @@ body.pagina-como-funciona,
         padding-bottom: 12px !important;
     }
 
-
-    /* =========================================================
-       3. ESTILIZAÇÃO COMPACTA UNIFICADA (Para ambos os cartões)
-       ========================================================= */
+    /* 3. TEXTOS COMPACTOS DOS CARTÕES */
     .produtos-destaque .produto-card p,
     .produtos-grid .produto-card p {
         font-size: 0.78rem !important;
@@ -2528,15 +2354,97 @@ body.pagina-como-funciona,
         padding: 0 8px !important;
     }
 
-    .produtos-destaque .produto-card > a,
-    .produtos-grid .produto-card > a {
-        font-size: 0.8rem !important;
-        margin: 0 8px !important;
-        padding: 8px 10px !important;
+    /* 4. BOTÕES LADO A LADO LARGURA TOTAL (DETALHES E ADICIONAR) */
+    .produtos-grid .produto-botoes,
+    .produtos-destaque .produto-botoes {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 6px !important;
+        width: 100 !important;
+        margin-top: auto !important;
+        padding: 0 8px !important;
+    }
+
+    .produtos-grid .produto-botoes > a,
+    .produtos-grid .produto-botoes > button,
+    .produtos-destaque .produto-botoes > a,
+    .produtos-destaque .produto-botoes > button {
+        flex: 1 !important;
+        font-size: 0.72rem !important;
+        padding: 7px 2px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        border-radius: 6px !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    .diferenciais-container {
+        display: flex !important;
+        grid-template-columns: none !important;
+        overflow-x: auto;
+        gap: 15px;
+        padding: 10px 5px 20px 5px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        text-align: left;
+    }
+
+    .diferenciais-container article {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        margin: 0;
+    }
+
+    .indicadores-diferenciais {
+        display: flex;
+    }
+}
+
+/* Telas muito pequenas (Até 600px) */
+@media (max-width: 600px) {
+    #conversa-mascote {
+        padding: 25px 3%;
+    }
+
+    .mascote-img {
+        max-height: 220px;
+    }
+
+    .balao-fala {
+        max-width: 230px;
+        padding: 14px;
+        margin-left: -25px;
+    }
+
+    #texto-fala {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
+    .btn-conversa {
+        padding: 8px 12px;
+        font-size: 0.82rem;
+    }
+
+    .passo-card {
+        flex-direction: column;
+        align-items: center;
         text-align: center;
-        background-color: var(--bordo);
-        color: var(--branco);
-        border-radius: 8px;
-        display: block;
+        padding: 20px;
+    }
+
+    .como-funciona-container h1 {
+        font-size: 2.2rem;
+    }
+
+    .botoes-acao-como-funciona {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-secundario-catalogo,
+    .cta-whatsapp-box .btn-whatsapp {
+        width: 100%;
     }
 }
