@@ -321,14 +321,18 @@ const roteiroConversa = [
         posicao: "esquerda" // Ex: move para a esquerda (left: -50px)
     },
     {
-        // Cena 3: Destaques (Link para a secção de destaques)
-        fala: "Estes são alguns dos nossos modelos mais queridos. Passe para o lado para ver! Você pode clicar em 'Ver detalhes' para saber mais sobre cada uma. Gostou de algum?",
+        fala: "Estes são os nossos modelos mais queridos. Passe para o lado para ver! Gostou de algum?",
         botao: "Sim! Como recebo?",
-        imagem: "mascote-ola.png", // Volta ao padrão ou uma de "orgulhoso"
+        imagem: "mascote.png", 
         posicao: "centro",
         acao: () => {
-            // Scroll suave até a secção de destaques se já não estiver visível
+            // 1. Desce suavemente até aos destaques para o cliente ver os produtos
             document.querySelector('#destaques').scrollIntoView({ behavior: 'smooth' });
+
+            // 2. Aguarda 4 segundos (tempo para o cliente olhar os produtos) e volta suavemente para o mascote
+            setTimeout(() => {
+                document.querySelector('#conversa-mascote').scrollIntoView({ behavior: 'smooth' });
+            }, 4000);
         }
     },
     {
