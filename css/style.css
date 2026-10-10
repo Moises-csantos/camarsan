@@ -2440,11 +2440,11 @@ body.pagina-como-funciona,
     }
 }
 @media (max-width: 700px) {
-    /* ... (mantenha as outras regras de navegação/hero acima) ... */
 
-    /* Carrossel e Grelha compacta para Destaques e Catálogo em Telemóveis */
-    .produtos-destaque,
-    .produtos-grid {
+    /* =========================================================
+       1. DESTAQUES DA PÁGINA INICIAL (Linha única lateral)
+       ========================================================= */
+    .produtos-destaque {
         display: flex !important;
         overflow-x: auto !important;
         gap: 12px !important;
@@ -2454,8 +2454,7 @@ body.pagina-como-funciona,
         align-items: flex-start !important;
     }
 
-    .produtos-destaque .produto-card,
-    .produtos-grid .produto-card {
+    .produtos-destaque .produto-card {
         flex: 0 0 calc(50% - 6px) !important;
         min-width: calc(50% - 6px) !important;
         scroll-snap-align: start !important;
@@ -2464,7 +2463,36 @@ body.pagina-como-funciona,
         padding-bottom: 12px !important;
     }
 
-    /* Textos compactos dos cartões */
+
+    /* =========================================================
+       2. CATÁLOGO / ALIANÇAS (Duas fileiras paralelas com deslize lateral)
+       ========================================================= */
+    .produtos-grid {
+        display: grid !important;
+        grid-template-rows: repeat(2, auto) !important; /* Cria 2 fileiras uma em cima da outra */
+        grid-auto-flow: column !important; /* Expande para a direita conforme novos produtos entram */
+        grid-auto-columns: calc(50% - 6px) !important; /* Cada cartão ocupa 50% da largura do ecrã */
+        gap: 12px !important;
+        overflow-x: auto !important; /* Habilita o deslize horizontal */
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 10px 5px 20px 5px !important;
+        align-items: start !important;
+    }
+
+    .produtos-grid .produto-card {
+        scroll-snap-align: start !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        height: auto !important;
+        padding-bottom: 12px !important;
+    }
+
+
+    /* =========================================================
+       3. ESTILIZAÇÃO COMPACTA UNIFICADA (Para ambos os cartões)
+       ========================================================= */
     .produtos-destaque .produto-card p,
     .produtos-grid .produto-card p {
         font-size: 0.78rem !important;
