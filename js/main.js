@@ -293,3 +293,145 @@ function inicializarEnvioDepoimento() {
         }
     });
 }
+// =====================================================
+// LÓGICA DA CONVERSA INTERATIVA COM O MOISES
+// =====================================================
+
+// 1. Definição do Roteiro (Cenas, Falas, Imagens e Posições)
+const roteiroConversa = [
+    {
+        // Cena 0: Início (Estado inicial definido no HTML)
+        fala: "Olá! Sou o Moises, o artesão da CamarSan. Clique em mim para começarmos a nossa conversa e conhecer as nossas alianças.",
+        botao: "Vamos lá!",
+        imagem: "mascote-ola.png", // Imagem padrão
+        posicao: "centro" // left: 0
+    },
+    {
+        // Cena 1: Sobre
+        fala: "Na CamarSan, nós não fazemos apenas alianças. Nós transformamos moedas antigas em joias artesanais que carregam histórias e perpetuam gerações. Incrível, não é?",
+        botao: "Como funciona?",
+        imagem: "mascote-explicando.png", // Carregue esta imagem
+        posicao: "direita" // Ex: move para a direita (left: 50px)
+    },
+    {
+        // Cena 2: Como Funciona
+        fala: "É simples! Você escolhe o modelo no nosso catálogo, combinamos todos os detalhes e medidas pelo WhatsApp, e eu forjo a sua peça à mão. Quer ver alguns modelos?",
+        botao: "Quero ver os destaques!",
+        imagem: "mascote-duvida.png", // Carregue esta imagem (talvez apontando)
+        posicao: "esquerda" // Ex: move para a esquerda (left: -50px)
+    },
+    {
+        // Cena 3: Destaques (Link para a secção de destaques)
+        fala: "Estes são alguns dos nossos modelos mais queridos. Passe para o lado para ver! Você pode clicar em 'Ver detalhes' para saber mais sobre cada uma. Gostou de algum?",
+        botao: "Sim! Como recebo?",
+        imagem: "mascote-ola.png", // Volta ao padrão ou uma de "orgulhoso"
+        posicao: "centro",
+        acao: () => {
+            // Scroll suave até a secção de destaques se já não estiver visível
+            document.querySelector('#destaques').scrollIntoView({ behavior: 'smooth' });
+        }
+    },
+    {
+        // Cena 4: Recebimento / WhatsApp
+        fala: "Nós enviamos para todo o Brasil via Correios, entregamos por motoboy na região ou você pode retirar presencialmente. Se tiver qualquer dúvida sobre medidas ou modelos, é só me chamar no WhatsApp aqui embaixo. Até breve!",
+        botao: "Entendi, obrigado!",
+        imagem: "mascote-tchau.png", // Carregue esta imagem (acenando)
+        posicao: "centro",
+        final: true // Indica o fim da conversa
+    }
+];
+
+// 2. Variáveis de Estado
+let cenaAtual = 0;
+const caminhoImagens = "assets/mascote/"; // Pasta onde estão as novas imagens
+
+// 3. Elementos do DOM
+const areaMascote = document.getElementById('area-mascote');
+const imgMascote = document.getElementById('img-mascote');
+const balaoFala = document.getElementById('balao-fala-moises');
+const textoFala = document.getElementById('texto-fala');
+const btnProxima = document.getElementById('btn-proxima-fala');
+
+// 4. Função para Atualizar a Cena
+function atualizarCena() {
+    const dadosCena = roteiroConversa[cenaAtual];
+
+    // Oculta o balão temporariamente para o efeito de "pop"
+    balaoFala.classList.remove('visivel');
+
+    // Pequeno delay para a troca de imagem e movimento
+    setTimeout(() => {
+        // A) Mudar a Imagem do Mascote (com troca suave)
+        imgMascote.style.opacity = 0;
+        setTimeout(() => {
+            imgMascote.src = caminhoImagens + dadosCena.imagem;
+            imgMascote.alt = "Moises explicando: " + dadosCena.fala.substring(0, 30) + "...";
+            imgMascote.style.opacity = 1;
+        }, 150);
+
+        // B) Mudar a Posição/Movimento do Mascote
+        switch (dadosCena.posicao) {
+            case "direita":
+                areaMascote.style.left = "50px";
+                break;
+            case "esquerda":
+                areaMascote.style.left = "-50px";
+                break;
+            default: // centro
+                areaMascote.style.left = "0";
+        }
+
+        // C) Mudar o Texto e o Botão do Balão
+        textoFala.textContent = dadosCena.fala;
+        btnProxima.textContent = dadosCena.botao;
+
+        // D) Executar ação especial da cena se houver (ex: scroll)
+        if (dadosCena.acao) {
+            dadosCena.acao();
+        }
+
+        // E) Controlar o botão se for a cena final
+        if (dadosCena.final) {
+            btnProxima.style.display = 'none'; // Oculta o botão no fim
+            // Opcional: focar no botão do WhatsApp global da página
+            // document.querySelector('#botao-whatsapp').classList.add('destaque-piscar');
+        } else {
+            btnProxima.style.display = 'inline-block';
+        }
+
+        // F) Mostrar o balão novamente com o efeito
+        balaoFala.classList.add('visivel');
+
+    }, 300); // Tempo do delay total
+}
+
+// 5. Event Listeners (Cliques)
+
+// Clique no Mascote (Área completa)
+areaMascote.addEventListener('click', () => {
+    // Se já estiver visível e não for o fim, avança. Se estiver oculto, mostra.
+    if (balaoFala.classList.contains('visivel')) {
+        avancarConversa();
+    } else {
+        balaoFala.classList.add('visivel');
+    }
+});
+
+// Clique no Botão do Balão
+btnProxima.addEventListener('click', (e) => {
+    e.stopPropagation(); // Impede que o clique no botão ative o clique no mascote atrás
+    avancarConversa();
+});
+
+// Função para avançar a lógica
+function avancarConversa() {
+    if (cenaAtual < roteiroConversa.length - 1) {
+        cenaAtual++;
+        atualizarCena();
+    } else {
+        // Fim da conversa, talvez ocultar o balão após um tempo
+        balaoFala.classList.remove('visivel');
+        cenaAtual = 0; // Reseta para o início se clicar de novo
+    }
+}
+
