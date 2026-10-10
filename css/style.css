@@ -484,10 +484,10 @@ nav ul a.ativo {
     object-fit: cover;
 }
 
-/* Suporte para imagem com contentor (Catálogo Dinâmico) */
+/* Suporte para imagem com contentor (Catálogo Dinâmico igual à Home) */
 .produto-card-img {
     width: 100%;
-    height: 250px;
+    aspect-ratio: 1 / 1; /* Mantém a proporção quadrada perfeita */
     overflow: hidden;
     background: #f9f9f9;
 }
@@ -495,7 +495,7 @@ nav ul a.ativo {
 .produto-card-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Mostra a imagem inteira sem cortes */
 }
 
 
