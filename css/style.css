@@ -1,3 +1,12 @@
+/* =========================================================
+   CAMARSAN - ESTILO PRINCIPAL
+   Alianças de Moedas Antigas
+   ========================================================= */
+
+
+/* =========================================================
+   1. CONFIGURAÇÕES GERAIS
+   ========================================================= */
 
 :root {
     --dourado: #c9a227;
@@ -2372,7 +2381,8 @@ body.pagina-como-funciona,
     footer a {
         display: block;
     }
-    /* Carrossel de destaques dois a dois no telemóvel */
+
+    /* Carrossel de destaques dois a dois compacto */
     .produtos-destaque {
         display: flex !important;
         overflow-x: auto !important;
@@ -2380,6 +2390,7 @@ body.pagina-como-funciona,
         padding: 10px 5px 20px 5px !important;
         scroll-snap-type: x mandatory !important;
         -webkit-overflow-scrolling: touch !important;
+        align-items: flex-start !important; /* Impede que o card se estique na vertical */
     }
 
     .produtos-destaque .produto-card {
@@ -2387,6 +2398,44 @@ body.pagina-como-funciona,
         min-width: calc(50% - 6px) !important;
         scroll-snap-align: start !important;
         margin: 0 !important;
+        height: auto !important; /* Altura automática ajustada ao conteúdo */
+        padding-bottom: 12px !important;
     }
 
+    /* Reduz o espaço da descrição e retira o alinhamento que empurra o botão */
+    .produtos-destaque .produto-card p {
+        font-size: 0.78rem !important;
+        line-height: 1.3 !important;
+        margin-bottom: 8px !important;
+        padding: 0 8px !important;
+        flex-grow: 0 !important; /* Impede o texto de empurrar o fundo */
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Limita a descrição a no máximo 2 linhas */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .produtos-destaque .produto-card h3 {
+        font-size: 0.95rem !important;
+        margin-top: 8px !important;
+        margin-bottom: 4px !important;
+        padding: 0 8px !important;
+    }
+
+    .produtos-destaque .produto-preco {
+        font-size: 0.95rem !important;
+        margin-bottom: 10px !important;
+        padding: 0 8px !important;
+    }
+
+    .produtos-destaque .produto-card > a {
+        font-size: 0.8rem !important;
+        margin: 0 8px !important;
+        padding: 8px 10px !important;
+        text-align: center;
+        background-color: var(--bordo);
+        color: var(--branco);
+        border-radius: 8px;
+        display: block;
+    }
 }
