@@ -2024,8 +2024,135 @@ body.pagina-como-funciona,
     transform: scale(1.25);
     box-shadow: 0 0 10px var(--dourado-claro); /* Efeito brilhante */
 }
+/* =========================================================
+   CONVERSA COM O MASCOTE - ESTILOS
+   ========================================================= */
 
-/* Regras específicas para telemóveis */
+#conversa-mascote {
+    background: linear-gradient(135deg, var(--grafite), var(--bordo-escuro));
+    color: var(--branco);
+    padding: 40px 5%;
+    width: 100%;
+    overflow: hidden; /* Evita rolagem horizontal indesejada */
+}
+
+.container-conversa {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.mascote-interativo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+/* O Mascote (Camada da Frente) */
+.mascote-click-area {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 2; /* Fica por cima do balão */
+    flex-shrink: 0;
+}
+
+.mascote-click-area:active {
+    transform: scale(0.96);
+}
+
+.mascote-img {
+    max-height: 280px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.4));
+}
+
+/* O Balão de Fala (Camada de Trás) */
+.balao-fala {
+    position: relative;
+    background-color: var(--branco);
+    color: var(--grafite);
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 1; /* Fica atrás do mascote */
+    margin-left: -35px; /* Puxa o balão para trás da imagem do mascote */
+    opacity: 0;
+    transform: translateX(10px) scale(0.95);
+    transition: all 0.3s ease;
+}
+
+.balao-fala.visivel {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
+/* Seta do balão a apontar para a esquerda (em direção ao mascote) */
+.balao-fala::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%; /* Coloca a seta no lado esquerdo do balão */
+    transform: translateY(-50%);
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent var(--branco) transparent transparent;
+}
+
+#texto-fala {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.btn-conversa {
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: var(--transicao);
+}
+
+.btn-conversa:hover {
+    background-color: var(--dourado-claro);
+}
+
+/* Adjustes para ecrãs menores/telemóveis pequenos */
+@media (max-width: 600px) {
+    #conversa-mascote {
+        padding: 25px 3%;
+    }
+
+    .mascote-img {
+        max-height: 220px; /* Reduz um pouco a altura no telemóvel para caber a lateral */
+    }
+
+    .balao-fala {
+        max-width: 230px; /* Adapta a largura para ecrãs mais estreitos */
+        padding: 14px;
+        margin-left: -25px; /* Mantém a sobreposição proporcional */
+    }
+
+    #texto-fala {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
+    .btn-conversa {
+        padding: 8px 12px;
+        font-size: 0.82rem;
+    }
+}
+
 @media (max-width: 700px) {
     .diferenciais-container {
         display: flex !important;
@@ -2046,135 +2173,6 @@ body.pagina-como-funciona,
 
     .indicadores-diferenciais {
         display: flex; /* Mostra as bolinhas apenas no telemóvel */
-    }
-}
-/* =========================================================
-   CONVERSA COM O MASCOTE - ESTILOS
-   ========================================================= */
-
-#conversa-mascote {
-    background: linear-gradient(135deg, var(--grafite), var(--bordo-escuro));
-    color: var(--branco);
-    padding: 60px 5%;
-    text-align: center;
-    position: relative; /* Para posicionar o balão em relação a este container se necessário */
-    min-height: 400px; /* Garante espaço para a conversa */
-}
-
-.container-conversa {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.mascote-interativo-wrapper {
-    position: relative; /* Essencial para o balão absoluto */
-    display: inline-block;
-}
-
-/* O Mascote */
-.mascote-click-area {
-    cursor: pointer;
-    transition: transform 0.5s ease-in-out, left 0.5s ease-in-out; /* Transições suaves de movimento */
-    position: relative; /* Para controlar posição com left/right */
-    left: 0; /* Posição inicial central */
-}
-
-.mascote-img {
-    max-height: 350px;
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
-    transition: opacity 0.3s ease; /* Para troca suave de imagem */
-}
-
-/* Efeito de feedback ao clicar */
-.mascote-click-area:active {
-    transform: scale(0.95);
-}
-
-/* O Balão de Fala */
-.balao-fala {
-    position: absolute;
-    bottom: 105%; /* Aparece acima do mascote */
-    left: 50%;
-    transform: translateX(-50%) scale(0); /* Inicialmente oculto e centralizado */
-    background-color: var(--branco);
-    color: var(--grafite);
-    padding: 20px;
-    border-radius: 20px;
-    width: 280px; /* Largura fixa do balão */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    z-index: 10;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito "pop" */
-    opacity: 0;
-}
-
-/* Triângulo do balão (seta apontando para baixo) */
-.balao-fala::after {
-    content: '';
-    position: absolute;
-    top: 100%; /* Na parte inferior do balão */
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 15px;
-    border-style: solid;
-    border-color: var(--branco) transparent transparent transparent; /* Seta branca */
-}
-
-/* Estado visível do balão */
-.balao-fala.visivel {
-    transform: translateX(-50%) scale(1);
-    opacity: 1;
-}
-
-#texto-fala {
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.btn-conversa {
-    background-color: var(--dourado);
-    color: var(--grafite);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: var(--transicao);
-    font-size: 0.9rem;
-}
-
-.btn-conversa:hover {
-    background-color: var(--dourado-claro);
-}
-
-/* =========================================================
-   RESPONSIVIDADE PARA TELEMÓVEIS (CRUCIAL)
-   ========================================================= */
-@media (max-width: 700px) {
-    #conversa-mascote {
-        padding: 40px 5%;
-        min-height: 350px;
-    }
-
-    .mascote-img {
-        max-height: 250px; /* Mascote menor em telemóveis */
-    }
-
-    .balao-fala {
-        width: 90%; /* Balão ocupa quase a largura da tela */
-        max-width: 320px;
-        padding: 15px;
-    }
-
-    #texto-fala {
-        font-size: 0.95rem;
     }
 }
 /* Responsivo para telemóveis */
