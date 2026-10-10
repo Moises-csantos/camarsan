@@ -326,12 +326,18 @@ const roteiroConversa = [
         imagem: "mascote.png", 
         posicao: "centro",
         acao: () => {
-            // 1. Desce suavemente até aos destaques para o cliente ver os produtos
+            // 1. Guarda a posição exata onde a tela estava antes de descer
+            const posicaoOriginal = window.scrollY;
+
+            // 2. Desce suavemente até aos destaques para o cliente ver os produtos
             document.querySelector('#destaques').scrollIntoView({ behavior: 'smooth' });
 
-            // 2. Aguarda 4 segundos (tempo para o cliente olhar os produtos) e volta suavemente para o mascote
+            // 3. Aguarda 4 segundos e retorna exatamente para onde o utilizador estava
             setTimeout(() => {
-                document.querySelector('#conversa-mascote').scrollIntoView({ behavior: 'smooth' });
+                window.scrollTo({
+                    top: posicaoOriginal,
+                    behavior: 'smooth'
+                });
             }, 4000);
         }
     },
