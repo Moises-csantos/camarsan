@@ -338,7 +338,7 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 4000);
+            }, 3000);
         }
     },
     {
