@@ -2439,3 +2439,69 @@ body.pagina-como-funciona,
         display: block;
     }
 }
+@media (max-width: 700px) {
+    /* ... (mantenha as outras regras de navegação/hero acima) ... */
+
+    /* Carrossel e Grelha compacta para Destaques e Catálogo em Telemóveis */
+    .produtos-destaque,
+    .produtos-grid {
+        display: flex !important;
+        overflow-x: auto !important;
+        gap: 12px !important;
+        padding: 10px 5px 20px 5px !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        align-items: flex-start !important;
+    }
+
+    .produtos-destaque .produto-card,
+    .produtos-grid .produto-card {
+        flex: 0 0 calc(50% - 6px) !important;
+        min-width: calc(50% - 6px) !important;
+        scroll-snap-align: start !important;
+        margin: 0 !important;
+        height: auto !important;
+        padding-bottom: 12px !important;
+    }
+
+    /* Textos compactos dos cartões */
+    .produtos-destaque .produto-card p,
+    .produtos-grid .produto-card p {
+        font-size: 0.78rem !important;
+        line-height: 1.3 !important;
+        margin-bottom: 8px !important;
+        padding: 0 8px !important;
+        flex-grow: 0 !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .produtos-destaque .produto-card h3,
+    .produtos-grid .produto-card h3 {
+        font-size: 0.95rem !important;
+        margin-top: 8px !important;
+        margin-bottom: 4px !important;
+        padding: 0 8px !important;
+    }
+
+    .produtos-destaque .produto-preco,
+    .produtos-grid .produto-preco {
+        font-size: 0.95rem !important;
+        margin-bottom: 10px !important;
+        padding: 0 8px !important;
+    }
+
+    .produtos-destaque .produto-card > a,
+    .produtos-grid .produto-card > a {
+        font-size: 0.8rem !important;
+        margin: 0 8px !important;
+        padding: 8px 10px !important;
+        text-align: center;
+        background-color: var(--bordo);
+        color: var(--branco);
+        border-radius: 8px;
+        display: block;
+    }
+}
