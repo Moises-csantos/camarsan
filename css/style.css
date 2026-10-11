@@ -655,7 +655,50 @@ nav ul a.ativo {
 #como-funciona p {
     color: #cccccc;
 }
+/* =========================================================
+   ESTILO DA PÁGINA "COMO FUNCIONA" (PADRÃO IDÊNTICO À INDEX)
+   ========================================================= */
 
+body.pagina-como-funciona {
+    background: linear-gradient(120deg, var(--grafite), var(--bordo-escuro)) !important;
+    color: var(--branco) !important;
+    min-height: 100vh;
+}
+
+.como-funciona-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    text-align: center;
+    background: transparent !important; /* Garante que o fundo vazado mostre o degradê do body */
+    color: var(--branco) !important;
+}
+
+.como-funciona-container .subtitulo-topo {
+    color: var(--dourado-claro) !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.como-funciona-container h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--branco) !important;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.como-funciona-container .subtitulo-intro {
+    font-size: 1.1rem;
+    color: #eeeeee !important;
+    margin-bottom: 50px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 /* =========================================================
    8. RECEBIMENTO
