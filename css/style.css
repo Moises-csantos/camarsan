@@ -467,21 +467,24 @@ nav ul a.ativo {
     transform: translateY(-8px);
 }
 
-.produto-card > img,
-.produto-card-img {
-    width: 100% !important;
-    aspect-ratio: 1 / 1 !important;
-    overflow: hidden !important;
-    background: #f9f9f9 !important;
-}
-
+/* Altura rigorosamente fixa e igual para todas as imagens dos cartões */
+.produtos-grid .produto-card img,
+.produtos-destaque .produto-card img,
 .produto-card > img,
 .produto-card-img img {
     width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important; /* Mostra a imagem inteira sem cortes e sem distorcer */
+    height: 190px !important;
+    max-height: 190px !important;
+    object-fit: contain !important;
+    background: #f9f9f9 !important;
 }
 
+.produto-card-img {
+    width: 100% !important;
+    height: 190px !important;
+    overflow: hidden !important;
+    background: #f9f9f9 !important;
+}
 
 /* Corpo do Card (Textos e Botões) */
 .produto-card-body {
