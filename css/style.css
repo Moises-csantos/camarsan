@@ -150,109 +150,82 @@ nav ul a.ativo {
 }
 
 /* =========================================================
-   3. HERO
+   BLOCO UNIFICADO (HERO + CONVERSA COM O MASCOTE)
    ========================================================= */
+
+#hero, 
+#conversa-mascote {
+    background: linear-gradient(120deg, var(--grafite), var(--bordo-escuro));
+    color: var(--branco);
+    width: 100%;
+}
 
 #hero {
     min-height: 85vh;
-
-    background:
-        linear-gradient(120deg,
-            var(--grafite),
-            var(--bordo-escuro));
-
-    color: var(--branco);
-
     display: flex;
-
     align-items: center;
     justify-content: space-between;
-
     gap: 50px;
-
     padding-top: 60px;
-    padding-bottom: 60px;
+    padding-bottom: 40px; /* Reduzido ligeiramente para fluir melhor para o mascote */
 }
 
+#conversa-mascote {
+    padding: 20px 5% 50px 5%; /* Ajustado para eliminar o corte seco entre as secções */
+    overflow: hidden;
+}
 
 .hero-conteudo {
     max-width: 650px;
 }
 
-
 .hero-conteudo>p:first-child {
     color: var(--dourado-claro);
-
     text-transform: uppercase;
-
     letter-spacing: 2px;
-
     font-size: 0.9rem;
-
     margin-bottom: 15px;
 }
 
-
 .hero-conteudo h1 {
     font-size: clamp(2.5rem, 6vw, 5rem);
-
     margin-bottom: 25px;
 }
 
-
 .hero-conteudo p {
     max-width: 600px;
-
     color: #eeeeee;
-
     margin-bottom: 30px;
 }
 
-
 .hero-conteudo a {
     display: inline-block;
-
     background-color: var(--dourado);
-
     color: var(--grafite);
-
     padding: 14px 28px;
-
     border-radius: 30px;
-
     font-weight: bold;
-
     transition: var(--transicao);
 }
 
-
 .hero-conteudo a:hover {
     background-color: var(--dourado-claro);
-
     transform: translateY(-3px);
-
     box-shadow: var(--sombra);
 }
 
-
 /* Mascote */
-
 .hero-mascote {
     width: 350px;
-
     display: flex;
     justify-content: center;
 }
 
-
 .hero-mascote img {
     max-height: 500px;
-
     object-fit: contain;
-
     filter: drop-shadow(0 15px 20px rgba(0, 0, 0, 0.35));
 }
-
 
 /* =========================================================
    4. SOBRE
@@ -1839,16 +1812,16 @@ body.pagina-como-funciona,
 #lista-depoimentos-publicos {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    gap: 20px;
     max-width: 1200px;
-    margin: 0 auto 50px auto;
+    margin: 0 auto 40px auto;
     text-align: left;
 }
 
 .card-depoimento-publico {
     background: var(--branco);
-    padding: 25px;
-    border-radius: 15px;
+    padding: 20px;
+    border-radius: 12px;
     border: 1px solid var(--cinza-claro);
     box-shadow: var(--sombra);
     display: flex;
@@ -1858,15 +1831,33 @@ body.pagina-como-funciona,
 }
 
 .card-depoimento-publico:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
 }
 
-.card-depoimento-publico p {
+/* Estilo para o texto limitado a 4 linhas por defeito */
+.texto-depoimento-limitado {
     color: var(--cinza);
     font-style: italic;
-    font-size: 0.95rem;
-    margin-bottom: 15px;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Botão subtil Ver mais / Ver menos */
+.btn-expandir-depo {
+    background: none;
+    border: none;
+    color: var(--dourado-escuro);
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 8px;
+    text-decoration: underline;
 }
 
 .container-form-depoimento {
