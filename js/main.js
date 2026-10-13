@@ -1,12 +1,3 @@
-// =====================================================
-// CAMARSAN - JAVASCRIPT PRINCIPAL
-// Arquivo responsável pelos comportamentos da página inicial
-// =====================================================
-
-
-// -----------------------------------------------------
-// CONFIGURAÇÕES
-// -----------------------------------------------------
 
 const CONFIG = {
     // Endereço da API da CamarSan
@@ -38,6 +29,7 @@ function inicializarSite() {
     inicializarDepoimentos();      // <--- Carrega os depoimentos
     inicializarEnvioDepoimento();  // <--- Processa o formulário
     inicializarCarrosselDiferenciais(); // <--- CHAMADA OBRIGATÓRIA DA FUNÇÃO
+    inicializarToggleDepoimento(); // <--- Adicionar esta linha
 }
 
 // A função fica fora (separada), logo abaixo:
@@ -338,7 +330,7 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 3000);
+            }, 4000);
         }
     },
     {
@@ -444,4 +436,24 @@ function avancarConversa() {
         cenaAtual = 0; // Reseta para o início se clicar de novo
     }
 }
+// -----------------------------------------------------
+// TOGGLE DO FORMULÁRIO DE DEPOIMENTO
+// -----------------------------------------------------
 
+function inicializarToggleDepoimento() {
+    const btnToggle = document.querySelector("#btn-toggle-depoimento");
+    const wrapperForm = document.querySelector("#wrapper-form-depoimento");
+
+    if (!btnToggle || !wrapperForm) return;
+
+    btnToggle.addEventListener("click", () => {
+        if (wrapperForm.style.display === "none" || wrapperForm.style.display === "") {
+            wrapperForm.style.display = "block";
+            btnToggle.textContent = "Esconder formulário";
+            wrapperForm.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            wrapperForm.style.display = "none";
+            btnToggle.textContent = "Deixe o seu depoimento";
+        }
+    });
+}
