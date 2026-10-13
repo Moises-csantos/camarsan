@@ -1,493 +1,2506 @@
 
-const CONFIG = {
-    // Endereço da API da CamarSan
-    API_URL: "https://aliancascamarsan1993.pythonanywhere.com",
+:root {
+    --dourado: #c9a227;
+    --dourado-claro: #e5c45a;
+    --dourado-escuro: #8f7016;
 
-    // Nome da aplicação
-    APP_NAME: "CamarSan"
-};
+    --bordo: #6d111d;
+    --bordo-escuro: #430b12;
 
+    --grafite: #1d1d1d;
+    --grafite-claro: #2c2c2c;
 
-// -----------------------------------------------------
-// INICIALIZAÇÃO
-// -----------------------------------------------------
+    --creme: #f7f3ea;
+    --branco: #ffffff;
 
-document.addEventListener("DOMContentLoaded", () => {
-    inicializarSite();
-});
-// -----------------------------------------------------
-// INICIALIZAÇÃO DO SITE
-// -----------------------------------------------------
+    --cinza: #666666;
+    --cinza-claro: #eeeeee;
 
-function inicializarSite() {
-    console.log(`${CONFIG.APP_NAME} iniciado.`);
+    --sombra: 0 8px 25px rgba(0, 0, 0, 0.12);
 
-    inicializarMenu();
-    inicializarBotoes();
-    inicializarAno();
-    inicializarProdutosDestaque();
-    inicializarDepoimentos();      // <--- Carrega os depoimentos
-    inicializarEnvioDepoimento();  // <--- Processa o formulário
-    inicializarCarrosselDiferenciais(); // <--- CHAMADA OBRIGATÓRIA DA FUNÇÃO
-    inicializarToggleDepoimento(); // <--- Adicionar esta linha
-}
-
-// A função fica fora (separada), logo abaixo:
-function inicializarCarrosselDiferenciais() {
-    const container = document.querySelector("#carrossel-diferenciais");
-    const containerIndicadores = document.querySelector("#indicadores-diferenciais");
-
-    if (!container || !containerIndicadores) return;
-
-    const cards = container.querySelectorAll(".diferencial-card");
-    containerIndicadores.innerHTML = "";
-
-    // Cria uma bolinha para cada cartão
-    cards.forEach((_, index) => {
-        const ponto = document.createElement("div");
-        ponto.classList.add("indicador-ponto");
-        if (index === 0) ponto.classList.add("ativo");
-        containerIndicadores.appendChild(ponto);
-    });
-
-    const pontos = containerIndicadores.querySelectorAll(".indicador-ponto");
-
-    // Monitora o scroll horizontal para atualizar a bolinha ativa
-    container.addEventListener("scroll", () => {
-        const indexAtivo = Math.round(container.scrollLeft / container.clientWidth);
-
-        pontos.forEach((ponto, index) => {
-            if (index === indexAtivo) {
-                ponto.classList.add("ativo");
-            } else {
-                ponto.classList.remove("ativo");
-            }
-        });
-    });
-}
-// -----------------------------------------------------
-// MENU
-// -----------------------------------------------------
-
-function inicializarMenu() {
-    const menuButton = document.querySelector(".menu-toggle");
-    const menu = document.querySelector(".nav-menu");
-
-    if (!menuButton || !menu) {
-        return;
-    }
-
-    menuButton.addEventListener("click", () => {
-        menu.classList.toggle("ativo");
-    });
+    --transicao: 0.3s ease;
 }
 
 
-// -----------------------------------------------------
-// BOTÕES
-// -----------------------------------------------------
+/* Reset básico */
 
-function inicializarBotoes() {
-    const botoesWhatsApp = document.querySelectorAll(".btn-whatsapp");
-
-    botoesWhatsApp.forEach((botao) => {
-        botao.addEventListener("click", () => {
-            console.log("Botão WhatsApp acionado.");
-        });
-    });
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 
-// -----------------------------------------------------
-// ANO DO RODAPÉ
-// -----------------------------------------------------
+/* Rolagem suave */
 
-function inicializarAno() {
-    const elementoAno = document.querySelector("#ano-atual");
-
-    if (elementoAno) {
-        elementoAno.textContent = new Date().getFullYear();
-    }
+html {
+    scroll-behavior: smooth;
 }
 
 
-// -----------------------------------------------------
-// API - PRODUTOS EM DESTAQUE
-// -----------------------------------------------------
-
-async function inicializarProdutosDestaque() {
-
-    const container = document.querySelector("#produtos-destaque");
-
-    if (!container) {
-        console.warn("Container de produtos em destaque não encontrado.");
-        return;
-    }
-
-    try {
-
-        const resposta = await fetch(`${CONFIG.API_URL}/produtos`);
-
-        if (!resposta.ok) {
-            throw new Error(`Erro HTTP: ${resposta.status}`);
-        }
-
-        const produtos = await resposta.json();
-
-        container.innerHTML = "";
-
-        if (produtos.length === 0) {
-            container.innerHTML = "<p>Nenhuma aliança cadastrada no momento.</p>";
-            return;
-        }
-
-        // Pega os produtos (ou usa slice para mostrar por exemplo os 4 primeiros)
-        produtos.slice(0, 4).forEach(produto => {
-
-            const card = document.createElement("article");
-
-            card.classList.add("produto-card");
-
-            const fotoUrl = produto.imagens && produto.imagens.length > 0 ? produto.imagens[0] : '';
-
-            card.innerHTML = `
-                <img
-                  src="${fotoUrl}"
-                  alt="${produto.nome}"
-                >
-
-                <h3>${produto.nome}</h3>
-
-                <p>${produto.descricao || ''}</p>
-
-                <p class="produto-preco">R$ ${produto.preco.toFixed(2).replace(".", ",")}</p>
-
-                <a href="pages/produto.html?id=${produto.id}">
-                    Ver detalhes
-                </a>
-            `;
-
-            container.appendChild(card);
-        });
-
-        console.log(`${produtos.length} produtos carregados pela API.`);
-
-    } catch (erro) {
-
-        console.error("Erro ao carregar produtos:", erro);
-
-        container.innerHTML = `
-            <p>Não foi possível carregar os produtos.</p>
-        `;
-    }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--creme);
+    color: var(--grafite);
+    line-height: 1.6;
 }
 
 
-// -----------------------------------------------------
-// API - DEPOIMENTOS PÚBLICOS
-// -----------------------------------------------------
+/* Imagens */
 
-async function inicializarDepoimentos() {
-    const container = document.querySelector("#lista-depoimentos-publicos");
-
-    if (!container) {
-        return;
-    }
-
-    try {
-        const resposta = await fetch(`${CONFIG.API_URL}/depoimentos`);
-
-        if (!resposta.ok) {
-            throw new Error(`Erro HTTP: ${resposta.status}`);
-        }
-
-        const depoimentos = await resposta.json();
-        container.innerHTML = "";
-
-        if (depoimentos.length === 0) {
-            container.innerHTML = "<p>Ainda não há depoimentos publicados. Seja o primeiro a avaliar!</p>";
-            return;
-        }
-
-        // Substitua o loop do forEach na função inicializarDepoimentos por este:
-        depoimentos.forEach(d => {
-            const estrelasStr = "⭐".repeat(d.estrelas);
-
-            // Miniatura compacta da imagem do cliente (se houver)
-            const imagemHtml = d.foto_path ? `
-        <div style="flex-shrink: 0;">
-            <img src="${CONFIG.API_URL}/uploads/${d.foto_path}" alt="Foto do cliente" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
-        </div>
-    ` : '';
-
-            const card = document.createElement("div");
-            card.classList.add("card-depoimento-publico");
-
-            card.innerHTML = `
-        <div style="display: flex; gap: 15px; align-items: flex-start;">
-            ${imagemHtml}
-            <div style="flex-grow: 1; overflow: hidden;">
-                <div style="color: #f39c12; margin-bottom: 4px; font-size: 0.85rem;">${estrelasStr}</div>
-                <p class="texto-depoimento-limitado" style="color: var(--cinza); font-style: italic; font-size: 0.9rem; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; transition: max-height 0.3s ease;">
-                    "${d.mensagem}"
-                </p>
-                <button class="btn-expandir-depo" style="background: none; border: none; color: var(--dourado-escuro); font-weight: bold; font-size: 0.8rem; cursor: pointer; padding: 0; margin-bottom: 8px; text-decoration: underline;">
-                    Ver mais
-                </button>
-            </div>
-        </div>
-        <div style="margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 6px; display: flex; justify-content: space-between; align-items: center;">
-            <strong style="font-size: 0.85rem; color: #222;">${d.nome}</strong>
-            <small style="color: #777; font-size: 0.75rem;">${d.cidade}</small>
-        </div>
-    `;
-
-            // Adiciona o evento de clique para expandir/recolher o texto longo
-            const btnExpandir = card.querySelector(".btn-expandir-depo");
-            const pMensagem = card.querySelector(".texto-depoimento-limitado");
-
-            // Oculta o botão "Ver mais" se o texto for curto (não precisar de corte)
-            // Uma verificação simples baseada no tamanho do texto
-            if (d.mensagem.length < 120) {
-                btnExpandir.style.display = "none";
-            }
-
-            btnExpandir.addEventListener("click", () => {
-                if (pMensagem.style.webkitLineClamp === "unset") {
-                    pMensagem.style.webkitLineClamp = "4";
-                    pMensagem.style.display = "-webkit-box";
-                    btnExpandir.textContent = "Ver mais";
-                } else {
-                    pMensagem.style.webkitLineClamp = "unset";
-                    pMensagem.style.display = "block";
-                    btnExpandir.textContent = "Ver menos";
-                }
-            });
-
-            container.appendChild(card);
-        });
-
-        console.log(`${depoimentos.length} depoimentos carregados pela API.`);
-
-    } catch (erro) {
-        console.error("Erro ao carregar depoimentos:", erro);
-        container.innerHTML = "<p>Não foi possível carregar os depoimentos no momento.</p>";
-    }
+img {
+    max-width: 100%;
+    display: block;
 }
 
 
-// -----------------------------------------------------
-// API - ENVIO DE NOVO DEPOIMENTO
-// -----------------------------------------------------
+/* Links */
 
-function inicializarEnvioDepoimento() {
-    const form = document.querySelector("#form-enviar-depoimento");
-
-    if (!form) {
-        return;
-    }
-
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData();
-        formData.append('nome', document.querySelector("#depo-nome").value);
-        formData.append('cidade', document.querySelector("#depo-cidade").value);
-        formData.append('estrelas', document.querySelector("#depo-estrelas").value);
-        formData.append('mensagem', document.querySelector("#depo-mensagem").value);
-
-        const fotoInput = document.querySelector("#depo-foto");
-        if (fotoInput && fotoInput.files.length > 0) {
-            formData.append('foto', fotoInput.files[0]);
-        }
-
-        try {
-            const resposta = await fetch(`${CONFIG.API_URL}/depoimentos`, {
-                method: 'POST',
-                body: formData
-            });
-
-            if (resposta.ok) {
-                alert("Muito obrigado! O seu depoimento foi enviado com sucesso e será publicado após a nossa verificação.");
-                form.reset();
-            } else {
-                alert("Erro ao enviar o depoimento. Tente novamente.");
-            }
-        } catch (erro) {
-            console.error("Erro:", erro);
-            alert("Não foi possível conectar ao servidor para enviar o depoimento.");
-        }
-    });
-}
-// =====================================================
-// LÓGICA DA CONVERSA INTERATIVA COM O MOISES
-// =====================================================
-
-// 1. Definição do Roteiro (Cenas, Falas, Imagens e Posições)
-const roteiroConversa = [
-    {
-        // Cena 0: Início (Estado inicial definido no HTML)
-        fala: "Olá! Sou o Moises, o artesão da CamarSan. Clique em mim para começarmos a nossa conversa e conhecer as nossas alianças.",
-        botao: "Vamos lá!",
-        imagem: "mascote-ola.png", // Imagem padrão
-        posicao: "centro" // left: 0
-    },
-    {
-        // Cena 1: Sobre
-        fala: "Na CamarSan, nós não fazemos apenas alianças. Nós transformamos moedas antigas em joias artesanais que carregam histórias e perpetuam gerações. Incrível, não é?",
-        botao: "Como funciona?",
-        imagem: "mascote-explicando.png", // Carregue esta imagem
-        posicao: "direita" // Ex: move para a direita (left: 50px)
-    },
-    {
-        // Cena 2: Como Funciona
-        fala: "É simples! Você escolhe o modelo no nosso catálogo, combinamos todos os detalhes e medidas pelo WhatsApp, e eu forjo a sua peça à mão. Quer ver alguns modelos?",
-        botao: "Quero ver os destaques!",
-        imagem: "mascote-duvida.png", // Carregue esta imagem (talvez apontando)
-        posicao: "esquerda" // Ex: move para a esquerda (left: -50px)
-    },
-    {
-        fala: "Estes são os nossos modelos mais queridos. Passe para o lado para ver! Gostou de algum?",
-        botao: "Sim! Como recebo?",
-        imagem: "mascote.png",
-        posicao: "centro",
-        acao: () => {
-            // 1. Guarda a posição exata onde a tela estava antes de descer
-            const posicaoOriginal = window.scrollY;
-
-            // 2. Desce suavemente até aos destaques para o cliente ver os produtos
-            document.querySelector('#destaques').scrollIntoView({ behavior: 'smooth' });
-
-            // 3. Aguarda 4 segundos e retorna exatamente para onde o utilizador estava
-            setTimeout(() => {
-                window.scrollTo({
-                    top: posicaoOriginal,
-                    behavior: 'smooth'
-                });
-            }, 4000);
-        }
-    },
-    {
-        // Cena 4: Recebimento / WhatsApp
-        fala: "Nós enviamos para todo o Brasil via Correios, entregamos por motoboy na região ou você pode retirar presencialmente. Se tiver qualquer dúvida sobre medidas ou modelos, é só me chamar no WhatsApp aqui embaixo. Até breve!",
-        botao: "Entendi, obrigado!",
-        imagem: "mascote-tchau.png", // Carregue esta imagem (acenando)
-        posicao: "centro",
-        final: true // Indica o fim da conversa
-    }
-];
-
-// 2. Variáveis de Estado
-let cenaAtual = 0;
-const caminhoImagens = "assets/mascote/"; // Pasta onde estão as novas imagens
-
-// 3. Elementos do DOM
-const areaMascote = document.getElementById('area-mascote');
-const imgMascote = document.getElementById('img-mascote');
-const balaoFala = document.getElementById('balao-fala-moises');
-const textoFala = document.getElementById('texto-fala');
-const btnProxima = document.getElementById('btn-proxima-fala');
-
-// 4. Função para Atualizar a Cena
-function atualizarCena() {
-    const dadosCena = roteiroConversa[cenaAtual];
-
-    // Oculta o balão temporariamente para o efeito de "pop"
-    balaoFala.classList.remove('visivel');
-
-    // Pequeno delay para a troca de imagem e movimento
-    setTimeout(() => {
-        // A) Mudar a Imagem do Mascote (com troca suave)
-        imgMascote.style.opacity = 0;
-        setTimeout(() => {
-            imgMascote.src = caminhoImagens + dadosCena.imagem;
-            imgMascote.alt = "Moises explicando: " + dadosCena.fala.substring(0, 30) + "...";
-            imgMascote.style.opacity = 1;
-        }, 150);
-
-        // B) Mudar a Posição/Movimento do Mascote
-        switch (dadosCena.posicao) {
-            case "direita":
-                areaMascote.style.left = "50px";
-                break;
-            case "esquerda":
-                areaMascote.style.left = "-50px";
-                break;
-            default: // centro
-                areaMascote.style.left = "0";
-        }
-
-        // C) Mudar o Texto e o Botão do Balão
-        textoFala.textContent = dadosCena.fala;
-        btnProxima.textContent = dadosCena.botao;
-
-        // D) Executar ação especial da cena se houver (ex: scroll)
-        if (dadosCena.acao) {
-            dadosCena.acao();
-        }
-
-        // E) Controlar o botão se for a cena final
-        if (dadosCena.final) {
-            btnProxima.style.display = 'none'; // Oculta o botão no fim
-            // Opcional: focar no botão do WhatsApp global da página
-            // document.querySelector('#botao-whatsapp').classList.add('destaque-piscar');
-        } else {
-            btnProxima.style.display = 'inline-block';
-        }
-
-        // F) Mostrar o balão novamente com o efeito
-        balaoFala.classList.add('visivel');
-
-    }, 300); // Tempo do delay total
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
-// 5. Event Listeners (Cliques)
 
-// Clique no Mascote (Área completa)
-areaMascote.addEventListener('click', () => {
-    // Se já estiver visível e não for o fim, avança. Se estiver oculto, mostra.
-    if (balaoFala.classList.contains('visivel')) {
-        avancarConversa();
-    } else {
-        balaoFala.classList.add('visivel');
+/* Títulos */
+
+h1,
+h2,
+h3 {
+    line-height: 1.2;
+}
+
+
+/* Container padrão */
+
+section {
+    width: 100%;
+    padding: 80px 8%;
+}
+/* =========================================================
+   2. CABEÇALHO
+   ========================================================= */
+
+header {
+    background-color: var(--grafite);
+    color: var(--branco);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    padding: 6px 4%; /* Altura mínima para ocupar o menor espaço possível */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Logo super enxuta */
+nav > a:first-child img {
+    width: 100px; /* Reduzida para ocupar pouco espaço vertical */
+    height: auto;
+    display: block;
+}
+
+/* Menu de Navegação horizontal */
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+nav ul a {
+    color: var(--branco);
+    font-size: 0.85rem;
+    transition: var(--transicao);
+}
+
+nav ul a:hover,
+nav ul a.ativo {
+    color: var(--dourado-claro);
+}
+
+/* Ações do Cliente (Carrinho / Conta) compactas */
+.menu-acoes-cliente {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-acoes-cliente a {
+    border: 1px solid var(--dourado);
+    padding: 4px 10px;
+    border-radius: 15px;
+    color: var(--dourado-claro);
+    font-size: 0.8rem;
+    transition: var(--transicao);
+    white-space: nowrap;
+}
+
+.menu-acoes-cliente a:hover {
+    background-color: var(--dourado);
+    color: var(--grafite);
+}
+
+/* =========================================================
+   3. HERO
+   ========================================================= */
+
+#hero {
+    min-height: 85vh;
+
+    background:
+        linear-gradient(120deg,
+            var(--grafite),
+            var(--bordo-escuro));
+
+    color: var(--branco);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 50px;
+
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+
+.hero-conteudo {
+    max-width: 650px;
+}
+
+
+.hero-conteudo>p:first-child {
+    color: var(--dourado-claro);
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    font-size: 0.9rem;
+
+    margin-bottom: 15px;
+}
+
+
+.hero-conteudo h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+
+    margin-bottom: 25px;
+}
+
+
+.hero-conteudo p {
+    max-width: 600px;
+
+    color: #eeeeee;
+
+    margin-bottom: 30px;
+}
+
+
+.hero-conteudo a {
+    display: inline-block;
+
+    background-color: var(--dourado);
+
+    color: var(--grafite);
+
+    padding: 14px 28px;
+
+    border-radius: 30px;
+
+    font-weight: bold;
+
+    transition: var(--transicao);
+}
+
+
+.hero-conteudo a:hover {
+    background-color: var(--dourado-claro);
+
+    transform: translateY(-3px);
+
+    box-shadow: var(--sombra);
+}
+
+
+/* Mascote */
+
+.hero-mascote {
+    width: 350px;
+
+    display: flex;
+    justify-content: center;
+}
+
+
+.hero-mascote img {
+    max-height: 500px;
+
+    object-fit: contain;
+
+    filter: drop-shadow(0 15px 20px rgba(0, 0, 0, 0.35));
+}
+
+
+/* =========================================================
+   4. SOBRE
+   ========================================================= */
+
+#sobre {
+    background-color: var(--branco);
+
+    text-align: center;
+}
+
+
+#sobre>div {
+    max-width: 900px;
+
+    margin: auto;
+}
+
+
+#sobre p:first-child {
+    color: var(--dourado-escuro);
+
+    text-transform: uppercase;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+
+#sobre h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+
+    margin: 15px 0 25px;
+}
+
+
+#sobre p {
+    color: var(--cinza);
+
+    max-width: 700px;
+
+    margin: 0 auto 25px;
+}
+
+
+#sobre a {
+    display: inline-block;
+
+    color: var(--bordo);
+
+    border-bottom: 2px solid var(--dourado);
+
+    padding-bottom: 5px;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   5. DIFERENCIAIS
+   ========================================================= */
+
+#diferenciais {
+    background-color: var(--creme);
+
+    text-align: center;
+}
+
+
+#diferenciais h2 {
+    font-size: 2.5rem;
+
+    margin-bottom: 45px;
+}
+
+
+.diferenciais-container {
+    max-width: 1100px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 30px;
+}
+
+
+.diferenciais-container article {
+    background-color: var(--branco);
+
+    padding: 35px 25px;
+
+    border-radius: 15px;
+
+    box-shadow: var(--sombra);
+
+    transition: var(--transicao);
+}
+
+
+.diferenciais-container article:hover {
+    transform: translateY(-8px);
+}
+
+
+.diferenciais-container h3 {
+    color: var(--bordo);
+
+    font-size: 1.4rem;
+
+    margin-bottom: 15px;
+}
+
+
+.diferenciais-container p {
+    color: var(--cinza);
+}
+
+
+/* =========================================================
+   6. PRODUTOS EM DESTAQUE E CATÁLOGO (UNIFICADO)
+   ========================================================= */
+
+#destaques {
+    background-color: var(--branco);
+
+    text-align: center;
+}
+
+
+#destaques>p {
+    color: var(--dourado-escuro);
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    font-weight: bold;
+}
+
+
+#destaques h2 {
+    font-size: 2.8rem;
+
+    margin: 10px 0 45px;
+}
+
+.secao-catalogo {
+    background-color: var(--branco);
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.catalogo-cabecalho-texto {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.subtitulo-colecao {
+    color: var(--dourado, #c5a059);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+}
+
+.carregando-texto {
+    text-align: center;
+    grid-column: 1 / -1;
+    color: var(--cinza, #666);
+}
+/* =========================================================
+   CARROSSEL HORIZONTAL DOS PRODUTOS EM DESTAQUE
+   ========================================================= */
+
+/* Oculta a barra de rolagem visual mantendo o gesto de deslizar */
+.produtos-destaque::-webkit-scrollbar {
+    display: none;
+}
+.produtos-destaque {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.produtos-destaque,
+.produtos-grid {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+
+.produto-card {
+    background-color: var(--branco);
+    border: 1px solid var(--cinza-claro);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transicao);
+}
+
+
+.produto-card:hover {
+    transform: translateY(-8px);
+}
+
+/* Altura rigorosamente fixa e igual para todas as imagens dos cartões */
+.produtos-grid .produto-card img,
+.produtos-destaque .produto-card img,
+.produto-card > img,
+.produto-card-img img {
+    width: 100% !important;
+    height: 190px !important;
+    max-height: 190px !important;
+    object-fit: contain !important;
+    background: #f9f9f9 !important;
+}
+
+.produto-card-img {
+    width: 100% !important;
+    height: 190px !important;
+    overflow: hidden !important;
+    background: #f9f9f9 !important;
+}
+
+/* Corpo do Card (Textos e Botões) */
+.produto-card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.produto-card h3,
+.produto-card-body h3 {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: var(--bordo);
+    font-size: 1.2rem;
+}
+
+
+.produto-card p,
+.produto-card-body p {
+    color: var(--cinza);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+
+.produto-preco {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--dourado-escuro);
+    margin-bottom: 15px;
+}
+
+.produto-botoes {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.btn-detalhes {
+    flex: 1;
+    text-align: center;
+    background-color: var(--grafite);
+    color: var(--branco);
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transicao);
+}
+
+.btn-detalhes:hover {
+    background-color: var(--bordo);
+}
+
+.btn-add-carrinho {
+    flex: 1;
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transicao);
+}
+
+.btn-add-carrinho:hover {
+    background-color: var(--dourado-claro);
+}
+
+
+/* Links antigos de texto nos cards estáticos */
+.produto-card > a:not(.btn-detalhes) {
+    display: inline-block;
+    margin: 0 20px 20px 20px;
+    color: var(--dourado-escuro);
+    font-weight: bold;
+}
+
+#destaques>a:last-child {
+    display: inline-block;
+
+    margin-top: 40px;
+
+    padding: 13px 25px;
+
+    background-color: var(--bordo);
+
+    color: var(--branco);
+
+    border-radius: 25px;
+
+    transition: var(--transicao);
+}
+
+
+#destaques>a:last-child:hover {
+    background-color: var(--bordo-escuro);
+}
+
+
+/* =========================================================
+   7. COMO FUNCIONA
+   ========================================================= */
+
+#como-funciona {
+    background-color: var(--grafite);
+
+    color: var(--branco);
+
+    text-align: center;
+}
+
+
+#como-funciona h2 {
+    font-size: 2.8rem;
+
+    margin-bottom: 45px;
+}
+
+
+#como-funciona>div {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 25px;
+}
+
+
+#como-funciona article {
+    padding: 25px;
+}
+
+
+#como-funciona span {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 55px;
+    height: 55px;
+
+    border: 2px solid var(--dourado);
+
+    border-radius: 50%;
+
+    color: var(--dourado-claro);
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+
+#como-funciona h3 {
+    margin-bottom: 12px;
+}
+
+
+#como-funciona p {
+    color: #cccccc;
+}
+/* =========================================================
+   ESTILO DA PÁGINA "COMO FUNCIONA" (PADRÃO IDÊNTICO À INDEX)
+   ========================================================= */
+
+body.pagina-como-funciona {
+    background: linear-gradient(120deg, var(--grafite), var(--bordo-escuro)) !important;
+    color: var(--branco) !important;
+    min-height: 100vh;
+}
+
+.como-funciona-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    text-align: center;
+    background: transparent !important; /* Garante que o fundo vazado mostre o degradê do body */
+    color: var(--branco) !important;
+}
+
+.como-funciona-container .subtitulo-topo {
+    color: var(--dourado-claro) !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.como-funciona-container h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--branco) !important;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.como-funciona-container .subtitulo-intro {
+    font-size: 1.1rem;
+    color: #eeeeee !important;
+    margin-bottom: 50px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* =========================================================
+   8. RECEBIMENTO
+   ========================================================= */
+
+#recebimento {
+    background-color: var(--creme);
+
+    text-align: center;
+}
+
+
+#recebimento>p {
+    color: var(--dourado-escuro);
+
+    text-transform: uppercase;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+
+#recebimento h2 {
+    font-size: 2.8rem;
+
+    margin: 10px 0 45px;
+}
+
+
+.opcoes-recebimento {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 25px;
+}
+
+
+.opcoes-recebimento article {
+    background-color: var(--branco);
+
+    padding: 30px 20px;
+
+    border-radius: 15px;
+
+    box-shadow: var(--sombra);
+}
+
+
+.opcoes-recebimento h3 {
+    color: var(--bordo);
+
+    margin-bottom: 15px;
+}
+
+
+.opcoes-recebimento p {
+    color: var(--cinza);
+}
+
+
+.opcoes-recebimento a {
+    display: inline-block;
+
+    margin-top: 15px;
+
+    color: var(--dourado-escuro);
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   9. EVENTOS
+   ========================================================= */
+
+#eventos {
+    background-color: var(--branco);
+
+    text-align: center;
+}
+
+
+#eventos>p {
+    color: var(--dourado-escuro);
+
+    text-transform: uppercase;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+
+#eventos h2 {
+    font-size: 2.8rem;
+
+    margin: 10px 0 40px;
+}
+
+
+.eventos-container {
+    max-width: 800px;
+
+    margin: auto;
+}
+
+
+.eventos-container article {
+    padding: 40px;
+
+    border: 1px solid var(--cinza-claro);
+
+    border-radius: 15px;
+}
+
+
+.eventos-container h3 {
+    color: var(--bordo);
+
+    margin-bottom: 10px;
+}
+
+
+.eventos-container p {
+    color: var(--cinza);
+}
+
+
+/* =========================================================
+   10. DEPOIMENTOS
+   ========================================================= */
+
+#depoimentos {
+    background-color: var(--creme);
+
+    text-align: center;
+}
+
+
+#depoimentos>p {
+    color: var(--dourado-escuro);
+
+    text-transform: uppercase;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+
+#depoimentos h2 {
+    font-size: 2.8rem;
+
+    margin: 10px 0 40px;
+}
+
+
+.depoimentos-container {
+    max-width: 750px;
+
+    margin: auto;
+}
+
+
+.depoimentos-container article {
+    background-color: var(--branco);
+
+    padding: 35px;
+
+    border-radius: 15px;
+
+    box-shadow: var(--sombra);
+}
+
+
+.depoimentos-container div {
+    color: var(--dourado);
+
+    font-size: 1.4rem;
+
+    margin-bottom: 15px;
+}
+
+
+.depoimentos-container p {
+    color: var(--cinza);
+
+    font-style: italic;
+
+    margin-bottom: 15px;
+}
+
+
+.depoimentos-container span {
+    font-weight: bold;
+
+    color: var(--bordo);
+}
+
+
+#depoimentos>a {
+    display: inline-block;
+
+    margin-top: 30px;
+
+    color: var(--bordo);
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   11. REDES SOCIAIS
+   ========================================================= */
+
+#redes-sociais {
+    background-color: var(--grafite);
+
+    color: var(--branco);
+
+    text-align: center;
+}
+
+
+#redes-sociais h2 {
+    font-size: 2.5rem;
+
+    margin-bottom: 15px;
+}
+
+
+#redes-sociais p {
+    color: #cccccc;
+
+    margin-bottom: 25px;
+}
+
+
+#redes-sociais a {
+    display: inline-block;
+
+    padding: 12px 25px;
+
+    border: 1px solid var(--dourado);
+
+    color: var(--dourado-claro);
+
+    border-radius: 25px;
+
+    transition: var(--transicao);
+}
+
+
+#redes-sociais a:hover {
+    background-color: var(--dourado);
+
+    color: var(--grafite);
+}
+
+
+/* =========================================================
+   12. CONTATO
+   ========================================================= */
+
+#contato {
+    background:
+        linear-gradient(135deg,
+            var(--bordo),
+            var(--bordo-escuro));
+
+    color: var(--branco);
+
+    text-align: center;
+}
+
+
+#contato h2 {
+    font-size: 3rem;
+
+    margin-bottom: 15px;
+}
+
+
+#contato p {
+    color: #eeeeee;
+
+    margin-bottom: 30px;
+}
+
+
+#botao-whatsapp {
+    display: inline-block;
+
+    background-color: var(--dourado);
+
+    color: var(--grafite);
+
+    padding: 15px 30px;
+
+    border-radius: 30px;
+
+    font-weight: bold;
+
+    transition: var(--transicao);
+}
+
+
+#botao-whatsapp:hover {
+    background-color: var(--dourado-claro);
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   13. RODAPÉ
+   ========================================================= */
+
+footer {
+    background-color: #111111;
+
+    color: var(--branco);
+
+    padding: 60px 8% 30px;
+
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr 1fr 1fr;
+
+    gap: 40px;
+}
+
+
+footer h2 {
+    color: var(--dourado);
+
+    margin-bottom: 10px;
+}
+
+
+footer h3 {
+    color: var(--dourado-claro);
+
+    margin-bottom: 15px;
+}
+
+
+footer p {
+    color: #aaaaaa;
+
+    margin-bottom: 8px;
+}
+
+
+footer a {
+    display: block;
+
+    color: #cccccc;
+
+    margin-bottom: 8px;
+
+    transition: var(--transicao);
+}
+
+
+footer a:hover {
+    color: var(--dourado-claro);
+}
+
+
+/* =========================================================
+   GALERIA DO PRODUTO
+   ========================================================= */
+
+.produto-galeria {
+    width: 100%;
+}
+
+
+.produto-imagem-principal-container {
+    width: 100%;
+    background-color: var(--branco);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+}
+
+
+.produto-imagem-principal {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    padding: 20px;
+}
+
+
+.produto-miniaturas {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+
+.miniatura {
+    width: 80px;
+    height: 80px;
+
+    padding: 0;
+
+    border: 2px solid transparent;
+    border-radius: 10px;
+
+    background-color: var(--branco);
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition: var(--transicao);
+}
+
+
+.miniatura img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+.miniatura:hover {
+    transform: translateY(-3px);
+}
+
+
+.miniatura.ativa {
+    border-color: var(--dourado);
+}
+
+
+/* =========================================================
+   15. PAINEL ADMINISTRATIVO (LOGIN E GESTÃO)
+   ========================================================= */
+
+.container-admin {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, var(--grafite), var(--bordo-escuro));
+}
+
+#secao-login, 
+#secao-painel {
+    background-color: var(--branco);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: var(--sombra);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+#secao-login h2, 
+#secao-painel h2 {
+    color: var(--bordo);
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+#secao-painel h3 {
+    color: var(--dourado-escuro);
+    font-size: 1.3rem;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+#secao-painel p {
+    color: var(--cinza);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Formulários do Painel e Login */
+#form-login input,
+#form-produto input,
+#form-produto textarea {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1px solid var(--cinza-claro);
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--creme);
+    color: var(--grafite);
+    outline: none;
+    transition: var(--transicao);
+}
+
+#form-produto textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+#form-login input:focus,
+#form-produto input:focus,
+#form-produto textarea:focus {
+    border-color: var(--dourado);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+}
+
+/* Botões do Painel */
+#form-login button,
+#form-produto button {
+    width: 100%;
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+#form-login button:hover,
+#form-produto button:hover {
+    background-color: var(--dourado-claro);
+    transform: translateY(-2px);
+}
+
+#btn-sair {
+    width: 100%;
+    background-color: transparent;
+    color: var(--bordo);
+    border: 1px solid var(--bordo);
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+#btn-sair:hover {
+    background-color: var(--bordo);
+    color: var(--branco);
+}
+
+/* Links de navegação interna do painel */
+#secao-login p {
+    margin-top: 20px;
+}
+
+#secao-login p a {
+    color: var(--dourado-escuro);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+#secao-login p a:hover {
+    color: var(--bordo);
+    text-decoration: underline;
+}
+/* =========================================================
+   ESTILOS DO CARRINHO DE COMPRAS E RESPONSIVIDADE
+   ========================================================= */
+
+#carrinho-conteudo {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+#lista-carrinho {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Painel de Resumo Estilizado e Vibrante */
+.carrinho-painel {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid var(--cinza-claro, #e1e1e1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.carrinho-painel h3 {
+    color: var(--bordo);
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--dourado-escuro, #d4af37);
+    padding-bottom: 8px;
+}
+
+.resumo-linha {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    color: #444;
+    font-size: 1rem;
+}
+
+.resumo-total-linha {
+    font-size: 1.25rem;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+#resumo-total {
+    color: var(--dourado-escuro, #d4af37);
+    font-weight: bold;
+}
+
+/* Botão do WhatsApp Destacado */
+.btn-whatsapp {
+    width: 100%;
+    background-color: #25d366;
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.05rem;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1ebd56;
+    transform: translateY(-2px);
+}
+
+/* Botão Esvaziar Carrinho */
+.btn-limpar {
+    width: 100%;
+    background-color: transparent;
+    color: #888;
+    border: 1px solid #ccc;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.btn-limpar:hover {
+    background-color: #fff1f1;
+    color: #cc0000;
+    border-color: #cc0000;
+}
+
+.carrinho-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid var(--cinza-claro, #eee);
+    border-radius: 12px;
+    box-shadow: var(--sombra);
+}
+
+.carrinho-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.carrinho-item-info {
+    flex-grow: 1;
+}
+
+.carrinho-item-info h4 {
+    color: var(--bordo);
+    margin-bottom: 5px;
+}
+
+.carrinho-item-info p {
+    color: var(--dourado-escuro);
+    font-weight: bold;
+}
+
+.btn-remover {
+    background: transparent;
+    border: none;
+    color: #cc0000;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 8px;
+    transition: var(--transicao);
+}
+
+.btn-remover:hover {
+    opacity: 0.8;
+}
+
+.carrinho-vazio {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #e1e1e1;
+    grid-column: 1 / -1;
+}
+
+.carrinho-vazio p {
+    color: var(--cinza, #666);
+    margin-bottom: 15px;
+}
+/* =========================================================
+   AJUSTE PARA A PÁGINA DE DETALHES DO PRODUTO (EVITAR SOBREPOSIÇÃO)
+   ========================================================= */
+
+.produto-detalhe-container,
+#produto-container > div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 20px;
+}
+
+.produto-detalhe-info,
+.produto-detalhe-container p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+/* Garante que os botões de ação fiquem organizados e nunca por cima do texto */
+.produto-detalhe-botoes,
+.produto-botoes {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+}
+/* =========================================================
+   ESTILOS DA PÁGINA NOSSA HISTÓRIA (COM MÚLTIPLAS FOTOS)
+   ========================================================= */
+
+.secao-historia {
+    background-color: var(--branco);
+    padding: 60px 5%;
+    max-width: 1250px;
+    margin: 40px auto;
+    border-radius: 20px;
+    box-shadow: var(--sombra);
+}
+
+.historia-cabecalho {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.historia-cabecalho p {
+    color: var(--dourado-escuro);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.historia-cabecalho h1 {
+    color: var(--bordo);
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.historia-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.historia-conteudo-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+}
+
+.bloco-historia {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 25px;
+    align-items: center;
+    background: var(--creme);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid var(--cinza-claro);
+}
+
+.bloco-historia.reverso {
+    grid-template-columns: 0.8fr 1.2fr;
+}
+
+.bloco-historia.reverso .texto-bloco {
+    order: 2;
+}
+
+.bloco-historia.reverso .foto-bloco {
+    order: 1;
+}
+
+.texto-bloco p {
+    color: var(--cinza);
+    font-size: 1.02rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.citacao-historia {
+    border-left: 4px solid var(--dourado);
+    padding-left: 15px;
+    margin-top: 20px;
+    font-style: italic;
+    color: var(--bordo);
+    font-size: 1.05rem;
+    font-weight: bold;
+}
+
+.foto-bloco {
+    text-align: center;
+}
+
+.foto-bloco img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 8px;
+}
+
+.foto-bloco span {
+    font-size: 0.8rem;
+    color: var(--bordo);
+    font-weight: bold;
+    display: block;
+}
+
+.historia-lateral {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.card-imagem-historica {
+    background: var(--creme);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: var(--sombra);
+    border: 1px solid var(--cinza-claro);
+    width: 100%;
+}
+
+.card-imagem-historica img {
+    max-height: 320px;
+    margin: 0 auto 15px auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+}
+
+.legenda-foto {
+    font-size: 0.9rem;
+    color: var(--bordo);
+    font-weight: bold;
+    margin-top: 10px;
+}
+/* =========================================================
+   BOTÕES DE AÇÃO NA PÁGINA COMO FUNCIONA
+   ========================================================= */
+
+.botoes-acao-como-funciona {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.btn-secundario-catalogo {
+    display: inline-block;
+    background-color: transparent;
+    color: var(--dourado-claro);
+    border: 2px solid var(--dourado);
+    padding: 14px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: var(--transicao);
+    font-size: 1.05rem;
+    text-align: center;
+}
+
+.btn-secundario-catalogo:hover {
+    background-color: var(--dourado);
+    color: var(--grafite);
+    transform: translateY(-2px);
+}
+/* =========================================================
+   ESTILO DA PÁGINA "COMO FUNCIONA" (PASSO A PASSO)
+   ========================================================= */
+
+.como-funciona-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.como-funciona-container h1 {
+    font-size: 2.2rem;
+    color: var(--dourado-claro, #d4af37);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.como-funciona-container .subtitulo-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+/* Grelha ou Lista de Passos em Cartões */
+.passos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.passo-card {
+    background: #1a1a1a; /* Fundo escuro elegante combinando com o tema */
+    border: 1px solid rgba(212, 175, 55, 0.3); /* Linha subtil dourada */
+    border-radius: 12px;
+    padding: 25px 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.passo-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--dourado, #d4af37);
+}
+
+/* Número do Passo em destaque */
+.passo-numero {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--dourado, #d4af37);
+    background: rgba(212, 175, 55, 0.1);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+/* Conteúdo do Passo */
+.passo-conteudo h3 {
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.passo-conteudo p {
+    color: #bbb;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+/* =========================================================
+   ESTILO DA PÁGINA "COMO FUNCIONA" (PADRÃO IDÊNTICO À INDEX)
+   ========================================================= */
+
+/* Fundo geral da página igual ao Hero da Index (Grafite e Bordo) */
+body.pagina-como-funciona, 
+#como-funciona-pagina {
+    background: linear-gradient(120deg, var(--grafite), var(--bordo-escuro));
+    color: var(--branco);
+    min-height: 100vh;
+}
+
+.como-funciona-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    text-align: center; /* Centraliza todos os textos iniciais */
+}
+
+/* Subtítulo em cima do título principal (Dourado e em letras maiúsculas) */
+.como-funciona-container .subtitulo-topo {
+    color: var(--dourado-claro);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.como-funciona-container h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem); /* Tamanho responsivo igual ao título principal */
+    color: var(--branco);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.como-funciona-container .subtitulo-intro {
+    font-size: 1.1rem;
+    color: #eeeeee; /* Texto claro legível sobre o fundo escuro */
+    margin-bottom: 50px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Lista de Passos padronizada (Garante que o Passo 05 fique igual aos outros) */
+.passos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: left; /* Mantém o texto interno alinhado à esquerda para leitura confortável */
+}
+
+.passo-card {
+    background-color: rgba(255, 255, 255, 0.05); /* Fundo translúcido elegante sobre o bordô */
+    border: 1px solid rgba(201, 162, 39, 0.3); /* Borda dourada subtil */
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    transition: var(--transicao);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 100%; /* Força todos (incluindo o 5) a terem a mesma largura */
+}
+
+.passo-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--dourado);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Número do Passo */
+.passo-numero {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--dourado-claro);
+    background-color: rgba(201, 162, 39, 0.15);
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid var(--dourado);
+}
+
+/* Conteúdo do Passo */
+.passo-conteudo h3 {
+    font-size: 1.4rem;
+    color: var(--dourado-claro);
+    margin-bottom: 10px;
+}
+
+.passo-conteudo p {
+    color: #dddddd;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+/* =========================================================
+   16. SECÇÃO DE DEPOIMENTOS PÚBLICOS E FORMULÁRIO
+   ========================================================= */
+
+.secao-depoimentos-publicos {
+    background-color: var(--creme);
+    padding: 80px 8%;
+    text-align: center;
+}
+
+.secao-depoimentos-publicos h2 {
+    font-size: 2.8rem;
+    color: var(--grafite);
+    margin-bottom: 10px;
+}
+
+.secao-depoimentos-publicos > p {
+    color: var(--cinza);
+    margin-bottom: 40px;
+}
+
+#lista-depoimentos-publicos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto 40px auto;
+    text-align: left;
+}
+
+.card-depoimento-publico {
+    background: var(--branco);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--cinza-claro);
+    box-shadow: var(--sombra);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transicao);
+}
+
+.card-depoimento-publico:hover {
+    transform: translateY(-4px);
+}
+
+/* Estilo para o texto limitado a 4 linhas por defeito */
+.texto-depoimento-limitado {
+    color: var(--cinza);
+    font-style: italic;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Botão subtil Ver mais / Ver menos */
+.btn-expandir-depo {
+    background: none;
+    border: none;
+    color: var(--dourado-escuro);
+    font-weight: bold;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 8px;
+    text-decoration: underline;
+}
+
+.container-form-depoimento {
+    max-width: 650px;
+    margin: 0 auto;
+    background: var(--branco);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--sombra);
+    text-align: left;
+    border: 1px solid var(--cinza-claro);
+}
+
+.container-form-depoimento h3 {
+    color: var(--bordo);
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.form-grupo-depo {
+    margin-bottom: 20px;
+}
+
+.form-grupo-depo label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: var(--grafite);
+    font-weight: 500;
+}
+
+.form-grupo-depo input,
+.form-grupo-depo select,
+.form-grupo-depo textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--cinza-claro);
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--creme);
+    color: var(--grafite);
+    outline: none;
+    transition: var(--transicao);
+}
+
+.form-grupo-depo input:focus,
+.form-grupo-depo select:focus,
+.form-grupo-depo textarea:focus {
+    border-color: var(--dourado);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+}
+
+.btn-enviar-depoimento {
+    width: 100%;
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transicao);
+}
+
+.btn-enviar-depoimento:hover {
+    background-color: var(--dourado-claro);
+    transform: translateY(-2px);
+}
+/* =========================================================
+   ESTILOS ADICIONAIS DO PAINEL ADMIN - DEPOIMENTOS
+   ========================================================= */
+
+.admin-divisor {
+    margin: 40px 0;
+    border: 0;
+    border-top: 1px solid var(--cinza-claro);
+}
+
+.admin-lista-depoimentos {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-depoimento-card {
+    background-color: var(--branco);
+    padding: 15px;
+    border: 1px solid var(--cinza-claro);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.admin-depoimento-info p {
+    margin: 5px 0;
+    color: var(--cinza);
+    font-style: italic;
+}
+
+.admin-depoimento-acoes {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.btn-aprovar-admin {
+    background-color: #28a745;
+    color: var(--branco);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: var(--transicao);
+}
+
+.btn-aprovar-admin:hover {
+    background-color: #218838;
+}
+
+.btn-excluir-admin {
+    background-color: #d9534f;
+    color: var(--branco);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: var(--transicao);
+}
+
+.btn-excluir-admin:hover {
+    background-color: #c9302c;
+}
+
+.badge-status {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.badge-aprovado {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.badge-pendente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+/* =========================================================
+   CARROSSEL HORIZONTAL DE DIFERENCIAIS (MÓVEL)
+   ========================================================= */
+
+.diferenciais-wrapper-horizontal {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* Oculta a barra de rolagem mas permite o deslize suave */
+.diferenciais-container::-webkit-scrollbar {
+    display: none;
+}
+.diferenciais-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Bolinhas indicadoras (Dots) */
+.indicadores-diferenciais {
+    display: none; /* Por padrão oculto em computadores */
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.indicador-ponto {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+    transition: var(--transicao);
+    border: 1px solid var(--dourado-escuro);
+}
+
+.indicador-ponto.ativo {
+    background-color: var(--dourado);
+    transform: scale(1.25);
+    box-shadow: 0 0 10px var(--dourado-claro); /* Efeito brilhante */
+}
+/* =========================================================
+   CONVERSA COM O MASCOTE - ESTILOS
+   ========================================================= */
+
+#conversa-mascote {
+    background: linear-gradient(135deg, var(--grafite), var(--bordo-escuro));
+    color: var(--branco);
+    padding: 40px 5%;
+    width: 100%;
+    overflow: hidden; /* Evita rolagem horizontal indesejada */
+}
+
+.container-conversa {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.mascote-interativo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+/* O Mascote (Camada da Frente) */
+.mascote-click-area {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 2; /* Fica por cima do balão */
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent; /* Remove o quadro azul ao tocar no telemóvel */
+    outline: none;
+}
+
+.mascote-click-area:active {
+    transform: scale(0.96);
+}
+
+.mascote-click-area:focus {
+    outline: none;
+}
+
+.mascote-img {
+    max-height: 280px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.4));
+    -webkit-tap-highlight-color: transparent; /* Garante que a imagem também não fique azulada */
+}
+
+/* O Balão de Fala (Camada de Trás) */
+.balao-fala {
+    position: relative;
+    background-color: var(--branco);
+    color: var(--grafite);
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 1; /* Fica atrás do mascote */
+    margin-left: -35px; /* Puxa o balão para trás da imagem do mascote */
+    opacity: 0;
+    transform: translateX(10px) scale(0.95);
+    transition: all 0.3s ease;
+}
+
+.balao-fala.visivel {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
+/* Seta do balão a apontar para a esquerda (em direção ao mascote) */
+.balao-fala::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%; /* Coloca a seta no lado esquerdo do balão */
+    transform: translateY(-50%);
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent var(--branco) transparent transparent;
+}
+
+#texto-fala {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.btn-conversa {
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: var(--transicao);
+}
+
+.btn-conversa:hover {
+    background-color: var(--dourado-claro);
+}
+
+/* =========================================================
+   RESPONSIVIDADE E AJUSTES PARA TELEMÓVEIS / TABLETS
+   ========================================================= */
+
+/* Tablets */
+@media (max-width: 1000px) {
+    nav ul {
+        gap: 12px;
     }
-});
 
-// Clique no Botão do Balão
-btnProxima.addEventListener('click', (e) => {
-    e.stopPropagation(); // Impede que o clique no botão ative o clique no mascote atrás
-    avancarConversa();
-});
+    nav ul a {
+        font-size: 0.85rem;
+    }
 
-// Função para avançar a lógica
-function avancarConversa() {
-    if (cenaAtual < roteiroConversa.length - 1) {
-        cenaAtual++;
-        atualizarCena();
-    } else {
-        // Fim da conversa, talvez ocultar o balão após um tempo
-        balaoFala.classList.remove('visivel');
-        cenaAtual = 0; // Reseta para o início se clicar de novo
+    #hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-conteudo {
+        max-width: 800px;
+    }
+
+    .diferenciais-container,
+    .produtos-destaque {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #como-funciona>div,
+    .opcoes-recebimento,
+    footer {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
-// -----------------------------------------------------
-// TOGGLE DO FORMULÁRIO DE DEPOIMENTO
-// -----------------------------------------------------
 
-function inicializarToggleDepoimento() {
-    const btnToggle = document.querySelector("#btn-toggle-depoimento");
-    const wrapperForm = document.querySelector("#wrapper-form-depoimento");
+@media (max-width: 992px) {
+    .historia-grid {
+        grid-template-columns: 1fr;
+    }
+    .historia-lateral {
+        position: relative;
+        top: 0;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+}
 
-    if (!btnToggle || !wrapperForm) return;
+@media (max-width: 768px) {
+    #carrinho-conteudo {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+        padding: 0 10px;
+    }
 
-    btnToggle.addEventListener("click", () => {
-        if (wrapperForm.style.display === "none" || wrapperForm.style.display === "") {
-            wrapperForm.style.display = "block";
-            btnToggle.textContent = "Esconder formulário";
-            wrapperForm.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            wrapperForm.style.display = "none";
-            btnToggle.textContent = "Deixe o seu depoimento";
-        }
-    });
+    .carrinho-painel {
+        width: 100%;
+    }
+
+    .produto-detalhe-container,
+    #produto-container > div {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 650px) {
+    .bloco-historia, 
+    .bloco-historia.reverso {
+        grid-template-columns: 1fr;
+    }
+    .bloco-historia.reverso .texto-bloco,
+    .bloco-historia.reverso .foto-bloco {
+        order: unset;
+    }
+}
+
+/* Celulares (Ajuste Unificado até 700px) */
+@media (max-width: 700px) {
+    section {
+        padding: 40px 5%;
+    }
+
+    nav {
+        padding: 5px 3%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    nav > a:first-child img {
+        width: 90px;
+    }
+
+    .menu-acoes-cliente a {
+        padding: 3px 8px;
+        font-size: 0.75rem;
+    }
+
+    nav ul {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 4px;
+        margin-top: 2px;
+    }
+
+    nav ul a {
+        font-size: 0.78rem;
+    }
+
+    #hero {
+        min-height: auto;
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+
+    .hero-conteudo h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-mascote {
+        width: 250px;
+    }
+
+    .diferenciais-container,
+    #como-funciona>div,
+    .opcoes-recebimento,
+    footer {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    footer a {
+        display: block;
+    }
+
+    #destaques h2,
+    #recebimento h2,
+    #eventos h2,
+    #depoimentos h2,
+    #como-funciona h2 {
+        font-size: 2.2rem;
+    }
+
+    #contato h2 {
+        font-size: 2.3rem;
+    }
+
+    /* 1. DESTAQUES DA HOME (Carrossel Horizontal de 1 Linha) */
+    .produtos-destaque {
+        display: flex !important;
+        overflow-x: auto !important;
+        gap: 12px !important;
+        padding: 10px 5px 20px 5px !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        align-items: flex-start !important;
+    }
+
+    .produtos-destaque .produto-card {
+        flex: 0 0 calc(50% - 6px) !important;
+        min-width: calc(50% - 6px) !important;
+        scroll-snap-align: start !important;
+        margin: 0 !important;
+        height: auto !important;
+        padding-bottom: 12px !important;
+    }
+
+    /* 2. CATÁLOGO / ALIANÇAS (2 Fileiras Paralelas com Deslize Lateral) */
+    .produtos-grid {
+        display: grid !important;
+        grid-template-rows: repeat(2, auto) !important;
+        grid-auto-flow: column !important;
+        grid-auto-columns: calc(50% - 6px) !important;
+        gap: 12px !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 10px 5px 20px 5px !important;
+        align-items: start !important;
+    }
+
+    .produtos-grid .produto-card {
+        scroll-snap-align: start !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        height: auto !important;
+        padding-bottom: 12px !important;
+    }
+
+    /* 3. TEXTOS COMPACTOS DOS CARTÕES */
+    .produtos-destaque .produto-card p,
+    .produtos-grid .produto-card p {
+        font-size: 0.78rem !important;
+        line-height: 1.3 !important;
+        margin-bottom: 8px !important;
+        padding: 0 8px !important;
+        flex-grow: 0 !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .produtos-destaque .produto-card h3,
+    .produtos-grid .produto-card h3 {
+        font-size: 0.95rem !important;
+        margin-top: 8px !important;
+        margin-bottom: 4px !important;
+        padding: 0 8px !important;
+    }
+
+    .produtos-destaque .produto-preco,
+    .produtos-grid .produto-preco {
+        font-size: 0.95rem !important;
+        margin-bottom: 10px !important;
+        padding: 0 8px !important;
+    }
+
+    /* 4. BOTÕES LADO A LADO LARGURA TOTAL (DETALHES E ADICIONAR) */
+    .produtos-grid .produto-botoes,
+    .produtos-destaque .produto-botoes {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 6px !important;
+        width: 100 !important;
+        margin-top: auto !important;
+        padding: 0 8px !important;
+    }
+
+    .produtos-grid .produto-botoes > a,
+    .produtos-grid .produto-botoes > button,
+    .produtos-destaque .produto-botoes > a,
+    .produtos-destaque .produto-botoes > button {
+        flex: 1 !important;
+        font-size: 0.72rem !important;
+        padding: 7px 2px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        border-radius: 6px !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    .diferenciais-container {
+        display: flex !important;
+        grid-template-columns: none !important;
+        overflow-x: auto;
+        gap: 15px;
+        padding: 10px 5px 20px 5px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        text-align: left;
+    }
+
+    .diferenciais-container article {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        margin: 0;
+    }
+
+    .indicadores-diferenciais {
+        display: flex;
+    }
+}
+
+/* Telas muito pequenas (Até 600px) */
+@media (max-width: 600px) {
+    #conversa-mascote {
+        padding: 25px 3%;
+    }
+
+    .mascote-img {
+        max-height: 220px;
+    }
+
+    .balao-fala {
+        max-width: 230px;
+        padding: 14px;
+        margin-left: -25px;
+    }
+
+    #texto-fala {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
+    .btn-conversa {
+        padding: 8px 12px;
+        font-size: 0.82rem;
+    }
+
+    .passo-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .como-funciona-container h1 {
+        font-size: 2.2rem;
+    }
+
+    .botoes-acao-como-funciona {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-secundario-catalogo,
+    .cta-whatsapp-box .btn-whatsapp {
+        width: 100%;
+    }
 }
