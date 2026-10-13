@@ -55,7 +55,7 @@ function inicializarCarrosselDiferenciais() {
     // Monitora o scroll horizontal para atualizar a bolinha ativa
     container.addEventListener("scroll", () => {
         const indexAtivo = Math.round(container.scrollLeft / container.clientWidth);
-        
+
         pontos.forEach((ponto, index) => {
             if (index === indexAtivo) {
                 ponto.classList.add("ativo");
@@ -209,26 +209,60 @@ async function inicializarDepoimentos() {
             return;
         }
 
+        // Substitua o loop do forEach na função inicializarDepoimentos por este:
         depoimentos.forEach(d => {
             const estrelasStr = "⭐".repeat(d.estrelas);
-            const imagemHtml = d.foto_path ? `<img src="${CONFIG.API_URL}/uploads/${d.foto_path}" alt="Foto do cliente" style="width: 100%; height: 160px; object-fit: cover; border-radius: 6px; margin-top: 10px;">` : '';
+
+            // Miniatura compacta da imagem do cliente (se houver)
+            const imagemHtml = d.foto_path ? `
+        <div style="flex-shrink: 0;">
+            <img src="${CONFIG.API_URL}/uploads/${d.foto_path}" alt="Foto do cliente" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+        </div>
+    ` : '';
 
             const card = document.createElement("div");
             card.classList.add("card-depoimento-publico");
 
             card.innerHTML = `
-                <div>
-                    <div style="color: #f39c12; margin-bottom: 8px; font-size: 0.9rem;">${estrelasStr}</div>
-                    <p>"${d.mensagem}"</p>
-                </div>
-                <div>
-                    ${imagemHtml}
-                    <div style="margin-top: 12px; border-top: 1px solid #f0f0f0; padding-top: 8px;">
-                        <strong style="display: block; font-size: 0.9rem; color: #222;">${d.nome}</strong>
-                        <small style="color: #777;">${d.cidade}</small>
-                    </div>
-                </div>
-            `;
+        <div style="display: flex; gap: 15px; align-items: flex-start;">
+            ${imagemHtml}
+            <div style="flex-grow: 1; overflow: hidden;">
+                <div style="color: #f39c12; margin-bottom: 4px; font-size: 0.85rem;">${estrelasStr}</div>
+                <p class="texto-depoimento-limitado" style="color: var(--cinza); font-style: italic; font-size: 0.9rem; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; transition: max-height 0.3s ease;">
+                    "${d.mensagem}"
+                </p>
+                <button class="btn-expandir-depo" style="background: none; border: none; color: var(--dourado-escuro); font-weight: bold; font-size: 0.8rem; cursor: pointer; padding: 0; margin-bottom: 8px; text-decoration: underline;">
+                    Ver mais
+                </button>
+            </div>
+        </div>
+        <div style="margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 6px; display: flex; justify-content: space-between; align-items: center;">
+            <strong style="font-size: 0.85rem; color: #222;">${d.nome}</strong>
+            <small style="color: #777; font-size: 0.75rem;">${d.cidade}</small>
+        </div>
+    `;
+
+            // Adiciona o evento de clique para expandir/recolher o texto longo
+            const btnExpandir = card.querySelector(".btn-expandir-depo");
+            const pMensagem = card.querySelector(".texto-depoimento-limitado");
+
+            // Oculta o botão "Ver mais" se o texto for curto (não precisar de corte)
+            // Uma verificação simples baseada no tamanho do texto
+            if (d.mensagem.length < 120) {
+                btnExpandir.style.display = "none";
+            }
+
+            btnExpandir.addEventListener("click", () => {
+                if (pMensagem.style.webkitLineClamp === "unset") {
+                    pMensagem.style.webkitLineClamp = "4";
+                    pMensagem.style.display = "-webkit-box";
+                    btnExpandir.textContent = "Ver mais";
+                } else {
+                    pMensagem.style.webkitLineClamp = "unset";
+                    pMensagem.style.display = "block";
+                    btnExpandir.textContent = "Ver menos";
+                }
+            });
 
             container.appendChild(card);
         });
@@ -315,7 +349,7 @@ const roteiroConversa = [
     {
         fala: "Estes são os nossos modelos mais queridos. Passe para o lado para ver! Gostou de algum?",
         botao: "Sim! Como recebo?",
-        imagem: "mascote.png", 
+        imagem: "mascote.png",
         posicao: "centro",
         acao: () => {
             // 1. Guarda a posição exata onde a tela estava antes de descer
