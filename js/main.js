@@ -76,35 +76,36 @@ function inicializarMenu() {
     const menuButton = document.querySelector("#menu-toggle-btn");
     const menuDropdown = document.querySelector("#nav-dropdown-menu");
 
-    // Instancia o som de clique único compartilhado
-    const somClique = new Audio('assets/sons/clique.mp3');
-
-    // Adiciona o som a todos os elementos do cabeçalho marcados com .btn-com-som
-    const botoesComSom = document.querySelectorAll(".btn-com-som");
-    botoesComSom.forEach(botao => {
-        botao.addEventListener("click", () => {
-            somClique.currentTime = 0;
-            somClique.play().catch(erro => console.log("Áudio aguardando interação:", erro));
-        });
-    });
-
     if (!menuButton || !menuDropdown) {
         return;
     }
 
+    // Cria o objeto de áudio compartilhado para o clique
+    const somClique = new Audio('assets/sons/clique.mp3');
+
+    // Seleciona TODOS os elementos marcados com .btn-com-som no cabeçalho e no menu suspenso
+    const elementosComSom = document.querySelectorAll(".btn-com-som");
+    
+    elementosComSom.forEach(elemento => {
+        elemento.addEventListener("click", () => {
+            somClique.currentTime = 0; // Reinicia o áudio para permitir cliques rápidos seguidos
+            somClique.play().catch(erro => console.log("Áudio aguardando interação:", erro));
+        });
+    });
+
+    // Evento para abrir/fechar o menu ao clicar no botão principal
     menuButton.addEventListener("click", (e) => {
         e.stopPropagation();
         menuDropdown.classList.toggle("ativo");
     });
 
-    // Fecha o menu ao clicar fora
+    // Fecha o menu se o utilizador clicar em qualquer outro lugar fora dele
     document.addEventListener("click", (e) => {
         if (!menuDropdown.contains(e.target) && !menuButton.contains(e.target)) {
             menuDropdown.classList.remove("ativo");
         }
     });
 }
-
 // -----------------------------------------------------
 // BOTÕES
 // -----------------------------------------------------
