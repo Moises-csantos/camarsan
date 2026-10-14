@@ -17,8 +17,9 @@ formLogin.addEventListener('submit', function (e) {
     if (senhaDigitada === SENHA_MESTRE) {
         secaoLogin.style.display = 'none';
         secaoPainel.style.display = 'block';
-        carregarProdutosAdmin(); 
-        carregarDepoimentosAdmin(); 
+        carregarProdutosAdmin();
+        carregarDepoimentosAdmin();
+        carregarEventosAdmin();
     } else {
         alert('Senha incorreta!');
     }
@@ -58,7 +59,7 @@ function atualizarPreviewImagens() {
         reader.onload = function (e) {
             const miniaturaWrapper = document.createElement('div');
             const ehCapa = index === 0;
-            
+
             miniaturaWrapper.style.cssText = `
                 position: relative;
                 width: 70px;
@@ -139,7 +140,7 @@ async function carregarProdutosAdmin() {
 }
 
 // --- FUNÇÃO PARA EXCLUIR PRODUTO ---
-window.excluirProduto = async function(id) {
+window.excluirProduto = async function (id) {
     if (!confirm('Tem certeza de que deseja excluir este produto?')) return;
 
     try {
@@ -160,7 +161,7 @@ window.excluirProduto = async function(id) {
 }
 
 // --- FUNÇÃO PARA PREPARAR A EDIÇÃO ---
-window.prepararEdicao = function(id, prodJsonStr) {
+window.prepararEdicao = function (id, prodJsonStr) {
     const prod = JSON.parse(decodeURIComponent(prodJsonStr));
 
     document.getElementById('edit-produto-id').value = id;
@@ -180,7 +181,7 @@ window.prepararEdicao = function(id, prodJsonStr) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-document.getElementById('btn-cancelar-edicao')?.addEventListener('click', function() {
+document.getElementById('btn-cancelar-edicao')?.addEventListener('click', function () {
     formProduto.reset();
     document.getElementById('edit-produto-id').value = '';
     document.getElementById('btn-salvar-prod').innerText = 'Salvar Produto no Banco';
@@ -228,10 +229,10 @@ formProduto.addEventListener('submit', async function (e) {
             document.getElementById('btn-salvar-prod').innerText = 'Salvar Produto no Banco';
             document.getElementById('btn-cancelar-edicao').style.display = 'none';
             arquivosSelecionados = [];
-            
+
             const containerPreview = document.getElementById('preview-imagens-admin');
             if (containerPreview) containerPreview.innerHTML = '';
-            
+
             carregarProdutosAdmin();
         } else {
             alert('Erro ao guardar o produto na API.');
@@ -258,7 +259,7 @@ document.addEventListener('click', function (e) {
         document.getElementById('btn-salvar-prod').innerText = 'Salvar Produto no Banco';
         const btnCancelar = document.getElementById('btn-cancelar-edicao');
         if (btnCancelar) btnCancelar.style.display = 'none';
-        
+
         arquivosSelecionados = [];
         const containerPreview = document.getElementById('preview-imagens-admin');
         if (containerPreview) containerPreview.innerHTML = '';
@@ -314,7 +315,7 @@ async function carregarDepoimentosAdmin() {
     }
 }
 
-window.aprovarDepoimento = async function(id) {
+window.aprovarDepoimento = async function (id) {
     try {
         const resposta = await fetch(`${URL_API_DEPOIMENTOS}/${id}/aprovar`, {
             method: 'PUT'
@@ -332,7 +333,7 @@ window.aprovarDepoimento = async function(id) {
     }
 }
 
-window.excluirDepoimento = async function(id) {
+window.excluirDepoimento = async function (id) {
     if (!confirm('Tem certeza de que deseja excluir permanentemente este depoimento?')) return;
 
     try {
@@ -350,4 +351,140 @@ window.excluirDepoimento = async function(id) {
         console.error('Erro:', erro);
         alert('Não foi possível comunicar com a API para excluir.');
     }
+}
+// =====================================================
+// GESTÃO DE EVENTOS NO PAINEL ADMIN
+// =====================================================
+
+const URL_API_EVENTOS = `${URL_API_BASE}/eventos`;
+const formEvento = document.getElementById('form-evento');
+
+async function carregarEventosAdmin() {
+    const listaDiv = document.getElementById('lista-eventos-admin');
+    if (!listaDiv) return;
+
+    listaDiv.innerHTML = '<p>A carregar eventos...</p>';
+
+    try {
+        const resposta = await fetch(URL_API_EVENTOS);
+        const eventos = await resposta.json();
+
+        if (eventos.length === 0) {
+            listaDiv.innerHTML = '<p>Nenhum evento cadastrado no momento.</p>';
+            return;
+        }
+
+        let html = '<h3>Eventos Cadastrados (Gerir)</h3><div style="display: flex; flex-direction: column; gap: 10px;">';
+
+        eventos.forEach(ev => {
+            const eventoId = ev.id;
+            html += `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: left;">
+                    <div>
+                        <strong>${ev.nome}</strong> (${ev.data})
+                        <br><small style="color: #666;">📍 ${ev.local}</small>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" onclick="prepararEdicaoEvento('${eventoId}', '${encodeURIComponent(JSON.stringify(ev))}')" style="background: #c9a227; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Editar</button>
+                        <button type="button" onclick="excluirEvento('${eventoId}')" style="background: #d9534f; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Excluir</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        listaDiv.innerHTML = html;
+
+    } catch (erro) {
+        console.error('Erro ao carregar eventos:', erro);
+        listaDiv.innerHTML = '<p style="color: red;">Erro ao carregar lista de eventos da API.</p>';
+    }
+}
+
+window.excluirEvento = async function (id) {
+    if (!confirm('Tem certeza de que deseja excluir este evento?')) return;
+
+    try {
+        const resposta = await fetch(`${URL_API_EVENTOS}/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (resposta.ok) {
+            alert('Evento excluído com sucesso!');
+            carregarEventosAdmin();
+        } else {
+            alert('Erro ao excluir o evento.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível comunicar com a API para excluir.');
+    }
+}
+
+window.prepararEdicaoEvento = function (id, eventoJsonStr) {
+    const ev = JSON.parse(decodeURIComponent(eventoJsonStr));
+
+    document.getElementById('edit-evento-id').value = id;
+    document.getElementById('evento-nome').value = ev.nome || '';
+    document.getElementById('evento-desc').value = ev.descricao || '';
+    document.getElementById('evento-data').value = ev.data || '';
+    document.getElementById('evento-local').value = ev.local || '';
+    document.getElementById('evento-horario').value = ev.horario || '';
+
+    document.getElementById('btn-salvar-evento').innerText = 'Atualizar Evento';
+    document.getElementById('btn-cancelar-edicao-evento').style.display = 'block';
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+document.getElementById('btn-cancelar-edicao-evento')?.addEventListener('click', function () {
+    formEvento.reset();
+    document.getElementById('edit-evento-id').value = '';
+    document.getElementById('btn-salvar-evento').innerText = 'Salvar Evento no Banco';
+    this.style.display = 'none';
+});
+
+if (formEvento) {
+    formEvento.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const idEdicao = document.getElementById('edit-evento-id').value;
+        const isEditando = idEdicao !== '';
+
+        const formData = new FormData();
+        formData.append('nome', document.getElementById('evento-nome').value);
+        formData.append('descricao', document.getElementById('evento-desc').value);
+        formData.append('data', document.getElementById('evento-data').value);
+        formData.append('local', document.getElementById('evento-local').value);
+        formData.append('horario', document.getElementById('evento-horario').value);
+
+        const inputImg = document.getElementById('evento-imagem');
+        if (inputImg && inputImg.files.length > 0) {
+            formData.append('imagem', inputImg.files[0]);
+        }
+
+        const urlDestino = isEditando ? `${URL_API_EVENTOS}/${idEdicao}` : URL_API_EVENTOS;
+        const metodoHttp = isEditando ? 'PUT' : 'POST';
+
+        try {
+            const resposta = await fetch(urlDestino, {
+                method: metodoHttp,
+                body: formData
+            });
+
+            if (resposta.ok) {
+                alert(isEditando ? 'Evento atualizado com sucesso!' : 'Evento cadastrado com sucesso!');
+                formEvento.reset();
+                document.getElementById('edit-evento-id').value = '';
+                document.getElementById('btn-salvar-evento').innerText = 'Salvar Evento no Banco';
+                document.getElementById('btn-cancelar-edicao-evento').style.display = 'none';
+                carregarEventosAdmin();
+            } else {
+                alert('Erro ao guardar o evento na API.');
+            }
+        } catch (erro) {
+            console.error('Erro:', erro);
+            alert('Não foi possível ligar à API.');
+        }
+    });
 }
