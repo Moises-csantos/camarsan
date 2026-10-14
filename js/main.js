@@ -27,6 +27,7 @@ function inicializarSite() {
     inicializarBotoes();
     inicializarAno();
     inicializarProdutosDestaque();
+    inicializarEventos();
     inicializarDepoimentos();
     inicializarEnvioDepoimento();
     inicializarCarrosselDiferenciais();
@@ -185,7 +186,61 @@ async function inicializarProdutosDestaque() {
         container.innerHTML = "<p>Não foi possível carregar os produtos.</p>";
     }
 }
+async function inicializarEventos() {
+    const container = document.querySelector("#eventos-container");
 
+    if (!container) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`${CONFIG.API_URL}/eventos`);
+
+        if (!resposta.ok) {
+            throw new Error(`Erro HTTP: ${resposta.status}`);
+        }
+
+        const eventos = await resposta.json();
+        container.innerHTML = "";
+
+        if (eventos.length === 0) {
+            container.innerHTML = "<p>Nenhum evento agendado no momento. Acompanhe o nosso Instagram para novidades!</p>";
+            return;
+        }
+
+        container.classList.add("produtos-destaque");
+
+        eventos.forEach(evento => {
+            const card = document.createElement("article");
+            card.classList.add("produto-card");
+
+            const imagemHtml = evento.imagem ? `
+                <div class="produto-card-img">
+                    <img src="${evento.imagem}" alt="${evento.nome}">
+                </div>
+            ` : '';
+
+            card.innerHTML = `
+                ${imagemHtml}
+                <div class="produto-card-body">
+                    <span class="subtitulo-colecao">${evento.data}</span>
+                    <h3>${evento.nome}</h3>
+                    <p style="margin-bottom: 8px;">${evento.descricao || ''}</p>
+                    <p style="font-size: 0.85rem; color: var(--cinza);">📍 ${evento.local}</p>
+                    <p style="font-size: 0.85rem; color: var(--dourado-escuro); margin-top: 4px;">⏰ ${evento.horario}</p>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+
+        console.log(`${eventos.length} eventos carregados pela API.`);
+
+    } catch (erro) {
+        console.error("Erro ao carregar eventos:", erro);
+        container.innerHTML = "<p>Não foi possível carregar os eventos no momento.</p>";
+    }
+}
 
 // -----------------------------------------------------
 // API - DEPOIMENTOS PÚBLICOS
