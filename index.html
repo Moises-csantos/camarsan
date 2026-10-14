@@ -24,13 +24,29 @@
          CABEÇALHO
     =================================================== -->
     <header>
-        <nav>
-            <!-- Logo -->
-            <a href="index.html" aria-label="Página inicial da CamarSan">
-                <img src="assets/logo/logo.png" alt="CamarSan - Alianças de Moedas Antigas">
-            </a>
+        <nav class="nav-container">
+            <!-- Esquerda: Logo e o Botão de Menu (com o símbolo e o nome) -->
+            <div class="nav-topo-escala">
+                <a href="index.html" aria-label="Página inicial da CamarSan" class="logo-link">
+                    <img src="assets/logo/logo.png" alt="CamarSan - Alianças de Moedas Antigas">
+                </a>
 
-            <!-- Menu principal -->
+                <!-- Botão de Menu com o símbolo e a palavra Menu -->
+                <button class="menu-toggle-btn" id="menu-toggle-btn" aria-label="Abrir menu de navegação">
+                    <img src="assets/icones/menu-icone.png" alt="" class="icone-menu-img">
+                    <span class="texto-menu-rotulo">Menu</span>
+                </button>
+            </div>
+
+            <!-- Ações do cliente (Carrinho + Conta) na direita -->
+            <div class="menu-acoes-cliente">
+                <a href="pages/carrinho.html">Carrinho (<span id="contador-carrinho">0</span>)</a>
+                <a href="pages/login.html">Minha Conta</a>
+            </div>
+        </nav>
+
+        <!-- Menu de Navegação suspenso (só aparece ao clicar) -->
+        <div class="nav-dropdown-menu" id="nav-dropdown-menu">
             <ul>
                 <li><a href="index.html" class="ativo">Início</a></li>
                 <li><a href="pages/catalogo.html">Alianças</a></li>
@@ -38,13 +54,7 @@
                 <li><a href="pages/funciona.html">Como Funciona</a></li>
                 <li><a href="pages/contato.html">Contato</a></li>
             </ul>
-
-            <!-- Ações do cliente (Carrinho + Conta) -->
-            <div class="menu-acoes-cliente">
-                <a href="pages/carrinho.html">Carrinho (<span id="contador-carrinho">0</span>)</a>
-                <a href="pages/login.html">Minha Conta</a>
-            </div>
-        </nav>
+        </div>
     </header>
 
 
