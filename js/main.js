@@ -72,33 +72,32 @@ function inicializarCarrosselDiferenciais() {
 // MENU
 // -----------------------------------------------------
 
-// -----------------------------------------------------
-// MENU RETRÁTIL DO CABEÇALHO (Com Som de Clique)
-// -----------------------------------------------------
-
 function inicializarMenu() {
     const menuButton = document.querySelector("#menu-toggle-btn");
     const menuDropdown = document.querySelector("#nav-dropdown-menu");
+
+    // Instancia o som de clique único compartilhado
+    const somClique = new Audio('assets/sons/clique.mp3');
+
+    // Adiciona o som a todos os elementos do cabeçalho marcados com .btn-com-som
+    const botoesComSom = document.querySelectorAll(".btn-com-som");
+    botoesComSom.forEach(botao => {
+        botao.addEventListener("click", () => {
+            somClique.currentTime = 0;
+            somClique.play().catch(erro => console.log("Áudio aguardando interação:", erro));
+        });
+    });
 
     if (!menuButton || !menuDropdown) {
         return;
     }
 
-    // Cria o objeto de áudio apontando para o arquivo salvo
-    const somClique = new Audio('assets/sons/clique.mp3'); 
-    // Nota: Se o seu arquivo for .wav, altere para 'assets/sons/clique.wav'
-
     menuButton.addEventListener("click", (e) => {
         e.stopPropagation();
-        
-        // Toca o som de clique (com tratamento de erro caso o navegador bloqueie antes de interagir)
-        somClique.currentTime = 0; // Reinicia o áudio caso seja clicado rapidamente
-        somClique.play().catch(erro => console.log("Áudio aguardando interação do utilizador:", erro));
-
         menuDropdown.classList.toggle("ativo");
     });
 
-    // Fecha o menu se o utilizador clicar em qualquer outro lugar da página
+    // Fecha o menu ao clicar fora
     document.addEventListener("click", (e) => {
         if (!menuDropdown.contains(e.target) && !menuButton.contains(e.target)) {
             menuDropdown.classList.remove("ativo");
