@@ -55,7 +55,31 @@
 
             <!-- Lista de Produtos Cadastrados -->
             <div id="lista-produtos-admin"></div>
+            <!-- GESTÃO DE EVENTOS -->
+            <hr class="admin-divisor">
+            <h3>Cadastrar / Gerir Próximos Eventos</h3>
+            <form id="form-evento" enctype="multipart/form-data">
+                <input type="hidden" id="edit-evento-id" value="">
 
+                <input type="text" id="evento-nome" placeholder="Nome do Evento (ex: Feira de Joias RS)" required><br>
+                <textarea id="evento-desc" placeholder="Descrição do evento"></textarea><br>
+                <input type="text" id="evento-data" placeholder="Data (ex: 15 e 16 de Outubro)" required><br>
+                <input type="text" id="evento-local"
+                    placeholder="Local / Cidade (ex: Centro de Eventos - Caxias do Sul)" required><br>
+                <input type="text" id="evento-horario" placeholder="Horário (ex: 10h às 20h)" value="10h às 20h"><br>
+
+                <label for="evento-imagem" class="label-arquivo">
+                    Imagem do evento (Formato 1:1 recomendado):
+                </label>
+                <input type="file" id="evento-imagem" accept="image/*"><br>
+
+                <button type="submit" id="btn-salvar-evento">Salvar Evento no Banco</button>
+                <button type="button" id="btn-cancelar-edicao-evento" style="display: none;">Cancelar Edição</button>
+            </form>
+
+            <!-- Lista de Eventos Cadastrados -->
+            <div id="lista-eventos-admin"></div>
+            
             <!-- GESTÃO DE DEPOIMENTOS -->
             <hr class="admin-divisor">
             <h3>Gerir Depoimentos de Clientes</h3>
