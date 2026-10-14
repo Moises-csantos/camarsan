@@ -2267,6 +2267,61 @@ body.pagina-como-funciona,
     padding-left: 5px;
 }
 /* =========================================================
+   ESTILOS DOS ÍCONES DO CABEÇALHO (CARRINHO E LOGIN)
+   ========================================================= */
+
+.menu-acoes-cliente {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icone-acao-link {
+    position: relative;
+    background: transparent;
+    border: 1px solid var(--dourado);
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: var(--transicao);
+}
+
+.icone-acao-link:hover {
+    background-color: var(--dourado);
+    transform: translateY(-2px);
+}
+
+.icone-acao-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    display: block;
+}
+
+/* Efeito de inversão de cor no hover do ícone */
+.icone-acao-link:hover .icone-acao-img {
+    filter: brightness(0);
+}
+
+/* Contador do carrinho em formato de badge flutuante */
+.contador-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background-color: var(--bordo);
+    color: var(--branco);
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 50%;
+    min-width: 18px;
+    text-align: center;
+    border: 1px solid var(--dourado);
+}
+/* =========================================================
    RESPONSIVIDADE E AJUSTES PARA TELEMÓVEIS / TABLETS
    ========================================================= */
 
