@@ -2267,59 +2267,149 @@ body.pagina-como-funciona,
     padding-left: 5px;
 }
 /* =========================================================
-   ESTILOS DOS ÍCONES DO CABEÇALHO (CARRINHO E LOGIN)
+   CABEÇALHO E ÍCONES ATUALIZADOS (SEM LINHAS AMARELAS E DOBRO DO TAMANHO)
    ========================================================= */
 
-.menu-acoes-cliente {
+.nav-container {
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
+    padding: 12px 5%;
+    position: relative;
 }
 
-.icone-acao-link {
-    position: relative;
+.nav-topo-escala {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.logo-link img {
+    width: 100px;
+    height: auto;
+    display: block;
+}
+
+/* Botão de Menu (Sem borda amarela, limpo) */
+.menu-toggle-btn {
     background: transparent;
-    border: 1px solid var(--dourado);
-    width: 38px;
-    height: 38px;
+    border: none; /* Remove a linha/borda amarela */
+    color: var(--dourado-claro);
+    padding: 4px 0;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: bold;
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 8px;
+    gap: 8px;
     transition: var(--transicao);
 }
 
-.icone-acao-link:hover {
-    background-color: var(--dourado);
-    transform: translateY(-2px);
+.menu-toggle-btn:hover {
+    color: var(--branco);
 }
 
-.icone-acao-img {
-    width: 20px;
-    height: 20px;
+/* Ícone do menu com o dobro do tamanho (36px) */
+.icone-menu-img {
+    width: 36px;     
+    height: 36px;    
     object-fit: contain;
     display: block;
 }
 
-/* Efeito de inversão de cor no hover do ícone */
-.icone-acao-link:hover .icone-acao-img {
-    filter: brightness(0);
+/* Ações do cliente (Carrinho e Login) */
+.menu-acoes-cliente {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-/* Contador do carrinho em formato de badge flutuante */
+/* Links dos ícones (Sem bordas amarelas) */
+.icone-acao-link {
+    position: relative;
+    background: transparent;
+    border: none; /* Remove a borda amarela ao redor do carrinho e login */
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transicao);
+}
+
+.icone-acao-link:hover {
+    background-color: rgba(201, 162, 39, 0.15); /* Efeito subtil ao passar o rato */
+    transform: translateY(-2px);
+}
+
+/* Imagens do Carrinho e Login com o dobro do tamanho (40px) */
+.icone-acao-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+}
+
+/* Contador do carrinho ajustado para o novo tamanho do ícone */
 .contador-badge {
     position: absolute;
-    top: -6px;
-    right: -6px;
+    top: 0;
+    right: 0;
     background-color: var(--bordo);
     color: var(--branco);
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     font-weight: bold;
-    padding: 2px 5px;
+    padding: 2px 6px;
     border-radius: 50%;
-    min-width: 18px;
+    min-width: 20px;
     text-align: center;
+    border: 2px solid var(--grafite);
+}
+
+/* Caixa do menu suspenso */
+.nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 5%;
+    background-color: var(--grafite-claro, #2c2c2c);
     border: 1px solid var(--dourado);
+    border-radius: 10px;
+    box-shadow: var(--sombra);
+    width: 240px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    z-index: 1100;
+}
+
+.nav-dropdown-menu.ativo {
+    max-height: 350px;
+    padding: 15px 20px;
+}
+
+.nav-dropdown-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nav-dropdown-menu ul a {
+    color: var(--branco);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: var(--transicao);
+    display: block;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-dropdown-menu ul a:hover,
+.nav-dropdown-menu ul a.ativo {
+    color: var(--dourado-claro);
+    padding-left: 5px;
 }
 /* =========================================================
    RESPONSIVIDADE E AJUSTES PARA TELEMÓVEIS / TABLETS
