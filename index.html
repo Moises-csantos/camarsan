@@ -25,27 +25,35 @@
     =================================================== -->
     <header>
         <nav class="nav-container">
-            <!-- Esquerda: Logo e o Botão de Menu (com o símbolo e o nome) -->
+            <!-- Esquerda: Logo e o Botão de Menu -->
             <div class="nav-topo-escala">
                 <a href="index.html" aria-label="Página inicial da CamarSan" class="logo-link">
                     <img src="assets/logo/logo.png" alt="CamarSan - Alianças de Moedas Antigas">
                 </a>
 
-                <!-- Botão de Menu com o símbolo e a palavra Menu -->
-                <button class="menu-toggle-btn" id="menu-toggle-btn" aria-label="Abrir menu de navegação">
+                <!-- Botão de Menu -->
+                <button class="menu-toggle-btn btn-com-som" id="menu-toggle-btn" aria-label="Abrir menu de navegação">
                     <img src="assets/icones/menu-icone.png" alt="" class="icone-menu-img">
                     <span class="texto-menu-rotulo">Menu</span>
                 </button>
             </div>
 
-            <!-- Ações do cliente (Carrinho + Conta) na direita -->
+            <!-- Direita: Ações do cliente (Carrinho e Login em formato de ícone 1:1) -->
             <div class="menu-acoes-cliente">
-                <a href="pages/carrinho.html">Carrinho (<span id="contador-carrinho">0</span>)</a>
-                <a href="pages/login.html">Minha Conta</a>
+                <!-- Carrinho (Apenas imagem 1:1 + Contador) -->
+                <a href="pages/carrinho.html" class="icone-acao-link btn-com-som" aria-label="Carrinho de compras">
+                    <img src="assets/icones/carrinho.png" alt="Carrinho" class="icone-acao-img">
+                    <span id="contador-carrinho" class="contador-badge">0</span>
+                </a>
+
+                <!-- Login (Apenas imagem 1:1) -->
+                <a href="pages/login.html" class="icone-acao-link btn-com-som" aria-label="Minha Conta">
+                    <img src="assets/icones/login.png" alt="Login" class="icone-acao-img">
+                </a>
             </div>
         </nav>
 
-        <!-- Menu de Navegação suspenso (só aparece ao clicar) -->
+        <!-- Menu de Navegação suspenso -->
         <div class="nav-dropdown-menu" id="nav-dropdown-menu">
             <ul>
                 <li><a href="index.html" class="ativo">Início</a></li>
@@ -56,7 +64,6 @@
             </ul>
         </div>
     </header>
-
 
     <main>
         <section id="hero">
