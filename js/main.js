@@ -219,10 +219,18 @@ async function inicializarEventos() {
                 </div>
             ` : '';
 
+            // Trata as datas: se houver um array de datas, junta-as formatadas; senão, usa o campo legado
+            let textoDatas = "Data a confirmar";
+            if (evento.datas && Array.isArray(evento.datas) && evento.datas.length > 0) {
+                textoDatas = evento.datas.join(" | ");
+            } else if (evento.data) {
+                textoDatas = evento.data;
+            }
+
             card.innerHTML = `
                 ${imagemHtml}
                 <div class="produto-card-body">
-                    <span class="subtitulo-colecao">${evento.data}</span>
+                    <span class="subtitulo-colecao">📅 ${textoDatas}</span>
                     <h3>${evento.nome}</h3>
                     <p style="margin-bottom: 8px;">${evento.descricao || ''}</p>
                     <p style="font-size: 0.85rem; color: var(--cinza);">📍 ${evento.local}</p>
@@ -245,7 +253,6 @@ async function inicializarEventos() {
         container.innerHTML = "<p>Não foi possível carregar os eventos no momento.</p>";
     }
 }
-
 // -----------------------------------------------------
 // API - DEPOIMENTOS PÚBLICOS
 // -----------------------------------------------------
