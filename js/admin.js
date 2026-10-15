@@ -426,9 +426,13 @@ window.prepararEdicaoEvento = function (id, eventoJsonStr) {
     document.getElementById('edit-evento-id').value = id;
     document.getElementById('evento-nome').value = ev.nome || '';
     document.getElementById('evento-desc').value = ev.descricao || '';
-    document.getElementById('evento-data').value = ev.data || '';
+    
+    // Converte o array de datas de volta para uma string separada por vírgula para aparecer no input
+    const datasStr = Array.isArray(ev.datas) ? ev.datas.join(', ') : (ev.data || '');
+    document.getElementById('evento-datas').value = datasStr;
+
     document.getElementById('evento-local').value = ev.local || '';
-    document.getElementById('evento-mapa').value = ev.mapa || ''; // Campo do mapa
+    document.getElementById('evento-mapa').value = ev.mapa || '';
     document.getElementById('evento-instagram').value = ev.instagram || '';
     document.getElementById('evento-horario').value = ev.horario || '';
 
@@ -455,9 +459,12 @@ if (formEvento) {
         const formData = new FormData();
         formData.append('nome', document.getElementById('evento-nome').value);
         formData.append('descricao', document.getElementById('evento-desc').value);
-        formData.append('data', document.getElementById('evento-data').value);
+        
+        // Envia as datas inseridas no novo input
+        formData.append('datas', document.getElementById('evento-datas').value);
+        
         formData.append('local', document.getElementById('evento-local').value);
-        formData.append('mapa', document.getElementById('evento-mapa').value); // Envio do mapa para a API
+        formData.append('mapa', document.getElementById('evento-mapa').value);
         formData.append('instagram', document.getElementById('evento-instagram').value);
         formData.append('horario', document.getElementById('evento-horario').value);
 
