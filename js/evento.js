@@ -79,6 +79,7 @@ function exibirDetalhesEvento(evento) {
             </div>
         `;
     }
+
     // Botão do Instagram (se preenchido)
     let instagramHtml = '';
     if (evento.instagram) {
@@ -119,8 +120,9 @@ function exibirDetalhesEvento(evento) {
                 <p style="margin-top: 8px;"><strong>⏰ Horário:</strong> ${evento.horario || 'A definir'}</p>
             </div>
 
-            <!-- EXIBIÇÃO DO MAPA / LINK DO MAPS -->
+            <!-- EXIBIÇÃO DO MAPA E INSTAGRAM -->
             ${mapaHtml}
+            ${instagramHtml}
 
             <div style="margin-top: 30px;">
                 <a
@@ -134,8 +136,6 @@ function exibirDetalhesEvento(evento) {
             </div>
         </div>
     `;
-
-}
 
     // --- CONFIGURAR BOTÃO WHATSAPP DO EVENTO ---
     const btnWhatsapp = document.getElementById("evento-whatsapp");
@@ -151,6 +151,12 @@ function exibirDetalhesEvento(evento) {
             mensagem += `*${nomeEvento}*\n`;
             mensagem += `Data: ${dataEvento}\n`;
             mensagem += `Local: ${evento.local || 'A definir'}\n\n`;
+
+            // Adiciona o link da imagem se ela existir
+            if (evento.imagem) {
+                mensagem += `🖼️ Imagem do evento: ${evento.imagem}\n\n`;
+            }
+
             mensagem += `Poderia me dar mais detalhes?`;
 
             const numeroWhatsApp = "5554996322787";
