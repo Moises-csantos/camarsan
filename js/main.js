@@ -121,7 +121,6 @@ function inicializarBotoes() {
     });
 }
 
-
 // -----------------------------------------------------
 // ANO DO RODAPÉ
 // -----------------------------------------------------
@@ -227,7 +226,12 @@ async function inicializarEventos() {
                     <h3>${evento.nome}</h3>
                     <p style="margin-bottom: 8px;">${evento.descricao || ''}</p>
                     <p style="font-size: 0.85rem; color: var(--cinza);">📍 ${evento.local}</p>
-                    <p style="font-size: 0.85rem; color: var(--dourado-escuro); margin-top: 4px;">⏰ ${evento.horario}</p>
+                    <p style="font-size: 0.85rem; color: var(--dourado-escuro); margin-top: 4px; margin-bottom: 12px;">⏰ ${evento.horario}</p>
+                    
+                    <!-- BOTÃO VER DETALHES DO EVENTO -->
+                    <div class="produto-botoes" style="margin-top: auto;">
+                        <a href="pages/evento.html?id=${evento.id}" class="btn-detalhes" style="width: 100%;">Ver detalhes</a>
+                    </div>
                 </div>
             `;
 
