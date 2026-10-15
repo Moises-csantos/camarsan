@@ -54,6 +54,43 @@ async function carregarDetalhesEvento() {
 function exibirDetalhesEvento(evento) {
     const container = document.getElementById("evento-container");
 
+    // Lógica para renderizar o iframe do mapa se for um link de embed ou gerar link direto do Google Maps
+    let mapaHtml = '';
+    if (evento.mapa) {
+        if (evento.mapa.includes('<iframe')) {
+            mapaHtml = `<div style="margin-top:20px; width:100%; border-radius:12px; overflow:hidden;">${evento.mapa}</div>`;
+        } else {
+            const urlMapa = evento.mapa.startsWith('http') ? evento.mapa : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(evento.local)}`;
+            mapaHtml = `
+                <div style="margin-top: 20px;">
+                    <a href="${urlMapa}" target="_blank" rel="noopener noreferrer" class="btn-secundario-catalogo" style="display: inline-block; padding: 10px 18px; font-size: 0.9rem;">
+                        📍 Abrir no Google Maps
+                    </a>
+                </div>
+            `;
+        }
+    } else if (evento.local) {
+        const urlBuscaMapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(evento.local)}`;
+        mapaHtml = `
+            <div style="margin-top: 20px;">
+                <a href="${urlBuscaMapa}" target="_blank" rel="noopener noreferrer" class="btn-secundario-catalogo" style="display: inline-block; padding: 10px 18px; font-size: 0.9rem;">
+                    📍 Ver local no Google Maps
+                </a>
+            </div>
+        `;
+    }
+    // Botão do Instagram (se preenchido)
+    let instagramHtml = '';
+    if (evento.instagram) {
+        instagramHtml = `
+            <div style="margin-top: 15px;">
+                <a href="${evento.instagram}" target="_blank" rel="noopener noreferrer" class="btn-secundario-catalogo" style="display: inline-block; padding: 10px 18px; font-size: 0.9rem; background-color: #E1306C; color: #fff; text-decoration: none; border-radius: 6px;">
+                    📸 Ver publicação / Perfil no Instagram
+                </a>
+            </div>
+        `;
+    }
+
     container.innerHTML = `
         <div class="produto-galeria">
             <div class="produto-imagem-principal-container">
@@ -82,6 +119,9 @@ function exibirDetalhesEvento(evento) {
                 <p style="margin-top: 8px;"><strong>⏰ Horário:</strong> ${evento.horario || 'A definir'}</p>
             </div>
 
+            <!-- EXIBIÇÃO DO MAPA / LINK DO MAPS -->
+            ${mapaHtml}
+
             <div style="margin-top: 30px;">
                 <a
                     href="#"
@@ -94,6 +134,8 @@ function exibirDetalhesEvento(evento) {
             </div>
         </div>
     `;
+
+}
 
     // --- CONFIGURAR BOTÃO WHATSAPP DO EVENTO ---
     const btnWhatsapp = document.getElementById("evento-whatsapp");
