@@ -420,7 +420,6 @@ window.excluirEvento = async function (id) {
         alert('Não foi possível comunicar com a API para excluir.');
     }
 }
-
 window.prepararEdicaoEvento = function (id, eventoJsonStr) {
     const ev = JSON.parse(decodeURIComponent(eventoJsonStr));
 
@@ -429,6 +428,8 @@ window.prepararEdicaoEvento = function (id, eventoJsonStr) {
     document.getElementById('evento-desc').value = ev.descricao || '';
     document.getElementById('evento-data').value = ev.data || '';
     document.getElementById('evento-local').value = ev.local || '';
+    document.getElementById('evento-mapa').value = ev.mapa || ''; // Campo do mapa
+    document.getElementById('evento-instagram').value = ev.instagram || '';
     document.getElementById('evento-horario').value = ev.horario || '';
 
     document.getElementById('btn-salvar-evento').innerText = 'Atualizar Evento';
@@ -456,6 +457,8 @@ if (formEvento) {
         formData.append('descricao', document.getElementById('evento-desc').value);
         formData.append('data', document.getElementById('evento-data').value);
         formData.append('local', document.getElementById('evento-local').value);
+        formData.append('mapa', document.getElementById('evento-mapa').value); // Envio do mapa para a API
+        formData.append('instagram', document.getElementById('evento-instagram').value);
         formData.append('horario', document.getElementById('evento-horario').value);
 
         const inputImg = document.getElementById('evento-imagem');
