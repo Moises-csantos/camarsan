@@ -56,6 +56,8 @@
             <!-- Lista de Produtos Cadastrados -->
             <div id="lista-produtos-admin"></div>
 
+            <h3>Cadastrar Notas e Moedas</h3>
+
             <form id="form-numismatica" enctype="multipart/form-data">
                 <!-- Campo oculto para controlar a edição -->
                 <input type="hidden" id="edit-numismatica-id" value="">
@@ -83,9 +85,12 @@
                 <input type="file" id="num-imagens" accept="image/*" multiple>
 
                 <button type="submit" id="btn-salvar-num">Salvar Peça no Acervo</button>
-                <button type="button" id="btn-cancelar-edicao-num">Cancelar Edição</button>
+                <button type="button" id="btn-cancelar-edicao-num" style="display: none;">Cancelar Edição</button>
             </form>
-            
+
+            <!-- 👇 ADICIONE ESTA LINHA ABAIXO DO FORMULÁRIO 👇 -->
+            <div id="lista-numismatica-admin"></div>
+
             <!-- GESTÃO DE EVENTOS -->
             <hr class="admin-divisor">
             <h3>Cadastrar / Gerir Próximos Eventos</h3>
