@@ -55,6 +55,37 @@
 
             <!-- Lista de Produtos Cadastrados -->
             <div id="lista-produtos-admin"></div>
+
+            <form id="form-numismatica" enctype="multipart/form-data">
+                <!-- Campo oculto para controlar a edição -->
+                <input type="hidden" id="edit-numismatica-id" value="">
+
+                <input type="text" id="num-nome" placeholder="Nome da Peça (ex: Moeda de 100 Réis)" required>
+
+                <textarea id="num-desc" placeholder="Descrição histórica da moeda ou nota"></textarea>
+
+                <input type="number" id="num-preco" step="0.01" placeholder="Preço (ex: 150.00)" required>
+
+                <!-- Campo Seletor: Moeda ou Nota -->
+                <select id="num-tipo" required>
+                    <option value="" disabled selected>Selecione o Tipo de Peça</option>
+                    <option value="Moeda">Moeda</option>
+                    <option value="Nota">Nota (Cédula)</option>
+                </select>
+
+                <input type="text" id="num-ano" placeholder="Ano ou Período (ex: 1920)">
+
+                <input type="text" id="num-estado" placeholder="Estado de Conservação (ex: MBC / Soberba)">
+
+                <label for="num-imagens" class="label-arquivo">
+                    Selecione as fotos da peça (pode escolher várias):
+                </label>
+                <input type="file" id="num-imagens" accept="image/*" multiple>
+
+                <button type="submit" id="btn-salvar-num">Salvar Peça no Acervo</button>
+                <button type="button" id="btn-cancelar-edicao-num">Cancelar Edição</button>
+            </form>
+            
             <!-- GESTÃO DE EVENTOS -->
             <hr class="admin-divisor">
             <h3>Cadastrar / Gerir Próximos Eventos</h3>
