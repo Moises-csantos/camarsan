@@ -2761,6 +2761,68 @@ body.pagina-como-funciona,
     background-color: var(--bordo-escuro);
 }
 /* =========================================================
+   ESTILOS SANFONA (ACCORDION) DO PAINEL ADMIN
+   ========================================================= */
+
+.bloco-sanfona {
+    margin-bottom: 15px;
+    border: 1px solid var(--cinza-claro);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--branco);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.btn-sanfona-header {
+    width: 100%;
+    background-color: var(--creme);
+    color: var(--bordo);
+    border: none;
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transicao);
+    text-align: left;
+}
+
+.btn-sanfona-header:hover {
+    background-color: rgba(201, 162, 39, 0.15);
+    color: var(--dourado-escuro);
+}
+
+.btn-sanfona-header .icone-seta {
+    transition: transform 0.3s ease;
+    color: var(--dourado-escuro);
+    font-size: 0.9rem;
+}
+
+/* Estado Expandido */
+.bloco-sanfona.ativo .btn-sanfona-header {
+    background-color: var(--bordo);
+    color: var(--branco);
+}
+
+.bloco-sanfona.ativo .btn-sanfona-header .icone-seta {
+    transform: rotate(180deg);
+    color: var(--dourado-claro);
+}
+
+.painel-sanfona-conteudo {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    padding: 0 20px;
+}
+
+.bloco-sanfona.ativo .painel-sanfona-conteudo {
+    max-height: 2500px; /* Expande suavemente o formulário */
+    padding: 20px;
+}
+/* =========================================================
    RESPONSIVIDADE E AJUSTES PARA TELEMÓVEIS / TABLETS
    ========================================================= */
 
