@@ -493,23 +493,63 @@ const roteiroConversa = [
     {
         fala: "Veja mais sobre meu trabalho no instagram, sempre posto o passo a passo de como faço a forja, o polimento e demais etapas do processo produtivo.",
         botao: "Segue lá",
-        imagem: "mascote-img7.png"
+        imagem: "mascote-img7.png",
+        acao: () => {
+            const posicaoOriginal = window.scrollY;
+            document.querySelector('#redes-sociais').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                window.scrollTo({
+                    top: posicaoOriginal,
+                    behavior: 'smooth'
+                });
+            }, 1500);
+        }
     },
     {
         fala: "Veja os Eventos que Participamos em Caxias do Sul, estamos nas Melhores Feiras da Cidade!",
         botao: "Nos Vemos Por Aí!",
-        imagem: "mascote-img8.png"
+        imagem: "mascote-img8.png",
+        acao: () => {
+            const posicaoOriginal = window.scrollY;
+            document.querySelector('#eventos').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                window.scrollTo({
+                    top: posicaoOriginal,
+                    behavior: 'smooth'
+                });
+            }, 1500);
+        }
     },
     {
         fala: "Depois de sua experiência com a Camarsan deixe o seu feedback nos depoimentos abaixo, sua opinião é muito importante para nós!",
         botao: "COMENTEM!",
-        imagem: "mascote-img9.png"
+        imagem: "mascote-img9.png",
+        acao: () => {
+            const posicaoOriginal = window.scrollY;
+            document.querySelector('.secao-depoimentos-publicos').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                window.scrollTo({
+                    top: posicaoOriginal,
+                    behavior: 'smooth'
+                });
+            }, 1500);
+        }
     },
     {
-        fala: "Ficou com alguma dúvida ou quer encomendar? É só me chamar no WhatsApp abaixo. Até breve!",
+        fala: "Ficou com alguma dúvida ou quer encomendar? É só me chamar no WhatsApp abaixo ou me ligar pelo telefone. Até breve!",
         botao: "Reiniciar conversa",
         imagem: "mascote-img10.png",
-        final: true
+        final: true,
+        acao: () => {
+            const posicaoOriginal = window.scrollY;
+            document.querySelector('#contato').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                window.scrollTo({
+                    top: posicaoOriginal,
+                    behavior: 'smooth'
+                });
+            }, 1500);
+        }
     }
 ];
 
