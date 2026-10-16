@@ -209,11 +209,54 @@ async function inicializarEventos() {
 
         container.classList.add("produtos-destaque");
 
+        // Data atual do sistema (ignorando a hora para comparar apenas o dia)
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0);
+
+        // Lista para armazenar todos os pares de (evento + data individual válida)
+        let listaEventosFiltrados = [];
+
         eventos.forEach(evento => {
-            // Obtém a lista de datas cadastradas no formato de array
             const listaDatas = (evento.datas && Array.isArray(evento.datas) && evento.datas.length > 0)
                 ? evento.datas
-                : [evento.data || "Data a confirmar"];
+                : [evento.data || ""];
+
+            listaDatas.forEach(dataStr => {
+                // Converte a string "DD/MM/AAAA" para o formato Date do JavaScript (AAAA-MM-DD)
+                const partes = dataStr.split('/');
+                if (partes.length === 3) {
+                    const dia = parseInt(partes[0], 10);
+                    const mes = parseInt(partes[1], 10) - 1; // Meses no JS começam em 0
+                    const ano = parseInt(partes[2], 10);
+                    const dataObj = new Date(ano, mes, dia);
+
+                    // Verifica se a data é válida e se NÃO já passou (>= hoje)
+                    if (!isNaN(dataObj.getTime()) && dataObj >= hoje) {
+                        listaEventosFiltrados.push({
+                            evento: evento,
+                            dataStr: dataStr,
+                            dataObj: dataObj
+                        });
+                    }
+                }
+            });
+        });
+
+        // Ordena por ordem cronológica (da data mais próxima para a mais distante)
+        listaEventosFiltrados.sort((a, b) => a.dataObj - b.dataObj);
+
+        if (listaEventosFiltrados.length === 0) {
+            container.innerHTML = "<p>Nenhum evento agendado para as próximas datas. Acompanhe o nosso Instagram para novidades!</p>";
+            return;
+        }
+
+        // Renderiza cada card com base na lista filtrada e ordenada
+        listaEventosFiltrados.forEach(item => {
+            const evento = item.evento;
+            const dataIndividual = item.dataStr;
+
+            const card = document.createElement("article");
+            card.classList.add("produto-card");
 
             const imagemHtml = evento.imagem ? `
                 <div class="produto-card-img">
@@ -221,32 +264,26 @@ async function inicializarEventos() {
                 </div>
             ` : '';
 
-            // Cria um card independente para cada data do evento
-            listaDatas.forEach(dataIndividual => {
-                const card = document.createElement("article");
-                card.classList.add("produto-card");
-
-                card.innerHTML = `
-                    ${imagemHtml}
-                    <div class="produto-card-body">
-                        <span class="subtitulo-colecao">📅 ${dataIndividual}</span>
-                        <h3>${evento.nome}</h3>
-                        <p style="margin-bottom: 8px;">${evento.descricao || ''}</p>
-                        <p style="font-size: 0.85rem; color: var(--cinza);">📍 ${evento.local}</p>
-                        <p style="font-size: 0.85rem; color: var(--dourado-escuro); margin-top: 4px; margin-bottom: 12px;">⏰ ${evento.horario}</p>
-                        
-                        <!-- BOTÃO VER DETALHES DO EVENTO -->
-                        <div class="produto-botoes" style="margin-top: auto;">
-                            <a href="pages/evento.html?id=${evento.id}" class="btn-detalhes" style="width: 100%;">Ver detalhes</a>
-                        </div>
+            card.innerHTML = `
+                ${imagemHtml}
+                <div class="produto-card-body">
+                    <span class="subtitulo-colecao">📅 ${dataIndividual}</span>
+                    <h3>${evento.nome}</h3>
+                    <p style="margin-bottom: 8px;">${evento.descricao || ''}</p>
+                    <p style="font-size: 0.85rem; color: var(--cinza);">📍 ${evento.local}</p>
+                    <p style="font-size: 0.85rem; color: var(--dourado-escuro); margin-top: 4px; margin-bottom: 12px;">⏰ ${evento.horario}</p>
+                    
+                    <!-- BOTÃO VER DETALHES DO EVENTO -->
+                    <div class="produto-botoes" style="margin-top: auto;">
+                        <a href="pages/evento.html?id=${evento.id}" class="btn-detalhes" style="width: 100%;">Ver detalhes</a>
                     </div>
-                `;
+                </div>
+            `;
 
-                container.appendChild(card);
-            });
+            container.appendChild(card);
         });
 
-        console.log(`${eventos.length} eventos carregados e distribuídos por data.`);
+        console.log(`${listaEventosFiltrados.length} ocorrências de eventos futuros carregadas e ordenadas.`);
 
     } catch (erro) {
         console.error("Erro ao carregar eventos:", erro);
