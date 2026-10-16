@@ -2889,6 +2889,43 @@ body.pagina-como-funciona,
     display: block;
 }
 /* =========================================================
+   ESTILOS DA SECÇÃO DE REDES SOCIAIS (INSTAGRAM)
+   ========================================================= */
+
+.redes-sociais-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn-redes-personalizado {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 25px;
+    background-color: var(--bordo);
+    color: var(--branco);
+    border-radius: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: var(--transicao);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-redes-personalizado:hover {
+    background-color: var(--bordo-escuro);
+    transform: translateY(-2px);
+}
+
+/* Tamanho padronizado para o ícone do Instagram */
+.icone-redes-btn {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    display: block;
+}
+/* =========================================================
    RESPONSIVIDADE E AJUSTES PARA TELEMÓVEIS / TABLETS
    ========================================================= */
 
