@@ -502,7 +502,7 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 1500);
+            }, 2000);
         }
     },
     {
@@ -517,7 +517,7 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 1500);
+            }, 2200);
         }
     },
     {
@@ -532,7 +532,7 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 1500);
+            }, 2300);
         }
     },
     {
@@ -548,7 +548,7 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 1500);
+            }, 2400);
         }
     }
 ];
