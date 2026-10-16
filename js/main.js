@@ -445,35 +445,30 @@ function inicializarToggleDepoimento() {
     });
 }
 
-
 // -----------------------------------------------------
-// LÓGICA DA CONVERSA INTERATIVA COM O MOISES
+// LÓGICA DA CONVERSA INTERATIVA COM O MOISES (7 CENAS)
 // -----------------------------------------------------
 
 const roteiroConversa = [
     {
-        fala: "Olá! Sou o Moises, o artesão da CamarSan. Clique em mim para começarmos a nossa conversa e conhecer as nossas alianças.",
+        fala: "Olá! Sou o Moises, artesão CamarSan. Clique em Mim para conversarmos sobre as nossas alianças artesanais e sobre este Site.",
         botao: "Vamos lá!",
-        imagem: "mascote-ola.png",
-        posicao: "centro"
+        imagem: "mascote-img1.png"
     },
     {
-        fala: "Na CamarSan, nós não fazemos apenas alianças. Nós transformamos moedas antigas em joias artesanais que carregam histórias e perpetuam gerações. Incrível, não é?",
+        fala: "Transformamos moedas antigas em joias exclusivas e cheias de história para perpetuar gerações. Clique no MENU acima e veja a Seção NOSSA HISTÓRIA!  ",
         botao: "Como funciona?",
-        imagem: "mascote-explicando.png",
-        posicao: "direita"
+        imagem: "mascote-img2.png"
     },
     {
-        fala: "É simples! Você escolhe o modelo no nosso catálogo, combinamos todos os detalhes e medidas pelo WhatsApp, e eu forjo a sua peça à mão. Quer ver alguns modelos?",
-        botao: "Quero ver os destaques!",
-        imagem: "mascote-duvida.png",
-        posicao: "esquerda"
+        fala: "Você escolhe o modelo ideal no catálogo, coloca no CARRINHO e clica em FINALIZAR, nós tratamos de todos os detalhes e medidas a partir daí.",
+        botao: "Quero ver os modelos!",
+        imagem: "mascote-img3.png"
     },
     {
-        fala: "Estes são os nossos modelos mais queridos. Passe para o lado para ver! Gostou de algum?",
-        botao: "Sim! Como recebo?",
-        imagem: "mascote.png",
-        posicao: "centro",
+        fala: "Estes são os nossos destaques mais queridos. Você pode ver os detalhes e logo abaixo pode ver todos os Modelos do CATÁLOGO!",
+        botao: "Como faço o pedido?",
+        imagem: "mascote-img4.png",
         acao: () => {
             const posicaoOriginal = window.scrollY;
             document.querySelector('#destaques').scrollIntoView({ behavior: 'smooth' });
@@ -482,14 +477,38 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 4000);
+            }, 1500);
         }
     },
     {
-        fala: "Nós enviamos para todo o Brasil via Correios, entregamos por motoboy na região ou você pode retirar presencialmente. Se tiver qualquer dúvida sobre medidas ou modelos, é só me chamar no WhatsApp aqui embaixo. Até breve!",
-        botao: "Entendi, obrigado!",
-        imagem: "mascote-tchau.png",
-        posicao: "centro",
+        fala: "Combinamos tudo diretamente pelo WhatsApp de forma rápida, segura e totalmente personalizada.",
+        botao: "Quais as entregas?",
+        imagem: "mascote-img5.png"
+    },
+    {
+        fala: "Enviamos via Correios para todo o Brasil, entregamos por motoboy na região ou retirada local.",
+        botao: "Perfeito!",
+        imagem: "mascote-img6.png"
+    },
+    {
+        fala: "Veja mais sobre meu trabalho no instagram, sempre posto o passo a passo de como faço a forja, o polimento e demais etapas do processo produtivo.",
+        botao: "Segue lá",
+        imagem: "mascote-img7.png"
+    },
+    {
+        fala: "Veja os Eventos que Participamos em Caxias do Sul, estamos nas Melhores Feiras da Cidade!",
+        botao: "Nos Vemos Por Aí!",
+        imagem: "mascote-img8.png"
+    },
+    {
+        fala: "Depois de sua experiência com a Camarsan deixe o seu feedback nos depoimentos abaixo, sua opinião é muito importante para nós!",
+        botao: "COMENTEM!",
+        imagem: "mascote-img9.png"
+    },
+    {
+        fala: "Ficou com alguma dúvida ou quer encomendar? É só me chamar no WhatsApp abaixo. Até breve!",
+        botao: "Reiniciar conversa",
+        imagem: "mascote-img10.png",
         final: true
     }
 ];
@@ -503,29 +522,25 @@ const balaoFala = document.getElementById('balao-fala-moises');
 const textoFala = document.getElementById('texto-fala');
 const btnProxima = document.getElementById('btn-proxima-fala');
 
+if (imgMascote) {
+    imgMascote.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
+}
+
 if (areaMascote && imgMascote && balaoFala && textoFala && btnProxima) {
     function atualizarCena() {
         const dadosCena = roteiroConversa[cenaAtual];
         balaoFala.classList.remove('visivel');
 
-        setTimeout(() => {
-            imgMascote.style.opacity = 0;
-            setTimeout(() => {
-                imgMascote.src = caminhoImagens + dadosCena.imagem;
-                imgMascote.alt = "Moises explicando";
-                imgMascote.style.opacity = 1;
-            }, 150);
+        // Transição suave apenas de fade e zoom leve, sem mexer na posição horizontal
+        imgMascote.style.opacity = 0;
+        imgMascote.style.transform = "scale(0.96)";
 
-            switch (dadosCena.posicao) {
-                case "direita":
-                    areaMascote.style.left = "50px";
-                    break;
-                case "esquerda":
-                    areaMascote.style.left = "-50px";
-                    break;
-                default:
-                    areaMascote.style.left = "0";
-            }
+        setTimeout(() => {
+            imgMascote.src = caminhoImagens + dadosCena.imagem;
+            imgMascote.alt = `Moises CamarSan - Cena ${cenaAtual + 1}`;
+            
+            imgMascote.style.opacity = 1;
+            imgMascote.style.transform = "scale(1)";
 
             textoFala.textContent = dadosCena.fala;
             btnProxima.textContent = dadosCena.botao;
@@ -535,7 +550,7 @@ if (areaMascote && imgMascote && balaoFala && textoFala && btnProxima) {
             }
 
             if (dadosCena.final) {
-                btnProxima.style.display = 'none';
+                btnProxima.style.display = 'inline-block';
             } else {
                 btnProxima.style.display = 'inline-block';
             }
@@ -562,8 +577,8 @@ if (areaMascote && imgMascote && balaoFala && textoFala && btnProxima) {
             cenaAtual++;
             atualizarCena();
         } else {
-            balaoFala.classList.remove('visivel');
-            cenaAtual = 0;
+            cenaAtual = 0; // Reinicia o ciclo ao chegar ao fim
+            atualizarCena();
         }
     }
 }
