@@ -61,7 +61,7 @@
                 <li><a href="pages/numismatica.html" class="btn-com-som">Moedas e Notas</a></li>
                 <li><a href="pages/historia.html" class="btn-com-som">Nossa História</a></li>
                 <li><a href="pages/funciona.html" class="btn-com-som">Como Funciona</a></li>
-                <li><a href="pages/contato.html" class="btn-com-som">Contato</a></li>
+                <li><a href="/index.html#contato" class="btn-com-som">Contato</a></li>
             </ul>
         </div>
     </header>
@@ -270,12 +270,21 @@
                 sobre uma aliança personalizada?
             </p>
 
-            <a href="#" class="btn-whatsapp" id="botao-whatsapp">
-                Falar pelo WhatsApp
-            </a>
+            <div class="contato-caixa-botoes">
+                <!-- Botão do WhatsApp com a função dinâmica e mensagem configurada -->
+                <a href="#" onclick="falarPeloWhatsApp(event)" class="btn-whatsapp-personalizado">
+                    <img src="assets/icone/whats.png" alt="WhatsApp" class="icone-contato-btn">
+                    Falar pelo WhatsApp
+                </a>
+
+                <!-- Bloco do Telefone com link direto para chamada -->
+                <a href="tel:+5554996322787" class="telefone-contato-box">
+                    <img src="assets/icone/fone.png" alt="Telefone" class="icone-contato-btn">
+                    <span>(54) 99632-2787</span>
+                </a>
+            </div>
 
         </section>
-
     </main>
 
 
