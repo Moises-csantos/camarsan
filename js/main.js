@@ -27,6 +27,7 @@ function inicializarSite() {
     inicializarBotoes();
     inicializarAno();
     inicializarProdutosDestaque();
+    inicializarNumismaticaDestaque(); // <-- Adicionado para carregar as moedas e notas na home
     inicializarEventos();
     inicializarDepoimentos();
     inicializarEnvioDepoimento();
@@ -185,6 +186,61 @@ async function inicializarProdutosDestaque() {
         container.innerHTML = "<p>Não foi possível carregar os produtos.</p>";
     }
 }
+
+
+// -----------------------------------------------------
+// API - NUMISMÁTICA EM DESTAQUE (MOEDAS E NOTAS)
+// -----------------------------------------------------
+
+async function inicializarNumismaticaDestaque() {
+    const container = document.querySelector("#numismatica-home");
+
+    if (!container) {
+        return; // Caso a secção não esteja presente na página atual
+    }
+
+    try {
+        const resposta = await fetch(`${CONFIG.API_URL}/numismatica`);
+
+        if (!resposta.ok) {
+            throw new Error(`Erro HTTP: ${resposta.status}`);
+        }
+
+        const itens = await resposta.json();
+        container.innerHTML = "";
+
+        if (itens.length === 0) {
+            container.innerHTML = "<p>Nenhuma peça numismática cadastrada no momento.</p>";
+            return;
+        }
+
+        // Mostra até 4 peças em destaque na página inicial
+        itens.slice(0, 4).forEach(item => {
+            const card = document.createElement("article");
+            card.classList.add("produto-card");
+
+            const fotoUrl = item.imagens && item.imagens.length > 0 ? item.imagens[0] : '';
+
+            card.innerHTML = `
+                <img src="${fotoUrl}" alt="${item.nome}">
+                <h3>${item.nome}</h3>
+                <p>${item.descricao ? item.descricao.substring(0, 70) + '...' : ''}</p>
+                <p class="produto-preco">R$ ${Number(item.preco).toFixed(2).replace(".", ",")}</p>
+                <a href="pages/item-numismatica.html?id=${item.id}">Ver detalhes</a>
+            `;
+
+            container.appendChild(card);
+        });
+
+        console.log(`${itens.length} peças numismáticas carregadas pela API.`);
+
+    } catch (erro) {
+        console.error("Erro ao carregar numismática:", erro);
+        container.innerHTML = "<p>Não foi possível carregar as moedas e notas antigas.</p>";
+    }
+}
+
+
 async function inicializarEventos() {
     const container = document.querySelector("#eventos-container");
 
@@ -517,7 +573,7 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 2200);
+            }, 2000);
         }
     },
     {
@@ -532,7 +588,7 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 2300);
+            }, 2000);
         }
     },
     {
@@ -548,7 +604,7 @@ const roteiroConversa = [
                     top: posicaoOriginal,
                     behavior: 'smooth'
                 });
-            }, 2400);
+            }, 2000);
         }
     }
 ];
