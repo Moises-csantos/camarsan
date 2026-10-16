@@ -210,8 +210,10 @@ async function inicializarEventos() {
         container.classList.add("produtos-destaque");
 
         eventos.forEach(evento => {
-            const card = document.createElement("article");
-            card.classList.add("produto-card");
+            // Obtém a lista de datas cadastradas no formato de array
+            const listaDatas = (evento.datas && Array.isArray(evento.datas) && evento.datas.length > 0)
+                ? evento.datas
+                : [evento.data || "Data a confirmar"];
 
             const imagemHtml = evento.imagem ? `
                 <div class="produto-card-img">
@@ -219,34 +221,32 @@ async function inicializarEventos() {
                 </div>
             ` : '';
 
-            // Trata as datas: se houver um array de datas, junta-as formatadas; senão, usa o campo legado
-            let textoDatas = "Data a confirmar";
-            if (evento.datas && Array.isArray(evento.datas) && evento.datas.length > 0) {
-                textoDatas = evento.datas.join(" | ");
-            } else if (evento.data) {
-                textoDatas = evento.data;
-            }
+            // Cria um card independente para cada data do evento
+            listaDatas.forEach(dataIndividual => {
+                const card = document.createElement("article");
+                card.classList.add("produto-card");
 
-            card.innerHTML = `
-                ${imagemHtml}
-                <div class="produto-card-body">
-                    <span class="subtitulo-colecao">📅 ${textoDatas}</span>
-                    <h3>${evento.nome}</h3>
-                    <p style="margin-bottom: 8px;">${evento.descricao || ''}</p>
-                    <p style="font-size: 0.85rem; color: var(--cinza);">📍 ${evento.local}</p>
-                    <p style="font-size: 0.85rem; color: var(--dourado-escuro); margin-top: 4px; margin-bottom: 12px;">⏰ ${evento.horario}</p>
-                    
-                    <!-- BOTÃO VER DETALHES DO EVENTO -->
-                    <div class="produto-botoes" style="margin-top: auto;">
-                        <a href="pages/evento.html?id=${evento.id}" class="btn-detalhes" style="width: 100%;">Ver detalhes</a>
+                card.innerHTML = `
+                    ${imagemHtml}
+                    <div class="produto-card-body">
+                        <span class="subtitulo-colecao">📅 ${dataIndividual}</span>
+                        <h3>${evento.nome}</h3>
+                        <p style="margin-bottom: 8px;">${evento.descricao || ''}</p>
+                        <p style="font-size: 0.85rem; color: var(--cinza);">📍 ${evento.local}</p>
+                        <p style="font-size: 0.85rem; color: var(--dourado-escuro); margin-top: 4px; margin-bottom: 12px;">⏰ ${evento.horario}</p>
+                        
+                        <!-- BOTÃO VER DETALHES DO EVENTO -->
+                        <div class="produto-botoes" style="margin-top: auto;">
+                            <a href="pages/evento.html?id=${evento.id}" class="btn-detalhes" style="width: 100%;">Ver detalhes</a>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
 
-            container.appendChild(card);
+                container.appendChild(card);
+            });
         });
 
-        console.log(`${eventos.length} eventos carregados pela API.`);
+        console.log(`${eventos.length} eventos carregados e distribuídos por data.`);
 
     } catch (erro) {
         console.error("Erro ao carregar eventos:", erro);
