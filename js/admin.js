@@ -22,6 +22,7 @@ formLogin.addEventListener('submit', function (e) {
         carregarNumismaticaAdmin();
         carregarDepoimentosAdmin();
         carregarEventosAdmin();
+        inicializarSanfonaAdmin();
     } else {
         alert('Senha incorreta!');
     }
@@ -180,6 +181,9 @@ window.prepararEdicao = function (id, prodJsonStr) {
     document.getElementById('btn-salvar-prod').innerText = 'Atualizar Produto';
     document.getElementById('btn-cancelar-edicao').style.display = 'block';
 
+    // Abre a sanfona de produtos automaticamente ao editar
+    document.getElementById('form-produto').closest('.bloco-sanfona')?.classList.add('ativo');
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -310,6 +314,25 @@ function atualizarPreviewNumismatica() {
             containerPreviewNum.appendChild(miniaturaWrapper);
         };
         reader.readAsDataURL(file);
+    });
+}
+// =====================================================
+// LÓGICA DAS SECÇÕES SANFONA (ACCORDION) NO ADMIN
+// =====================================================
+function inicializarSanfonaAdmin() {
+    const botoesHeader = document.querySelectorAll('.btn-sanfona-header');
+
+    botoesHeader.forEach(botao => {
+        // Evita duplicar escutadores de evento se a função for chamada mais de uma vez
+        botao.replaceWith(botao.cloneNode(true));
+    });
+
+    // Re-seleciona os botões clonados para adicionar o evento limpo
+    document.querySelectorAll('.btn-sanfona-header').forEach(botao => {
+        botao.addEventListener('click', function () {
+            const blocoPai = this.closest('.bloco-sanfona');
+            blocoPai.classList.toggle('ativo');
+        });
     });
 }
 // --- BOTÃO SAIR / BLOQUEAR PAINEL ---
@@ -496,7 +519,6 @@ window.prepararEdicaoEvento = function (id, eventoJsonStr) {
     document.getElementById('evento-nome').value = ev.nome || '';
     document.getElementById('evento-desc').value = ev.descricao || '';
     
-    // Converte o array de datas de volta para uma string separada por vírgula para aparecer no input
     const datasStr = Array.isArray(ev.datas) ? ev.datas.join(', ') : (ev.data || '');
     document.getElementById('evento-datas').value = datasStr;
 
@@ -507,6 +529,9 @@ window.prepararEdicaoEvento = function (id, eventoJsonStr) {
 
     document.getElementById('btn-salvar-evento').innerText = 'Atualizar Evento';
     document.getElementById('btn-cancelar-edicao-evento').style.display = 'block';
+
+    // Abre a sanfona de eventos automaticamente ao editar
+    document.getElementById('form-evento').closest('.bloco-sanfona')?.classList.add('ativo');
 
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
@@ -645,6 +670,9 @@ window.prepararEdicaoNumismatica = function (id, itemJsonStr) {
     document.getElementById('btn-salvar-num').innerText = 'Atualizar Peça';
     document.getElementById('btn-cancelar-edicao-num').style.display = 'block';
 
+    // Abre a sanfona de numismática automaticamente ao editar
+    document.getElementById('form-numismatica').closest('.bloco-sanfona')?.classList.add('ativo');
+
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
@@ -702,7 +730,8 @@ if (formNumismatica) {
             } else {
                 alert('Erro ao guardar a peça na API.');
             }
-        } catch (erro) {
+        } 
+        catch (erro) {
             console.error('Erro:', erro);
             alert('Não foi possível ligar à API.');
         }
