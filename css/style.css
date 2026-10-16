@@ -52,8 +52,7 @@ section {
 
 /* =========================================================
    2. CABEÇALHO E ÍCONES (LIMPO, SEM BORDAS E EM DOBRO)
-   ========================================================= */
-
+   ========================================================= *
 header {
     background-color: var(--grafite);
     color: var(--branco);
@@ -79,7 +78,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
+    gap: 8px;
 }
 
 .logo-link img {
@@ -88,74 +87,55 @@ header {
     display: block;
 }
 
-/* Botão de Menu limpo, sem borda */
-.menu-toggle-btn {
+/* --- ESTILO PADRONIZADO PARA OS ÍCONES (MENU, CARRINHO E LOGIN) --- */
+
+/* Botão de Menu com formato 1:1 circular igual ao carrinho/login */
+.menu-toggle-btn.icone-acao-link,
+.menu-acoes-cliente .icone-acao-link {
+    position: relative !important;
     background: transparent !important;
     border: none !important;
-    color: var(--dourado-claro);
-    padding: 4px 0;
+    outline: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
     cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
     transition: var(--transicao);
 }
 
-.menu-toggle-btn:hover {
-    color: var(--branco);
+.menu-toggle-btn.icone-acao-link:hover,
+.menu-acoes-cliente .icone-acao-link:hover {
+    background-color: rgba(201, 162, 39, 0.15) !important;
+    transform: translateY(-2px);
 }
 
-.icone-menu-img {
-    width: 36px;     
-    height: 36px;    
-    object-fit: contain;
-    display: block;
+.menu-toggle-btn .icone-acao-img,
+.menu-acoes-cliente .icone-acao-img {
+    width: 38px !important;
+    height: 38px !important;
+    object-fit: contain !important;
+    display: block !important;
 }
 
-/* Ações do cliente (Carrinho e Login - Grandes e sem bordas) */
+/* Ações do cliente */
 .menu-acoes-cliente {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-.menu-acoes-cliente .icone-acao-link {
-    position: relative !important;
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    width: 50px !important;
-    height: 50px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-radius: 50% !important;
-    padding: 0 !important;
-    transition: var(--transicao);
-}
-
-.menu-acoes-cliente .icone-acao-link:hover {
-    background-color: rgba(201, 162, 39, 0.15) !important;
-    transform: translateY(-2px);
-}
-
-.menu-acoes-cliente .icone-acao-img {
-    width: 40px !important;
-    height: 40px !important;
-    object-fit: contain !important;
-    display: block !important;
-}
-
-/* Contador do carrinho ajustado */
+/* Contador do carrinho */
 .contador-badge {
     position: absolute !important;
-    top: 2px !important;
-    right: 2px !important;
+    top: 0 !important;
+    right: 0 !important;
     background-color: var(--bordo) !important;
     color: var(--branco) !important;
-    font-size: 0.75rem !important;
+    font-size: 0.7rem !important;
     font-weight: bold !important;
     padding: 2px 6px !important;
     border-radius: 50% !important;
@@ -164,7 +144,7 @@ header {
     border: 2px solid var(--grafite) !important;
 }
 
-/* Caixa do menu suspenso */
+/* Menu de navegação suspenso */
 .nav-dropdown-menu {
     position: absolute;
     top: 100%;
@@ -207,7 +187,46 @@ header {
     color: var(--dourado-claro);
     padding-left: 5px;
 }
+/* =========================================================
+   AJUSTE DO BOTÃO DE MENU PARA FICAR IDÊNTICO AO CARRINHO E LOGIN
+   ========================================================= */
 
+.nav-topo-escala {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+/* Força o botão de menu a ter o mesmo tamanho e estilo circular dos ícones do carrinho/login */
+.menu-toggle-btn.icone-acao-link {
+    position: relative !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.menu-toggle-btn.icone-acao-link:hover {
+    background-color: rgba(201, 162, 39, 0.15) !important;
+    transform: translateY(-2px);
+}
+
+/* Garante o mesmo tamanho para a imagem do ícone do menu (40px) */
+.menu-toggle-btn .icone-acao-img {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: contain !important;
+    display: block !important;
+}
 /* =========================================================
    BLOCO UNIFICADO (HERO + CONVERSA COM O MASCOTE)
    ========================================================= */
