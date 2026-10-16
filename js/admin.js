@@ -1,6 +1,7 @@
 const SENHA_MESTRE = "12345";
 const URL_API_BASE = "https://aliancascamarsan1993.pythonanywhere.com";
 const URL_API_PRODUTOS = `${URL_API_BASE}/produtos`;
+const URL_API_NUMISMATICA = `${URL_API_BASE}/numismatica`;
 const URL_API_DEPOIMENTOS = `${URL_API_BASE}/depoimentos`;
 const URL_API_ADMIN_DEPOIMENTOS = `${URL_API_BASE}/admin/depoimentos`;
 
@@ -18,6 +19,7 @@ formLogin.addEventListener('submit', function (e) {
         secaoLogin.style.display = 'none';
         secaoPainel.style.display = 'block';
         carregarProdutosAdmin();
+        carregarNumismaticaAdmin();
         carregarDepoimentosAdmin();
         carregarEventosAdmin();
     } else {
@@ -242,7 +244,74 @@ formProduto.addEventListener('submit', async function (e) {
         alert('Não foi possível ligar à API.');
     }
 });
+let arquivosNumSelecionados = [];
+const inputNumImagem = document.getElementById('num-imagens');
 
+if (inputNumImagem) {
+    const containerPreviewNum = document.createElement('div');
+    containerPreviewNum.id = 'preview-numismatica-admin';
+    containerPreviewNum.style.cssText = 'display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;';
+    inputNumImagem.parentNode.insertBefore(containerPreviewNum, inputNumImagem.nextSibling);
+
+    inputNumImagem.addEventListener('change', function (e) {
+        arquivosNumSelecionados = Array.from(e.target.files);
+        atualizarPreviewNumismatica();
+    });
+}
+
+function atualizarPreviewNumismatica() {
+    const containerPreviewNum = document.getElementById('preview-numismatica-admin');
+    if (!containerPreviewNum) return;
+    containerPreviewNum.innerHTML = '';
+
+    if (arquivosNumSelecionados.length > 0) {
+        const aviso = document.createElement('p');
+        aviso.style.cssText = 'width: 100%; font-size: 0.85rem; color: #666; margin-bottom: 5px;';
+        aviso.innerHTML = '⭐ <strong>Capa actual:</strong> (A primeira imagem com moldura dourada será a capa). Clique noutra para definir como capa:';
+        containerPreviewNum.appendChild(aviso);
+    }
+
+    arquivosNumSelecionados.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const miniaturaWrapper = document.createElement('div');
+            const ehCapa = index === 0;
+
+            miniaturaWrapper.style.cssText = `
+                position: relative;
+                width: 70px;
+                height: 70px;
+                border: 3px solid ${ehCapa ? 'var(--dourado, #c9a227)' : 'transparent'};
+                border-radius: 8px;
+                overflow: hidden;
+                cursor: pointer;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                transition: transform 0.2s;
+            `;
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+            miniaturaWrapper.appendChild(img);
+
+            if (ehCapa) {
+                const badge = document.createElement('span');
+                badge.innerText = 'CAPA';
+                badge.style.cssText = 'position: absolute; bottom: 0; left: 0; right: 0; background: rgba(201,162,39,0.9); color: #1d1d1d; font-size: 9px; font-weight: bold; text-align: center;';
+                miniaturaWrapper.appendChild(badge);
+            }
+
+            miniaturaWrapper.addEventListener('click', () => {
+                const imagemClicada = arquivosNumSelecionados.splice(index, 1)[0];
+                arquivosNumSelecionados.unshift(imagemClicada);
+                atualizarPreviewNumismatica();
+            });
+
+            containerPreviewNum.appendChild(miniaturaWrapper);
+        };
+        reader.readAsDataURL(file);
+    });
+}
 // --- BOTÃO SAIR / BLOQUEAR PAINEL ---
 document.addEventListener('click', function (e) {
     if (e.target && (e.target.id === 'btn-sair' || e.target.closest('#btn-sair'))) {
@@ -491,6 +560,147 @@ if (formEvento) {
                 carregarEventosAdmin();
             } else {
                 alert('Erro ao guardar o evento na API.');
+            }
+        } catch (erro) {
+            console.error('Erro:', erro);
+            alert('Não foi possível ligar à API.');
+        }
+    });
+}
+const formNumismatica = document.getElementById('form-numismatica');
+
+async function carregarNumismaticaAdmin() {
+    const listaDiv = document.getElementById('lista-numismatica-admin');
+    if (!listaDiv) return;
+
+    listaDiv.innerHTML = '<p>A carregar moedas e notas...</p>';
+
+    try {
+        const resposta = await fetch(URL_API_NUMISMATICA);
+        const itens = await resposta.json();
+
+        if (itens.length === 0) {
+            listaDiv.innerHTML = '<p>Nenhuma peça cadastrada no momento.</p>';
+            return;
+        }
+
+        let html = '<h3>Peças Cadastradas (Gerir)</h3><div style="display: flex; flex-direction: column; gap: 10px;">';
+
+        itens.forEach(item => {
+            const itemId = item.id || item._id;
+            html += `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: left;">
+                    <div>
+                        <strong>${item.nome}</strong> (${item.tipo}) - R$ ${parseFloat(item.preco).toFixed(2)}
+                        <br><small style="color: #666;">Ano: ${item.ano || 'N/D'} | Estado: ${item.estado_conservacao || 'N/D'}</small>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" onclick="prepararEdicaoNumismatica('${itemId}', '${encodeURIComponent(JSON.stringify(item))}')" style="background: #c9a227; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Editar</button>
+                        <button type="button" onclick="excluirNumismatica('${itemId}')" style="background: #d9534f; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Excluir</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        listaDiv.innerHTML = html;
+
+    } catch (erro) {
+        console.error('Erro ao carregar numismática:', erro);
+        listaDiv.innerHTML = '<p style="color: red;">Erro ao carregar lista da API.</p>';
+    }
+}
+
+window.excluirNumismatica = async function (id) {
+    if (!confirm('Tem certeza de que deseja excluir esta peça?')) return;
+
+    try {
+        const resposta = await fetch(`${URL_API_NUMISMATICA}/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (resposta.ok) {
+            alert('Peça excluída com sucesso!');
+            carregarNumismaticaAdmin();
+        } else {
+            alert('Erro ao excluir a peça.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível comunicar com a API.');
+    }
+}
+
+window.prepararEdicaoNumismatica = function (id, itemJsonStr) {
+    const item = JSON.parse(decodeURIComponent(itemJsonStr));
+
+    document.getElementById('edit-numismatica-id').value = id;
+    document.getElementById('num-nome').value = item.nome || '';
+    document.getElementById('num-desc').value = item.descricao || '';
+    document.getElementById('num-preco').value = item.preco || '';
+    document.getElementById('num-tipo').value = item.tipo || 'Moeda';
+    document.getElementById('num-ano').value = item.ano || '';
+    document.getElementById('num-estado').value = item.estado_conservacao || '';
+
+    document.getElementById('btn-salvar-num').innerText = 'Atualizar Peça';
+    document.getElementById('btn-cancelar-edicao-num').style.display = 'block';
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+document.getElementById('btn-cancelar-edicao-num')?.addEventListener('click', function () {
+    formNumismatica.reset();
+    document.getElementById('edit-numismatica-id').value = '';
+    document.getElementById('btn-salvar-num').innerText = 'Salvar Peça no Acervo';
+    this.style.display = 'none';
+    arquivosNumSelecionados = [];
+    const containerPreview = document.getElementById('preview-numismatica-admin');
+    if (containerPreview) containerPreview.innerHTML = '';
+});
+
+if (formNumismatica) {
+    formNumismatica.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const idEdicao = document.getElementById('edit-numismatica-id').value;
+        const isEditando = idEdicao !== '';
+
+        const formData = new FormData();
+        formData.append('nome', document.getElementById('num-nome').value);
+        formData.append('descricao', document.getElementById('num-desc').value);
+        formData.append('preco', document.getElementById('num-preco').value);
+        formData.append('tipo', document.getElementById('num-tipo').value);
+        formData.append('ano', document.getElementById('num-ano').value);
+        formData.append('estado_conservacao', document.getElementById('num-estado').value);
+
+        // Garante que todas as imagens (com a capa na primeira posição) são enviadas
+        arquivosNumSelecionados.forEach(file => {
+            formData.append('imagens', file);
+        });
+
+        const urlDestino = isEditando ? `${URL_API_NUMISMATICA}/${idEdicao}` : URL_API_NUMISMATICA;
+        const metodoHttp = isEditando ? 'PUT' : 'POST';
+
+        try {
+            const resposta = await fetch(urlDestino, {
+                method: metodoHttp,
+                body: formData
+            });
+
+            if (resposta.ok) {
+                alert(isEditando ? 'Peça atualizada com sucesso!' : 'Peça cadastrada com sucesso!');
+                formNumismatica.reset();
+                document.getElementById('edit-numismatica-id').value = '';
+                document.getElementById('btn-salvar-num').innerText = 'Salvar Peça no Acervo';
+                document.getElementById('btn-cancelar-edicao-num').style.display = 'none';
+                arquivosNumSelecionados = [];
+
+                const containerPreview = document.getElementById('preview-numismatica-admin');
+                if (containerPreview) containerPreview.innerHTML = '';
+
+                carregarNumismaticaAdmin();
+            } else {
+                alert('Erro ao guardar a peça na API.');
             }
         } catch (erro) {
             console.error('Erro:', erro);
