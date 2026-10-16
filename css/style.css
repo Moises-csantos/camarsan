@@ -2638,6 +2638,23 @@ body.pagina-como-funciona,
     display: block;
     margin-bottom: 4px;
 }
+/* Botão Ver Detalhes nos Eventos */
+.evento-card .btn-detalhes {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: var(--grafite);
+    color: var(--branco);
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transicao);
+}
+
+.evento-card .btn-detalhes:hover {
+    background-color: var(--bordo);
+}
 /* =========================================================
    ESTILOS DO FORMULÁRIO DE NUMISMÁTICA (PADRÃO ADMIN)
    ========================================================= */
@@ -2705,7 +2722,44 @@ body.pagina-como-funciona,
     background-color: var(--bordo) !important;
     color: var(--branco) !important;
 }
+/* =========================================================
+   SECÇÃO DE NUMISMÁTICA NA INDEX (IDÊNTICA AOS DESTAQUES)
+   ========================================================= */
 
+#numismatica-destaques {
+    background-color: var(--creme);
+    text-align: center;
+    padding: 80px 8%;
+}
+
+#numismatica-destaques > p {
+    color: var(--dourado-escuro);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+#numismatica-destaques h2 {
+    font-size: 2.8rem;
+    margin: 10px 0 40px;
+    color: var(--grafite);
+}
+
+#numismatica-destaques > a {
+    display: inline-block;
+    margin-top: 40px;
+    padding: 13px 25px;
+    background-color: var(--bordo);
+    color: var(--branco);
+    border-radius: 25px;
+    font-weight: bold;
+    transition: var(--transicao);
+    text-decoration: none;
+}
+
+#numismatica-destaques > a:hover {
+    background-color: var(--bordo-escuro);
+}
 /* =========================================================
    RESPONSIVIDADE E AJUSTES PARA TELEMÓVEIS / TABLETS
    ========================================================= */
