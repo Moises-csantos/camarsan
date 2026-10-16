@@ -2823,6 +2823,72 @@ body.pagina-como-funciona,
     padding: 20px;
 }
 /* =========================================================
+   ESTILOS DA SECÇÃO DE CONTATO E BOTÕES PERSONALIZADOS
+   ========================================================= */
+
+.contato-caixa-botoes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+/* Botão personalizado do WhatsApp */
+.btn-whatsapp-personalizado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background-color: #25d366;
+    color: #ffffff;
+    padding: 15px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+    transition: var(--transicao);
+    text-decoration: none;
+}
+
+.btn-whatsapp-personalizado:hover {
+    background-color: #1ebd56;
+    transform: translateY(-3px);
+}
+
+/* Caixa com o ícone de telefone e o número legível */
+.telefone-contato-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--dourado);
+    color: var(--branco);
+    padding: 14px 20px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.05rem;
+    transition: var(--transicao);
+    text-decoration: none;
+}
+
+.telefone-contato-box:hover {
+    background-color: rgba(201, 162, 39, 0.2);
+    transform: translateY(-3px);
+}
+
+/* Tamanho padronizado para os pequenos ícones de contato (WhatsApp e Telefone) */
+.icone-contato-btn {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    display: block;
+}
+/* =========================================================
    RESPONSIVIDADE E AJUSTES PARA TELEMÓVEIS / TABLETS
    ========================================================= */
 
