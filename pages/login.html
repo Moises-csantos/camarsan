@@ -24,51 +24,55 @@
         </section>
 
         <!-- SECÇÃO DO PAINEL (Fica oculta até fazer o login correto) -->
-        <section id="secao-painel" style="display: none;">
-            <h2>Painel de Gestão - CamarSan</h2>
-            <p>Bem-vindo, Administrador!</p>
+        <!-- SECÇÃO DO PAINEL DE GESTÃO -->
+<section id="secao-painel">
+    <h2>Painel de Gestão - CamarSan</h2>
+    <p>Bem-vindo, Administrador!</p>
 
-            <h3>Cadastrar Novo Produto</h3>
+    <!-- 1. BLOCO DE PRODUTOS -->
+    <div class="bloco-sanfona">
+        <button type="button" class="btn-sanfona-header">
+            <span>💍 Gestão de Alianças e Produtos</span>
+            <span class="icone-seta">▼</span>
+        </button>
+        <div class="painel-sanfona-conteudo">
             <form id="form-produto" enctype="multipart/form-data">
-                <!-- Campo oculto para controlar a edição -->
                 <input type="hidden" id="edit-produto-id" value="">
-
-                <input type="text" id="nome-prod" placeholder="Nome da Aliança (ex: Modelo 04)" required><br>
-                <textarea id="desc-prod" placeholder="Descrição do produto"></textarea><br>
-                <input type="number" id="preco-prod" step="0.01" placeholder="Preço (ex: 120.00)" required><br>
-
-                <input type="text" id="largura-mm" placeholder="Largura em mm (ex: 6)"><br>
-                <input type="text" id="material" placeholder="Material (ex: Moeda Antiga)"><br>
-                <input type="text" id="acabamento" placeholder="Acabamento (ex: Polido)"><br>
-                <input type="text" id="revestimento" placeholder="Revestimento (ex: Nenhum)"><br>
-                <input type="text" id="personalizacao" placeholder="Personalização (ex: Disponível)"><br>
-                <input type="text" id="disponibilidade" placeholder="Disponibilidade (ex: Em estoque)"><br>
+                <input type="text" id="nome-prod" placeholder="Nome da Aliança (ex: Modelo 04)" required>
+                <textarea id="desc-prod" placeholder="Descrição do produto"></textarea>
+                <input type="number" id="preco-prod" step="0.01" placeholder="Preço (ex: 120.00)" required>
+                <input type="text" id="largura-mm" placeholder="Largura em mm (ex: 6)">
+                <input type="text" id="material" placeholder="Material (ex: Moeda Antiga)">
+                <input type="text" id="acabamento" placeholder="Acabamento (ex: Polido)">
+                <input type="text" id="revestimento" placeholder="Revestimento (ex: Nenhum)">
+                <input type="text" id="personalizacao" placeholder="Personalização (ex: Disponível)">
+                <input type="text" id="disponibilidade" placeholder="Disponibilidade (ex: Em estoque)">
 
                 <label for="imagem-prod" class="label-arquivo">
                     Selecione as fotos do produto (pode escolher várias):
                 </label>
-                <input type="file" id="imagem-prod" accept="image/*" multiple><br>
+                <input type="file" id="imagem-prod" accept="image/*" multiple>
 
                 <button type="submit" id="btn-salvar-prod">Salvar Produto no Banco</button>
-                <button type="button" id="btn-cancelar-edicao" style="display: none;">Cancelar Edição</button>
+                <button type="button" id="btn-cancelar-edicao">Cancelar Edição</button>
             </form>
-
-            <!-- Lista de Produtos Cadastrados -->
             <div id="lista-produtos-admin"></div>
+        </div>
+    </div>
 
-            <h3>Cadastrar Notas e Moedas</h3>
-
+    <!-- 2. BLOCO DE NUMISMÁTICA (MOEDAS E NOTAS) -->
+    <div class="bloco-sanfona">
+        <button type="button" class="btn-sanfona-header">
+            <span>🪙 Gestão de Moedas e Notas Antigas</span>
+            <span class="icone-seta">▼</span>
+        </button>
+        <div class="painel-sanfona-conteudo">
             <form id="form-numismatica" enctype="multipart/form-data">
-                <!-- Campo oculto para controlar a edição -->
                 <input type="hidden" id="edit-numismatica-id" value="">
-
                 <input type="text" id="num-nome" placeholder="Nome da Peça (ex: Moeda de 100 Réis)" required>
-
                 <textarea id="num-desc" placeholder="Descrição histórica da moeda ou nota"></textarea>
-
                 <input type="number" id="num-preco" step="0.01" placeholder="Preço (ex: 150.00)" required>
 
-                <!-- Campo Seletor: Moeda ou Nota -->
                 <select id="num-tipo" required>
                     <option value="" disabled selected>Selecione o Tipo de Peça</option>
                     <option value="Moeda">Moeda</option>
@@ -76,7 +80,6 @@
                 </select>
 
                 <input type="text" id="num-ano" placeholder="Ano ou Período (ex: 1920)">
-
                 <input type="text" id="num-estado" placeholder="Estado de Conservação (ex: MBC / Soberba)">
 
                 <label for="num-imagens" class="label-arquivo">
@@ -85,51 +88,57 @@
                 <input type="file" id="num-imagens" accept="image/*" multiple>
 
                 <button type="submit" id="btn-salvar-num">Salvar Peça no Acervo</button>
-                <button type="button" id="btn-cancelar-edicao-num" style="display: none;">Cancelar Edição</button>
+                <button type="button" id="btn-cancelar-edicao-num">Cancelar Edição</button>
             </form>
-
-            <!-- 👇 ADICIONE ESTA LINHA ABAIXO DO FORMULÁRIO 👇 -->
             <div id="lista-numismatica-admin"></div>
+        </div>
+    </div>
 
-            <!-- GESTÃO DE EVENTOS -->
-            <hr class="admin-divisor">
-            <h3>Cadastrar / Gerir Próximos Eventos</h3>
+    <!-- 3. BLOCO DE EVENTOS -->
+    <div class="bloco-sanfona">
+        <button type="button" class="btn-sanfona-header">
+            <span>📅 Gestão de Próximos Eventos</span>
+            <span class="icone-seta">▼</span>
+        </button>
+        <div class="painel-sanfona-conteudo">
             <form id="form-evento" enctype="multipart/form-data">
                 <input type="hidden" id="edit-evento-id" value="">
+                <input type="text" id="evento-nome" placeholder="Nome do Evento (ex: Feira de Joias RS)" required>
+                <textarea id="evento-desc" placeholder="Descrição do evento"></textarea>
+                <label for="evento-datas">Datas do Evento (separe por vírgula):</label>
+                <input type="text" id="evento-datas" placeholder="Ex: 15/03, 20/06, 10/12" required>
+                <input type="text" id="evento-local" placeholder="Local / Cidade" required>
+                <input type="text" id="evento-mapa" placeholder="Link do Google Maps">
+                <input type="text" id="evento-instagram" placeholder="Link do Instagram do evento">
+                <input type="text" id="evento-horario" placeholder="Horário" value="10h às 20h">
 
-                <input type="text" id="evento-nome" placeholder="Nome do Evento (ex: Feira de Joias RS)" required><br>
-                <textarea id="evento-desc" placeholder="Descrição do evento"></textarea><br>
-                <label for="evento-datas">Datas do Evento (separe por vírgula, ex: 15/03/2026, 20/06/2026,
-                    10/12/2026):</label>
-                <input type="text" id="evento-datas" placeholder="Ex: 15/03, 20/06, 10/12" required><br>
-                <input type="text" id="evento-local"
-                    placeholder="Local / Cidade (ex: Centro de Eventos - Caxias do Sul)" required><br>
-                <input type="text" id="evento-mapa"
-                    placeholder="Link do Google Maps ou Embed (ex: https://maps.google.com/...)"><br>
-                <input type="text" id="evento-instagram"
-                    placeholder="Link do Instagram do evento (ex: https://instagram.com/p/...)"><br>
-                <input type="text" id="evento-horario" placeholder="Horário (ex: 10h às 20h)" value="10h às 20h"><br>
                 <label for="evento-imagem" class="label-arquivo">
                     Imagem do evento (Formato 1:1 recomendado):
                 </label>
-                <input type="file" id="evento-imagem" accept="image/*"><br>
+                <input type="file" id="evento-imagem" accept="image/*">
 
                 <button type="submit" id="btn-salvar-evento">Salvar Evento no Banco</button>
-                <button type="button" id="btn-cancelar-edicao-evento" style="display: none;">Cancelar Edição</button>
+                <button type="button" id="btn-cancelar-edicao-evento">Cancelar Edição</button>
             </form>
-
-            <!-- Lista de Eventos Cadastrados -->
             <div id="lista-eventos-admin"></div>
+        </div>
+    </div>
 
-            <!-- GESTÃO DE DEPOIMENTOS -->
-            <hr class="admin-divisor">
-            <h3>Gerir Depoimentos de Clientes</h3>
+    <!-- 4. BLOCO DE DEPOIMENTOS -->
+    <div class="bloco-sanfona">
+        <button type="button" class="btn-sanfona-header">
+            <span>💬 Gestão de Depoimentos</span>
+            <span class="icone-seta">▼</span>
+        </button>
+        <div class="painel-sanfona-conteudo">
             <p>Aprove novos depoimentos ou exclua os que já estão salvos no sistema.</p>
             <div id="lista-depoimentos-admin"></div>
+        </div>
+    </div>
 
-            <!-- Botão Sair -->
-            <button type="button" id="btn-sair">Sair / Bloquear Painel</button>
-        </section>
+    <!-- Botão Sair -->
+    <button type="button" id="btn-sair">Sair / Bloquear Painel</button>
+</section>
 
     </main>
 
