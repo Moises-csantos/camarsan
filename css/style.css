@@ -2638,7 +2638,73 @@ body.pagina-como-funciona,
     display: block;
     margin-bottom: 4px;
 }
+/* =========================================================
+   ESTILOS DO FORMULÁRIO DE NUMISMÁTICA (PADRÃO ADMIN)
+   ========================================================= */
 
+#form-numismatica input,
+#form-numismatica select,
+#form-numismatica textarea {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1px solid var(--cinza-claro);
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--creme);
+    color: var(--grafite);
+    outline: none;
+    transition: var(--transicao);
+}
+
+#form-numismatica textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+#form-numismatica input:focus,
+#form-numismatica select:focus,
+#form-numismatica textarea:focus {
+    border-color: var(--dourado);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+}
+
+#form-numismatica select {
+    cursor: pointer;
+}
+
+/* Botões do formulário de numismática */
+#form-numismatica button {
+    width: 100%;
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transicao);
+    margin-bottom: 10px;
+}
+
+#form-numismatica button:hover {
+    background-color: var(--dourado-claro);
+    transform: translateY(-2px);
+}
+
+/* Botão de cancelar edição na numismática */
+#btn-cancelar-edicao-num {
+    background-color: transparent !important;
+    color: var(--bordo) !important;
+    border: 1px solid var(--bordo) !important;
+    display: none; /* Oculto por padrão, aparece apenas ao editar */
+}
+
+#btn-cancelar-edicao-num:hover {
+    background-color: var(--bordo) !important;
+    color: var(--branco) !important;
+}
 
 /* =========================================================
    RESPONSIVIDADE E AJUSTES PARA TELEMÓVEIS / TABLETS
