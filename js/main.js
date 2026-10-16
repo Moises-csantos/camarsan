@@ -678,3 +678,13 @@ if (areaMascote && imgMascote && balaoFala && textoFala && btnProxima) {
         }
     }
 }
+// --- FUNÇÃO PARA ABRIR O WHATSAPP COM MENSAGEM GERAL DE CONTATO ---
+function falarPeloWhatsApp(e) {
+    if (e) e.preventDefault();
+
+    const numeroWhatsApp = "5554996322787"; // O seu número configurado
+    const mensagem = "Olá! Gostaria de conversar com a CamarSan sobre sobre assuntos que vi no site e tirar algumas dúvidas.";
+    
+    const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, "_blank");
+}
