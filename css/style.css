@@ -148,7 +148,8 @@ header {
 .nav-dropdown-menu {
     position: absolute;
     top: 100%;
-    left: 4%;
+    right: 5%; /* Alinha a abertura do menu para o lado direito */
+    left: auto;
     background-color: var(--grafite-claro, #2c2c2c);
     border: 1px solid var(--dourado);
     border-radius: 10px;
