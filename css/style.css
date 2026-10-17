@@ -49,7 +49,9 @@ section {
     width: 100%;
     padding: 80px 8%;
 }
-
+button, a, .icone-acao-link, .menu-toggle-btn {
+    -webkit-tap-highlight-color: transparent !important;
+}
 /* =========================================================
    2. CABEÇALHO E ÍCONES (LIMPO, SEM BORDAS E EM DOBRO)
    ========================================================= */
