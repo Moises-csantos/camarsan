@@ -174,10 +174,11 @@ async function inicializarProdutosDestaque() {
 
             card.innerHTML = `
                 <img src="${fotoUrl}" alt="${produto.nome}">
-                <h3>${produto.nome}</h3>
-                <p>${produto.descricao || ''}</p>
-                <p class="produto-preco">R$ ${produto.preco.toFixed(2).replace(".", ",")}</p>
-                <a href="pages/produto.html?id=${produto.id}">Ver detalhes</a>
+                <div class="produto-card-body">
+                    <h3>${produto.nome}</h3>
+                    <p class="produto-preco">R$ ${produto.preco.toFixed(2).replace(".", ",")}</p>
+                    <a href="pages/produto.html?id=${produto.id}" class="btn-detalhes">Ver detalhes</a>
+                </div>
             `;
 
             container.appendChild(card);
@@ -227,10 +228,11 @@ async function inicializarNumismaticaDestaque() {
 
             card.innerHTML = `
                 <img src="${fotoUrl}" alt="${item.nome}">
-                <h3>${item.nome}</h3>
-                <p>${item.descricao ? item.descricao.substring(0, 70) + '...' : ''}</p>
-                <p class="produto-preco">R$ ${Number(item.preco).toFixed(2).replace(".", ",")}</p>
-                <a href="pages/item-numismatica.html?id=${item.id}">Ver detalhes</a>
+                <div class="produto-card-body">
+                    <h3>${item.nome}</h3>
+                    <p class="produto-preco">R$ ${Number(item.preco).toFixed(2).replace(".", ",")}</p>
+                    <a href="pages/item-numismatica.html?id=${item.id}" class="btn-detalhes">Ver detalhes</a>
+                </div>
             `;
 
             container.appendChild(card);
@@ -326,17 +328,14 @@ async function inicializarEventos() {
 
             card.innerHTML = `
                 ${imagemHtml}
-                <div class="produto-card-body">
-                    <span class="subtitulo-colecao">📅 ${dataIndividual}</span>
+                <div class="evento-card-body">
+                    <span class="evento-data-badge">📅 ${dataIndividual}</span>
                     <h3>${evento.nome}</h3>
-                    <p style="margin-bottom: 8px;">${evento.descricao || ''}</p>
-                    <p style="font-size: 0.85rem; color: var(--cinza);">📍 ${evento.local}</p>
-                    <p style="font-size: 0.85rem; color: var(--dourado-escuro); margin-top: 4px; margin-bottom: 12px;">⏰ ${evento.horario}</p>
-                    
-                    <!-- BOTÃO VER DETALHES DO EVENTO -->
-                    <div class="produto-botoes" style="margin-top: auto;">
-                        <a href="pages/evento.html?id=${evento.id}" class="btn-detalhes" style="width: 100%;">Ver detalhes</a>
+                    <div class="evento-info-extra">
+                        <span>📍 ${evento.local}</span>
+                        <span>⏰ ${evento.horario}</span>
                     </div>
+                    <a href="pages/evento.html?id=${evento.id}" class="btn-detalhes">Ver detalhes</a>
                 </div>
             `;
 
