@@ -71,7 +71,7 @@ function inicializarCarrosselDiferenciais() {
 }
 
 // -----------------------------------------------------
-// MENU
+// MENU E SONS (COMPATÍVEL COM RAIZ E SUBPASTAS)
 // -----------------------------------------------------
 
 function inicializarMenu() {
@@ -82,15 +82,19 @@ function inicializarMenu() {
         return;
     }
 
-    // Cria o objeto de áudio compartilhado para o clique
-    const somClique = new Audio('assets/sons/clique.mp3');
+    // Deteta se a página está numa subpasta (ex: /pages/catalogo.html) para ajustar o caminho do som
+    const estaEmSubpasta = window.location.pathname.includes('/pages/');
+    const caminhoSom = estaEmSubpasta ? '../assets/sons/clique.mp3' : 'assets/sons/clique.mp3';
+
+    // Cria o objeto de áudio com o caminho dinâmico correto
+    const somClique = new Audio(caminhoSom);
 
     // Seleciona TODOS os elementos marcados com .btn-com-som no cabeçalho e no menu suspenso
     const elementosComSom = document.querySelectorAll(".btn-com-som");
     
     elementosComSom.forEach(elemento => {
         elemento.addEventListener("click", () => {
-            somClique.currentTime = 0; // Reinicia o áudio para permitir cliques rápidos seguidos
+            somClique.currentTime = 0; // Reinicia o áudio para cliques rápidos seguidos
             somClique.play().catch(erro => console.log("Áudio aguardando interação:", erro));
         });
     });
