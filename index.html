@@ -4,16 +4,32 @@
 <head>
     <meta charset="UTF-8">
 
-    <!-- Responsividade para celulares -->
+    <!-- Responsividade para telemóveis -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Título Principal (Otimizado para pesquisas) -->
+    <title>CamarSan | Alianças de Moedas Antigas & Numismática</title>
+
+    <!-- Descrição Otimizada para o Google -->
     <meta name="description"
-        content="CamarSan Alianças de Moedas Antigas — alianças artesanais forjadas para contar histórias e perpetuar gerações.">
+        content="Alianças artesanais forjadas a partir de moedas antigas para casamento e noivado. Descubra a coleção CamarSan e peças raras de numismática.">
 
+    <!-- Palavras-chave (Keywords) -->
+    <meta name="keywords"
+        content="alianças, alianças de moedas antigas, alianças de casamento, alianças de noivado, moedas antigas, numismática, alianças artesanais, moedas raras, CamarSan, joias de moedas">
+
+    <!-- Autor e Indexação do Google -->
     <meta name="author" content="CamarSan">
+    <meta name="robots" content="index, follow">
 
-    <title>CamarSan | Alianças de Moedas Antigas</title>
+    <!-- Meta Tags Open Graph (Para quando o site for partilhado no WhatsApp / Redes Sociais) -->
+    <meta property="og:title" content="CamarSan | Alianças de Moedas Antigas">
+    <meta property="og:description"
+        content="Alianças artesanais de moedas antigas forjadas para contar histórias. Venha conhecer a nossa coleção.">
+    <meta property="og:image" content="assets/logo/logo.png">
+    <meta property="og:type" content="website">
 
+    <!-- Estilos e Favicon -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/png" href="assets/icones/favicon.png">
 </head>
@@ -25,28 +41,29 @@
     =================================================== -->
     <header>
         <nav class="nav-container">
-            <!-- Esquerda: Logo e o Botão de Menu -->
+            
+            <!-- Esquerda: Apenas a Logo -->
             <div class="nav-topo-escala">
                 <a href="index.html" aria-label="Página inicial da CamarSan" class="logo-link">
                     <img src="assets/logo/logo.png" alt="CamarSan - Alianças de Moedas Antigas">
                 </a>
-
-                <!-- Botão de Menu -->
-                <button class="menu-toggle-btn btn-com-som" id="menu-toggle-btn" aria-label="Abrir menu de navegação">
-                    <img src="assets/icones/menu-icone.png" alt="" class="icone-menu-img">
-                    <span class="texto-menu-rotulo">Menu</span>
-                </button>
             </div>
 
-            <!-- Direita: Ações do cliente (Carrinho e Login em formato de ícone 1:1) -->
+            <!-- Direita: Botão de Menu, Carrinho e Login juntos -->
             <div class="menu-acoes-cliente">
-                <!-- Carrinho (Apenas imagem 1:1 + Contador) -->
+                <!-- Botão de Menu -->
+                <button class="icone-acao-link menu-toggle-btn btn-com-som" id="menu-toggle-btn"
+                    aria-label="Abrir menu de navegação">
+                    <img src="assets/icones/menu-icone.png" alt="Menu" class="icone-acao-img">
+                </button>
+
+                <!-- Carrinho -->
                 <a href="pages/carrinho.html" class="icone-acao-link btn-com-som" aria-label="Carrinho de compras">
                     <img src="assets/icones/carrinho.png" alt="Carrinho" class="icone-acao-img">
                     <span id="contador-carrinho" class="contador-badge">0</span>
                 </a>
 
-                <!-- Login (Apenas imagem 1:1) -->
+                <!-- Login -->
                 <a href="pages/login.html" class="icone-acao-link btn-com-som" aria-label="Minha Conta">
                     <img src="assets/icones/login.png" alt="Login" class="icone-acao-img">
                 </a>
@@ -65,7 +82,6 @@
             </ul>
         </div>
     </header>
-
     <main>
         <section id="hero">
 
