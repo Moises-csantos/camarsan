@@ -1396,3 +1396,103 @@ footer a:hover {
 
 /* Ajuste proporcional rigoroso para telemóveis */
 @media (max-width: 768px) {}
+
+/* =========================================================
+   AJUSTES DE CONSISTÊNCIA VISUAL — CAMARSAN
+   ========================================================= */
+
+/* Cabeçalho fixo durante a rolagem */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Grades mais compactas em telas grandes */
+@media (min-width: 1001px) {
+    .produtos-destaque,
+    .produtos-grid,
+    #eventos-container,
+    .eventos-container {
+        max-width: 1080px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .produto-card,
+    .evento-card {
+        min-width: 0;
+    }
+
+    .produtos-destaque .produto-card img,
+    .produtos-grid .produto-card img,
+    .produto-card > img,
+    .produto-card-img img,
+    .evento-card-img img {
+        height: 155px !important;
+        max-height: 155px !important;
+    }
+
+    .produto-card-img,
+    .evento-card-img {
+        height: 155px !important;
+        max-height: 155px !important;
+    }
+}
+
+/* O espaço do mascote controla o tamanho; a imagem não o determina */
+.mascote-click-area {
+    width: 220px !important;
+    height: 310px !important;
+    flex: 0 0 220px !important;
+    overflow: visible;
+}
+
+.mascote-img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+}
+
+/* Mantém o tamanho adequado em dispositivos móveis */
+@media (max-width: 768px) {
+    .mascote-click-area {
+        width: 125px !important;
+        height: 185px !important;
+        flex: 0 0 125px !important;
+    }
+
+    .mascote-img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+    }
+
+    .produtos-destaque,
+    .produtos-grid,
+    #eventos-container,
+    .eventos-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+}
+
+@media (max-width: 420px) {
+    .mascote-click-area {
+        width: 105px !important;
+        height: 160px !important;
+        flex-basis: 105px !important;
+        margin-right: -12px !important;
+    }
+
+    .produtos-destaque,
+    .produtos-grid,
+    #eventos-container,
+    .eventos-container {
+        grid-template-columns: 1fr;
+    }
+}
