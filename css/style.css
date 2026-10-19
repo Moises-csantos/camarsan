@@ -55,7 +55,7 @@ button, a, .icone-acao-link, .menu-toggle-btn {
 }
 
 /* =========================================================
-   1. CABEÇALHO E ÍCONES (UNIFICADO E SEM DUPLICADOS)
+   1. CABEÇALHO E ÍCONES
    ========================================================= */
 
 header {
@@ -92,14 +92,12 @@ header {
     display: block;
 }
 
-/* Ações do cliente (Direita) */
 .menu-acoes-cliente {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-/* Botões de Ação Padronizados (Menu, Carrinho e Login) */
 .menu-toggle-btn.icone-acao-link,
 .menu-acoes-cliente .icone-acao-link {
     position: relative !important;
@@ -131,7 +129,6 @@ header {
     display: block !important;
 }
 
-/* Contador do carrinho */
 .contador-badge {
     position: absolute !important;
     top: 0 !important;
@@ -147,7 +144,6 @@ header {
     border: 2px solid var(--grafite) !important;
 }
 
-/* Menu de navegação suspenso alinhado rigorosamente à direita */
 .nav-dropdown-menu {
     position: absolute !important;
     top: 100% !important;
@@ -214,7 +210,8 @@ header {
 }
 
 #conversa-mascote {
-    padding: 20px 5% 50px 5%;
+    position: relative;
+    padding: 60px 5%;
     overflow: hidden;
 }
 
@@ -1052,16 +1049,10 @@ footer a:hover {
     text-align: center;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
-/* =========================================================
-   10. SECÇÃO DE CONVERSA COM O MASCOTE (RESTAURADO)
-   ========================================================= */
 
-#conversa-mascote {
-    position: relative;
-    padding: 60px 5%;
-    background: linear-gradient(120deg, var(--grafite), var(--bordo-escuro));
-    overflow: hidden;
-}
+/* =========================================================
+   8. SECÇÃO DE CONVERSA COM O MASCOTE (FORMATO ÚNICO & BALÃO À DIREITA)
+   ========================================================= */
 
 .container-conversa {
     max-width: 1000px;
@@ -1071,7 +1062,6 @@ footer a:hover {
     align-items: center;
 }
 
-/* Força alinhamento lado a lado SEMPRE */
 .mascote-interativo-wrapper {
     position: relative;
     display: flex !important;
@@ -1081,15 +1071,12 @@ footer a:hover {
     width: 100%;
 }
 
-/* CAIXA COM MOLDURA/PROPORÇÃO ÚNICA PARA TODAS AS IMAGENS */
 .mascote-click-area {
     position: relative;
     z-index: 3;
     cursor: pointer;
     flex-shrink: 0;
-    margin-right: -35px; /* Sobreposição elegante com o balão */
-    
-    /* Moldura rígida para travar 1:1, 9:16 ou qualquer outro formato na mesma dimensão */
+    margin-right: -35px;
     width: 220px !important;
     height: 300px !important;
     display: flex !important;
@@ -1100,7 +1087,6 @@ footer a:hover {
 .mascote-img {
     width: 100% !important;
     height: 100% !important;
-    /* Força todas as imagens (1:1, 9:16) a se ajustarem sem esticar/deformar */
     object-fit: contain !important;
     object-position: bottom center !important;
     display: block !important;
@@ -1112,13 +1098,12 @@ footer a:hover {
     transform: scale(1.03);
 }
 
-/* BALÃO DE FALA (SEMPRE À DIREITA) */
 .balao-fala {
     position: relative;
     z-index: 2;
     background-color: var(--branco);
     color: var(--grafite);
-    padding: 25px 30px 25px 50px; /* Recuo à esquerda para o encaixe do mascote */
+    padding: 25px 30px 25px 50px;
     border-radius: 20px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
     max-width: 550px;
@@ -1165,81 +1150,7 @@ footer a:hover {
 }
 
 /* =========================================================
-   8. RESPONSIVIDADE (MEDIA QUERIES)
-   ========================================================= */
-
-@media (max-width: 1000px) {
-    #hero {
-        flex-direction: column;
-        text-align: center;
-    }
-    .diferenciais-container,
-    .produtos-destaque {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    #como-funciona>div,
-    footer {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    #carrinho-conteudo {
-        grid-template-columns: 1fr !important;
-    }
-    #conversa-mascote {
-        padding: 30px 3%;
-    }
-
-    .mascote-interativo-wrapper {
-        flex-direction: row !important; /* Mantém lado a lado no mobile */
-        align-items: center !important;
-    }
-
-    /* Reduz proporcionalmente para caber em telas pequenas sem empilhar */
-    .mascote-click-area {
-        width: 130px !important;
-        height: 190px !important;
-        margin-right: -20px !important;
-    }
-
-    .balao-fala {
-        padding: 18px 18px 18px 30px !important;
-        border-radius: 16px !important;
-    }
-
-    .balao-fala p {
-        font-size: 0.88rem !important;
-        line-height: 1.4 !important;
-        margin-bottom: 12px !important;
-    }
-
-    .btn-conversa,
-    #btn-proxima-fala {
-        padding: 8px 16px !important;
-        font-size: 0.8rem !important;
-    }
-}
-
-@media (max-width: 700px) {
-    section {
-        padding: 40px 5%;
-    }
-    .diferenciais-container {
-        display: flex !important;
-        overflow-x: auto;
-        gap: 15px;
-        padding: 10px 5px;
-        scroll-snap-type: x mandatory;
-    }
-    .diferenciais-container article {
-        flex: 0 0 85%;
-        scroll-snap-align: center;
-    }
-}
-
-/* =========================================================
-   9. PADRONIZAÇÃO DOS CARROSSÉIS (DESTAQUES, NUMISMÁTICA E EVENTOS) - ACRESCENTADO
+   9. PADRONIZAÇÃO DOS CARROSSÉIS (DESTAQUES, NUMISMÁTICA E EVENTOS)
    ========================================================= */
 
 .produtos-destaque,
@@ -1266,7 +1177,6 @@ footer a:hover {
     scrollbar-width: none;
 }
 
-/* No telemóvel (em pé), exibe exatamente 2 cards lado a lado */
 .produtos-destaque .produto-card,
 .eventos-container .evento-card,
 .produtos-destaque article,
@@ -1287,19 +1197,6 @@ footer a:hover {
     margin: 0 !important;
 }
 
-/* No computador ou tela maior (paisagem), exibe 3 ou mais com rolagem lateral fluida */
-@media (min-width: 768px) {
-    .produtos-destaque .produto-card,
-    .eventos-container .evento-card,
-    .produtos-destaque article,
-    .eventos-container article {
-        flex: 0 0 280px !important;
-        min-width: 280px !important;
-        max-width: 280px !important;
-    }
-}
-
-/* Imagem em proporção exata 1:1 */
 .produtos-destaque .produto-card img,
 .eventos-container .evento-card img,
 .produtos-destaque article img,
@@ -1386,4 +1283,79 @@ footer a:hover {
 .btn-detalhes:hover,
 .evento-card .btn-detalhes:hover {
     background-color: var(--bordo) !important;
+}
+
+/* =========================================================
+   10. RESPONSIVIDADE GERAL (MEDIA QUERIES UNIFICADAS)
+   ========================================================= */
+
+@media (max-width: 1000px) {
+    #hero {
+        flex-direction: column;
+        text-align: center;
+    }
+    .diferenciais-container,
+    .produtos-destaque {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    #como-funciona>div,
+    footer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    #carrinho-conteudo {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Ajustes específicos do mascote e balão para telemóveis (mantendo lado a lado) */
+    #conversa-mascote {
+        padding: 30px 3%;
+    }
+
+    .mascote-interativo-wrapper {
+        flex-direction: row !important;
+        align-items: center !important;
+    }
+
+    .mascote-click-area {
+        width: 130px !important;
+        height: 190px !important;
+        margin-right: -20px !important;
+    }
+
+    .balao-fala {
+        padding: 18px 18px 18px 30px !important;
+        border-radius: 16px !important;
+    }
+
+    .balao-fala p {
+        font-size: 0.88rem !important;
+        line-height: 1.4 !important;
+        margin-bottom: 12px !important;
+    }
+
+    .btn-conversa,
+    #btn-proxima-fala {
+        padding: 8px 16px !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 700px) {
+    section {
+        padding: 40px 5%;
+    }
+    .diferenciais-container {
+        display: flex !important;
+        overflow-x: auto;
+        gap: 15px;
+        padding: 10px 5px;
+        scroll-snap-type: x mandatory;
+    }
+    .diferenciais-container article {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+    }
 }
