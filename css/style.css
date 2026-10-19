@@ -1051,39 +1051,51 @@ footer a:hover {
 }
 
 /* =========================================================
-   8. SECÇÃO DE CONVERSA COM O MASCOTE (FORMATO ÚNICO & BALÃO À DIREITA)
+   8. SECÇÃO DE CONVERSA COM O MASCOTE (ALTURA RIGOROSA E LADO A LADO)
    ========================================================= */
 
+#conversa-mascote {
+    position: relative;
+    padding: 60px 5%;
+    overflow: hidden;
+}
+
 .container-conversa {
-    max-width: 1000px;
+    max-width: 950px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* Força alinhamento horizontal perfeito em computadores e telemóveis */
 .mascote-interativo-wrapper {
     position: relative;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 100%;
+    width: 100% !important;
+    gap: 0 !important;
 }
 
+/* CAIXA COM ALTURA E LARGURA FIXAS (Garante que qualquer imagem fique unificada) */
 .mascote-click-area {
     position: relative;
     z-index: 3;
     cursor: pointer;
     flex-shrink: 0;
-    margin-right: -35px;
+    margin-right: -30px !important; /* Sobreposição elegante no canto esquerdo do balão */
+    
     width: 220px !important;
-    height: 300px !important;
+    height: 310px !important; /* Altura unificada e travada */
+    
     display: flex !important;
     align-items: flex-end !important;
     justify-content: center !important;
 }
 
+/* FORÇA O PREENCHIMENTO UNIFICADO DENTRO DA CAIXA */
 .mascote-img {
     width: 100% !important;
     height: 100% !important;
@@ -1103,11 +1115,11 @@ footer a:hover {
     z-index: 2;
     background-color: var(--branco);
     color: var(--grafite);
-    padding: 25px 30px 25px 50px;
+    padding: 25px 30px 25px 50px !important;
     border-radius: 20px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-    max-width: 550px;
-    flex-grow: 1;
+    width: 100% !important;
+    max-width: 520px !important;
     border: 2px solid var(--dourado);
     opacity: 0;
     transform: translateY(10px);
@@ -1121,10 +1133,10 @@ footer a:hover {
 }
 
 .balao-fala p {
-    font-size: 1.05rem;
+    font-size: 1rem !important;
     color: var(--grafite);
-    margin-bottom: 18px;
-    line-height: 1.5;
+    margin-bottom: 18px !important;
+    line-height: 1.45 !important;
     font-weight: 500;
 }
 
@@ -1286,7 +1298,7 @@ footer a:hover {
 }
 
 /* =========================================================
-   10. RESPONSIVIDADE GERAL (MEDIA QUERIES UNIFICADAS)
+   10. RESPONSIVIDADE GERAL E MOBILE DO MASCOTE (UNIFICADAS)
    ========================================================= */
 
 @media (max-width: 1000px) {
@@ -1309,19 +1321,15 @@ footer a:hover {
         grid-template-columns: 1fr !important;
     }
 
-    /* Ajustes específicos do mascote e balão para telemóveis (mantendo lado a lado) */
-    #conversa-mascote {
-        padding: 30px 3%;
-    }
-
+    /* Trava o alinhamento lado a lado e reduz proporcionalmente a caixa no telemóvel */
     .mascote-interativo-wrapper {
         flex-direction: row !important;
         align-items: center !important;
     }
 
     .mascote-click-area {
-        width: 130px !important;
-        height: 190px !important;
+        width: 125px !important;
+        height: 185px !important; /* Altura unificada menor para telemóveis, travada */
         margin-right: -20px !important;
     }
 
@@ -1331,7 +1339,7 @@ footer a:hover {
     }
 
     .balao-fala p {
-        font-size: 0.88rem !important;
+        font-size: 0.85rem !important;
         line-height: 1.4 !important;
         margin-bottom: 12px !important;
     }
