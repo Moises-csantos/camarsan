@@ -41,7 +41,9 @@ a {
     color: inherit;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     line-height: 1.2;
 }
 
@@ -50,7 +52,10 @@ section {
     padding: 80px 8%;
 }
 
-button, a, .icone-acao-link, .menu-toggle-btn {
+button,
+a,
+.icone-acao-link,
+.menu-toggle-btn {
     -webkit-tap-highlight-color: transparent !important;
 }
 
@@ -147,8 +152,8 @@ header {
 .nav-dropdown-menu {
     position: absolute !important;
     top: 100% !important;
-    right: 4% !important;  
-    left: auto !important; 
+    right: 4% !important;
+    left: auto !important;
     background-color: var(--grafite-claro, #2c2c2c) !important;
     border: 1px solid var(--dourado) !important;
     border-radius: 10px !important;
@@ -192,7 +197,7 @@ header {
    2. HERO E CONVERSA COM O MASCOTE
    ========================================================= */
 
-#hero, 
+#hero,
 #conversa-mascote {
     background: linear-gradient(120deg, var(--grafite), var(--bordo-escuro));
     color: var(--branco);
@@ -383,10 +388,12 @@ header {
 .produtos-destaque::-webkit-scrollbar {
     display: none;
 }
+
 .produtos-destaque {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
 .produtos-destaque,
 .produtos-grid {
     max-width: 1200px;
@@ -414,7 +421,7 @@ header {
 
 .produtos-grid .produto-card img,
 .produtos-destaque .produto-card img,
-.produto-card > img,
+.produto-card>img,
 .produto-card-img img {
     width: 100% !important;
     height: 190px !important;
@@ -663,7 +670,7 @@ body.pagina-como-funciona {
     padding: 80px 8%;
 }
 
-#eventos > p {
+#eventos>p {
     color: var(--dourado-escuro);
     text-transform: uppercase;
     font-weight: bold;
@@ -956,7 +963,7 @@ footer a:hover {
     background: linear-gradient(135deg, var(--grafite), var(--bordo-escuro));
 }
 
-#secao-login, 
+#secao-login,
 #secao-painel {
     background-color: var(--branco);
     padding: 40px;
@@ -967,7 +974,7 @@ footer a:hover {
     text-align: center;
 }
 
-#secao-login h2, 
+#secao-login h2,
 #secao-painel h2 {
     color: var(--bordo);
     font-size: 2rem;
@@ -1085,14 +1092,17 @@ footer a:hover {
     z-index: 3;
     cursor: pointer;
     flex-shrink: 0;
-    margin-right: -30px !important; /* Sobreposição elegante no canto esquerdo do balão */
-    
+    margin-right: -30px !important;
     width: 220px !important;
-    height: 310px !important; /* Altura unificada e travada */
-    
+    height: 310px !important;
     display: flex !important;
     align-items: flex-end !important;
     justify-content: center !important;
+
+    /* Remove o destaque azul de toque em dispositivos móveis */
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    user-select: none !important;
 }
 
 /* FORÇA O PREENCHIMENTO UNIFICADO DENTRO DA CAIXA */
@@ -1104,6 +1114,11 @@ footer a:hover {
     display: block !important;
     filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.4));
     transition: transform 0.3s ease;
+
+    /* Garante que a imagem em si não fique com seleções ou molduras azuis ao tocar */
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
 }
 
 .mascote-click-area:hover .mascote-img {
@@ -1183,6 +1198,7 @@ footer a:hover {
 .eventos-container::-webkit-scrollbar {
     display: none;
 }
+
 .produtos-destaque,
 .eventos-container {
     -ms-overflow-style: none;
@@ -1231,7 +1247,7 @@ footer a:hover {
     flex-grow: 1 !important;
 }
 
-.evento-data-badge, 
+.evento-data-badge,
 .subtitulo-colecao {
     display: inline-block !important;
     background-color: rgba(201, 162, 39, 0.15) !important;
@@ -1306,10 +1322,12 @@ footer a:hover {
         flex-direction: column;
         text-align: center;
     }
+
     .diferenciais-container,
     .produtos-destaque {
         grid-template-columns: repeat(2, 1fr);
     }
+
     #como-funciona>div,
     footer {
         grid-template-columns: repeat(2, 1fr);
@@ -1329,8 +1347,14 @@ footer a:hover {
 
     .mascote-click-area {
         width: 125px !important;
-        height: 185px !important; /* Altura unificada menor para telemóveis, travada */
+        height: 185px !important;
+        /* Altura unificada menor para telemóveis, travada */
         margin-right: -20px !important;
+    }
+
+    .mascote-img {
+        height: 100% !important;
+        width: auto !important;
     }
 
     .balao-fala {
@@ -1355,6 +1379,7 @@ footer a:hover {
     section {
         padding: 40px 5%;
     }
+
     .diferenciais-container {
         display: flex !important;
         overflow-x: auto;
@@ -1362,8 +1387,12 @@ footer a:hover {
         padding: 10px 5px;
         scroll-snap-type: x mandatory;
     }
+
     .diferenciais-container article {
         flex: 0 0 85%;
         scroll-snap-align: center;
     }
 }
+
+/* Ajuste proporcional rigoroso para telemóveis */
+@media (max-width: 768px) {}
