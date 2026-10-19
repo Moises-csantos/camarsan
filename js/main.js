@@ -512,7 +512,7 @@ const roteiroConversa = [
     {
         fala: "Olá! Sou o Moises, artesão CamarSan. Clique em Mim para conversarmos sobre as nossas alianças artesanais e sobre este Site.",
         botao: "Vamos lá!",
-        imagem: "mascote-img1.png"
+        imagem: "mascote-img11.png"
     },
     {
         fala: "Transformamos moedas antigas em joias exclusivas e cheias de história para perpetuar gerações. Clique no MENU acima e veja a Seção NOSSA HISTÓRIA!  ",
