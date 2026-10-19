@@ -1058,62 +1058,71 @@ footer a:hover {
 
 #conversa-mascote {
     position: relative;
-    padding: 60px 8%;
+    padding: 60px 5%;
     background: linear-gradient(120deg, var(--grafite), var(--bordo-escuro));
     overflow: hidden;
 }
 
 .container-conversa {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Contentor que aproxima o mascote e sobrepõe o balão levemente atrás */
+/* Força alinhamento lado a lado SEMPRE */
 .mascote-interativo-wrapper {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
     width: 100%;
-    min-height: 380px;
 }
 
-/* Área clicável e tamanho FIXO e IDÊNTICO para todas as imagens do mascote */
+/* CAIXA COM MOLDURA/PROPORÇÃO ÚNICA PARA TODAS AS IMAGENS */
 .mascote-click-area {
     position: relative;
-    z-index: 3; /* Fica na frente do balão */
+    z-index: 3;
     cursor: pointer;
     flex-shrink: 0;
-    margin-right: -40px; /* Cria o efeito de sobreposição ligeira sobre o balão */
+    margin-right: -35px; /* Sobreposição elegante com o balão */
+    
+    /* Moldura rígida para travar 1:1, 9:16 ou qualquer outro formato na mesma dimensão */
+    width: 220px !important;
+    height: 300px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
 }
 
 .mascote-img {
-    width: 260px !important;     /* Largura fixa rigorosa para todas as cenas */
-    height: 340px !important;    /* Altura fixa rigorosa para manter o tamanho idêntico */
+    width: 100% !important;
+    height: 100% !important;
+    /* Força todas as imagens (1:1, 9:16) a se ajustarem sem esticar/deformar */
     object-fit: contain !important;
+    object-position: bottom center !important;
     display: block !important;
-    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.4));
     transition: transform 0.3s ease;
 }
 
 .mascote-click-area:hover .mascote-img {
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
-/* Balão de fala posicionado logo atrás do mascote */
+/* BALÃO DE FALA (SEMPRE À DIREITA) */
 .balao-fala {
     position: relative;
-    z-index: 2; /* Fica ligeiramente atrás do mascote */
+    z-index: 2;
     background-color: var(--branco);
     color: var(--grafite);
-    padding: 30px 35px 30px 60px; /* Espaçamento à esquerda para compensar a sobreposição do mascote */
-    border-radius: 24px;
+    padding: 25px 30px 25px 50px; /* Recuo à esquerda para o encaixe do mascote */
+    border-radius: 20px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-    max-width: 580px;
-    width: 100%;
+    max-width: 550px;
+    flex-grow: 1;
     border: 2px solid var(--dourado);
     opacity: 0;
     transform: translateY(10px);
@@ -1127,23 +1136,22 @@ footer a:hover {
 }
 
 .balao-fala p {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     color: var(--grafite);
-    margin-bottom: 20px;
-    line-height: 1.55;
+    margin-bottom: 18px;
+    line-height: 1.5;
     font-weight: 500;
 }
 
-/* Botão de ação padrão da CamarSan dentro do balão */
 .btn-conversa,
 #btn-proxima-fala {
     background-color: var(--dourado) !important;
     color: var(--grafite) !important;
     border: none !important;
-    padding: 12px 28px !important;
+    padding: 10px 24px !important;
     border-radius: 30px !important;
     font-weight: bold !important;
-    font-size: 0.95rem !important;
+    font-size: 0.9rem !important;
     cursor: pointer !important;
     transition: var(--transicao) !important;
     box-shadow: 0 4px 12px rgba(201, 162, 39, 0.3) !important;
@@ -1154,11 +1162,6 @@ footer a:hover {
 #btn-proxima-fala:hover {
     background-color: var(--dourado-claro) !important;
     transform: translateY(-2px);
-}
-
-/* Responsividade para Telemóveis (Empilha com harmonia mantendo o padrão) */
-@media (max-width: 768px) {
-    
 }
 
 /* =========================================================
@@ -1184,30 +1187,37 @@ footer a:hover {
     #carrinho-conteudo {
         grid-template-columns: 1fr !important;
     }
-    .mascote-interativo-wrapper {
-        flex-direction: column;
-        text-align: center;
-        min-height: auto;
-        gap: 15px;
-    }
-    
-    .mascote-click-area {
-        margin-right: 0;
-        margin-bottom: -25px; /* Sobreposição vertical elegante no mobile */
-        z-index: 3;
+    #conversa-mascote {
+        padding: 30px 3%;
     }
 
-    .mascote-img {
-        width: 200px !important;
-        height: 260px !important;
-        margin: 0 auto;
+    .mascote-interativo-wrapper {
+        flex-direction: row !important; /* Mantém lado a lado no mobile */
+        align-items: center !important;
+    }
+
+    /* Reduz proporcionalmente para caber em telas pequenas sem empilhar */
+    .mascote-click-area {
+        width: 130px !important;
+        height: 190px !important;
+        margin-right: -20px !important;
     }
 
     .balao-fala {
-        max-width: 100%;
-        padding: 35px 20px 25px 20px;
-        text-align: center;
-        z-index: 2;
+        padding: 18px 18px 18px 30px !important;
+        border-radius: 16px !important;
+    }
+
+    .balao-fala p {
+        font-size: 0.88rem !important;
+        line-height: 1.4 !important;
+        margin-bottom: 12px !important;
+    }
+
+    .btn-conversa,
+    #btn-proxima-fala {
+        padding: 8px 16px !important;
+        font-size: 0.8rem !important;
     }
 }
 
