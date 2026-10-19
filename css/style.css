@@ -1052,6 +1052,89 @@ footer a:hover {
     text-align: center;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
+/* =========================================================
+   10. SECÇÃO DE CONVERSA COM O MASCOTE (RESTAURADO)
+   ========================================================= */
+
+.container-conversa {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mascote-interativo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.mascote-click-area {
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: var(--transicao);
+}
+
+.mascote-click-area:hover {
+    transform: scale(1.03);
+}
+
+.mascote-img {
+    width: 160px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+}
+
+.balao-fala {
+    background-color: var(--branco);
+    color: var(--grafite);
+    padding: 22px 25px;
+    border-radius: 20px;
+    box-shadow: var(--sombra);
+    max-width: 550px;
+    flex-grow: 1;
+    position: relative;
+    border: 2px solid var(--dourado);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.balao-fala.visivel {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.balao-fala p {
+    font-size: 1.05rem;
+    color: var(--grafite);
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.btn-conversa {
+    background-color: var(--dourado);
+    color: var(--grafite);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transicao);
+    display: inline-block;
+}
+
+.btn-conversa:hover {
+    background-color: var(--dourado-claro);
+    transform: translateY(-2px);  
+}
 
 /* =========================================================
    8. RESPONSIVIDADE (MEDIA QUERIES)
@@ -1075,6 +1158,21 @@ footer a:hover {
 @media (max-width: 768px) {
     #carrinho-conteudo {
         grid-template-columns: 1fr !important;
+    }
+    .mascote-interativo-wrapper {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .mascote-img {
+        width: 130px;
+        margin: 0 auto;
+    }
+
+    .balao-fala {
+        max-width: 100%;
+        text-align: center;
     }
 }
 
