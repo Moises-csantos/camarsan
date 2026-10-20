@@ -1844,3 +1844,131 @@ header {
         padding: 14px 12px 14px 22px !important;
     }
 }
+
+/* =========================================================
+   PADRONIZAÇÃO VISUAL: NUMISMÁTICA E DEPOIMENTOS
+   Numismática segue os carrosséis de destaques/eventos.
+   Depoimentos mantêm cartões em linhas verticais.
+   ========================================================= */
+
+#numismatica-destaques,
+.secao-depoimentos-publicos {
+    width: 100% !important;
+    padding: 64px 5% !important;
+    text-align: center !important;
+    background-color: var(--branco) !important;
+}
+
+#numismatica-destaques > p,
+#eventos > p,
+#destaques > p {
+    color: var(--dourado-escuro) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    font-weight: bold !important;
+    font-size: 0.85rem !important;
+    margin-bottom: 8px !important;
+}
+
+#numismatica-destaques h2,
+#eventos h2,
+#destaques h2,
+.secao-depoimentos-publicos h2 {
+    font-size: clamp(1.7rem, 3vw, 2.4rem) !important;
+    margin: 10px 0 28px !important;
+    text-align: center !important;
+}
+
+#numismatica-destaques > a,
+#destaques > a:last-child,
+#eventos > a {
+    display: inline-block !important;
+    margin: 22px auto 0 !important;
+}
+
+/* A seção numismática usa o mesmo carrossel compacto dos destaques e eventos. */
+#numismatica-home {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    width: 100% !important;
+    max-width: 1080px !important;
+    margin: 0 auto !important;
+    padding: 10px 4px 22px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+#numismatica-home > * {
+    flex: 0 0 230px !important;
+    width: 230px !important;
+    min-width: 230px !important;
+    max-width: 230px !important;
+    scroll-snap-align: start !important;
+}
+
+/* Depoimentos: cartões no mesmo padrão visual, mas um abaixo do outro. */
+.secao-depoimentos-publicos > p {
+    max-width: 760px !important;
+    margin: 0 auto 26px !important;
+    color: var(--cinza) !important;
+    text-align: center !important;
+}
+
+#lista-depoimentos-publicos {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    gap: 16px !important;
+    width: 100% !important;
+    max-width: 900px !important;
+    margin: 0 auto 28px !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+#lista-depoimentos-publicos .card-depoimento-publico {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    background: var(--branco) !important;
+    border: 1px solid var(--cinza-claro) !important;
+    border-radius: 12px !important;
+    box-shadow: var(--sombra) !important;
+    text-align: left !important;
+}
+
+#lista-depoimentos-publicos .card-depoimento-publico img {
+    flex: 0 0 70px !important;
+    width: 70px !important;
+    height: 70px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+}
+
+@media (max-width: 768px) {
+    #numismatica-destaques,
+    .secao-depoimentos-publicos {
+        padding: 42px 5% !important;
+    }
+
+    #numismatica-home > * {
+        flex-basis: 48% !important;
+        width: 48% !important;
+        min-width: 48% !important;
+        max-width: 48% !important;
+    }
+
+    #lista-depoimentos-publicos .card-depoimento-publico {
+        padding: 15px !important;
+    }
+}
