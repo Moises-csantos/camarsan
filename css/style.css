@@ -1496,3 +1496,52 @@ header {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* =========================================================
+   CORREÇÃO FINAL DO MASCOTE — ALTURA IGUAL EM TODOS OS FRAMES
+   A altura define o tamanho; a largura acompanha a proporção de cada PNG.
+   ========================================================= */
+.mascote-click-area {
+    width: 220px !important;
+    height: 310px !important;
+    flex: 0 0 220px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    overflow: visible !important;
+}
+
+#img-mascote.mascote-img {
+    display: block !important;
+    height: 100% !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: 100% !important;
+    flex: 0 0 auto !important;
+    object-fit: contain !important;
+    object-position: bottom center !important;
+}
+
+@media (max-width: 768px) {
+    .mascote-click-area {
+        width: 125px !important;
+        height: 185px !important;
+        flex-basis: 125px !important;
+    }
+
+    #img-mascote.mascote-img {
+        height: 100% !important;
+        width: auto !important;
+        max-width: none !important;
+        max-height: 100% !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .mascote-click-area {
+        width: 105px !important;
+        height: 160px !important;
+        flex-basis: 105px !important;
+    }
+}
