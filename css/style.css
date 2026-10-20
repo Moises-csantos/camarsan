@@ -1972,3 +1972,95 @@ header {
         padding: 15px !important;
     }
 }
+
+
+/* =========================================================
+   PADRÃO ÚNICO DE TÍTULOS, SUBTÍTULOS E BOTÕES DAS SEÇÕES
+   Destaques, Numismática, Eventos e Depoimentos
+   ========================================================= */
+#destaques,
+#numismatica-destaques,
+#eventos,
+.secao-depoimentos-publicos {
+    background-color: var(--branco) !important;
+}
+
+#destaques h2,
+#numismatica-destaques h2,
+#eventos h2,
+.secao-depoimentos-publicos h2 {
+    color: var(--grafite) !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+}
+
+#destaques > p,
+#numismatica-destaques > p,
+#eventos > p,
+.secao-depoimentos-publicos > p {
+    color: var(--dourado-escuro) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+}
+
+/* Botões e links de ação: mesma cor, tipografia, borda e hover. */
+#destaques > a:last-child,
+#numismatica-destaques > a,
+#eventos > a,
+#destaques .btn-detalhes,
+#destaques .btn-add-carrinho,
+#numismatica-destaques .btn-detalhes,
+#numismatica-destaques .btn-add-carrinho,
+#eventos .btn-detalhes,
+#eventos .btn-add-carrinho,
+#lista-depoimentos-publicos button,
+#lista-depoimentos-publicos .btn,
+.secao-depoimentos-publicos > a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    padding: 12px 22px !important;
+    min-height: 44px !important;
+    border: 1px solid var(--dourado) !important;
+    border-radius: 8px !important;
+    background: var(--bordo) !important;
+    color: var(--branco) !important;
+    font-family: inherit !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease !important;
+}
+
+#destaques > a:last-child:hover,
+#numismatica-destaques > a:hover,
+#eventos > a:hover,
+#destaques .btn-detalhes:hover,
+#destaques .btn-add-carrinho:hover,
+#numismatica-destaques .btn-detalhes:hover,
+#numismatica-destaques .btn-add-carrinho:hover,
+#eventos .btn-detalhes:hover,
+#eventos .btn-add-carrinho:hover,
+#lista-depoimentos-publicos button:hover,
+#lista-depoimentos-publicos .btn:hover,
+.secao-depoimentos-publicos > a:hover {
+    background: var(--bordo-escuro) !important;
+    color: var(--branco) !important;
+    transform: translateY(-1px) !important;
+}
+
+@media (max-width: 768px) {
+    #destaques > a:last-child,
+    #numismatica-destaques > a,
+    #eventos > a,
+    .secao-depoimentos-publicos > a {
+        max-width: 100% !important;
+        padding: 11px 18px !important;
+    }
+}
