@@ -359,7 +359,6 @@ header {
     font-size: 2.8rem;
     margin: 10px 0 45px;
 }
-
 .secao-catalogo {
     background-color: var(--branco);
     padding: 40px 20px;
@@ -2137,3 +2136,88 @@ header {
         flex-basis: 30px;
     }
 }
+/*AJUSTE DO CATÁLOGO CAMARSAN*/
+
+#lista-catalogo.produtos-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    width: 100% !important;
+    max-width: 1080px !important;
+    margin: 0 auto !important;
+    padding: 10px 4px 22px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+#lista-catalogo.produtos-grid::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Mesmo tamanho dos cards da página inicial em telas grandes: 230 px. */
+#lista-catalogo.produtos-grid > * {
+    box-sizing: border-box !important;
+    flex: 0 0 230px !important;
+    width: 230px !important;
+    min-width: 230px !important;
+    max-width: 230px !important;
+    scroll-snap-align: start !important;
+}
+
+/* Preserva a estrutura e o visual dos cards de produto existentes. */
+#lista-catalogo .produto-card {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    margin: 0 !important;
+}
+
+#lista-catalogo .produto-card img,
+#lista-catalogo .produto-card-img,
+#lista-catalogo .produto-card-img img {
+    width: 100% !important;
+    height: 190px !important;
+    max-height: 190px !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: contain !important;
+    background: #f9f9f9 !important;
+}
+
+#lista-catalogo .produto-card-body {
+    padding: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+}
+
+#lista-catalogo .produto-card h3,
+#lista-catalogo .produto-card-body h3 {
+    font-size: 0.95rem !important;
+    line-height: 1.3 !important;
+}
+
+/* No celular, aplica a mesma largura relativa usada na página inicial. */
+@media (max-width: 768px) {
+    #lista-catalogo.produtos-grid > * {
+        flex-basis: 48% !important;
+        width: 48% !important;
+        min-width: 48% !important;
+        max-width: 48% !important;
+    }
+
+    #lista-catalogo .produto-card img,
+    #lista-catalogo .produto-card-img,
+    #lista-catalogo .produto-card-img img {
+        height: auto !important;
+        max-height: none !important;
+        aspect-ratio: 1 / 1 !important;
+    }
+}
+
