@@ -16,24 +16,47 @@
          CABEÇALHO
     =================================================== -->
     <header>
-        <nav>
-            <a href="../index.html" aria-label="Página inicial da CamarSan">
-                <img src="../assets/logo/logo.png" alt="CamarSan - Alianças de Moedas Antigas">
-            </a>
+        <nav class="nav-container">
 
-            <ul>
-                <li><a href="../index.html">Início</a></li>
-                <li><a href="catalogo.html">Alianças</a></li>
-                <li><a href="historia.html">Nossa História</a></li>
-                <li><a href="funciona.html">Como Funciona</a></li>
-                <li><a href="contato.html">Contato</a></li>
-            </ul>
+            <!-- Esquerda: Apenas a Logo -->
+            <div class="nav-topo-escala">
+                <a href="../index.html" aria-label="Página inicial da CamarSan" class="logo-link">
+                    <img src="../assets/logo/logo.png" alt="CamarSan - Alianças de Moedas Antigas">
+                </a>
+            </div>
 
+            <!-- Direita: Botão de Menu, Carrinho e Login juntos -->
             <div class="menu-acoes-cliente">
-                <a href="carrinho.html" class="ativo">Carrinho (<span id="contador-carrinho">0</span>)</a>
-                <a href="login.html">Minha Conta</a>
+                <!-- Botão de Menu -->
+                <button class="icone-acao-link menu-toggle-btn btn-com-som" id="menu-toggle-btn"
+                    aria-label="Abrir menu de navegação">
+                    <img src="../assets/icones/menu-icone.png" alt="Menu" class="icone-acao-img">
+                </button>
+
+                <!-- Carrinho -->
+                <a href="carrinho.html" class="icone-acao-link btn-com-som" aria-label="Carrinho de compras">
+                    <img src="../assets/icones/carrinho.png" alt="Carrinho" class="icone-acao-img">
+                    <span id="contador-carrinho" class="contador-badge">0</span>
+                </a>
+
+                <!-- Login -->
+                <a href="login.html" class="icone-acao-link btn-com-som" aria-label="Minha Conta">
+                    <img src="../assets/icones/login.png" alt="Login" class="icone-acao-img">
+                </a>
             </div>
         </nav>
+
+        <!-- Menu de Navegação suspenso -->
+        <div class="nav-dropdown-menu" id="nav-dropdown-menu">
+            <ul>
+                <li><a href="../index.html" class="btn-com-som">Início</a></li>
+                <li><a href="catalogo.html" class="btn-com-som">Alianças</a></li>
+                <li><a href="numismatica.html" class="btn-com-som">Moedas e Notas</a></li>
+                <li><a href="historia.html" class="btn-com-som">Nossa História</a></li>
+                <li><a href="funciona.html" class="btn-com-som">Como Funciona</a></li>
+                <li><a href="../index.html#contato" class="btn-com-som">Contato</a></li>
+            </ul>
+        </div>
     </header>
 
     <!-- ==================================================
@@ -48,7 +71,7 @@
             </div>
 
             <div id="carrinho-conteudo">
-                
+
                 <!-- Lista de Produtos no Carrinho -->
                 <div id="lista-carrinho">
                     <!-- Preenchido via JavaScript -->
@@ -69,7 +92,7 @@
                     <button id="btn-finalizar-whatsapp" class="btn-whatsapp">
                         Finalizar via WhatsApp
                     </button>
-                    
+
                     <button id="btn-limpar-carrinho" class="btn-limpar">
                         Esvaziar Carrinho
                     </button>
@@ -83,11 +106,13 @@
          RODAPÉ
     =================================================== -->
     <footer>
+
         <div class="footer-marca">
             <h2>CamarSan</h2>
             <p>Alianças de Moedas Antigas</p>
             <p>Forjadas para contar histórias e perpetuar gerações.</p>
         </div>
+
 
         <div class="footer-navegacao">
             <h3>Navegação</h3>
@@ -99,13 +124,32 @@
             <a href="login.html">Minha Conta</a>
         </div>
 
+
+        <div class="footer-atendimento">
+            <h3>Atendimento</h3>
+            <p>Atendimento presencial</p>
+            <p>Motoboy</p>
+            <p>Correios</p>
+            <p>Feiras e eventos</p>
+        </div>
+
+
+        <div class="footer-redes">
+            <h3>Redes sociais</h3>
+            <a href="https://www.instagram.com/moisescamarsan/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+
+
         <div class="footer-direitos">
             <p>© <span id="ano-atual"></span> CamarSan Alianças de Moedas Antigas. Todos os direitos reservados.</p>
         </div>
+
     </footer>
 
-    <!-- Script do Carrinho -->
+    <!-- Script -->
     <script src="../js/carrinho.js"></script>
+    <script src="../js/main.js"></script>
+
 </body>
 
 </html>
