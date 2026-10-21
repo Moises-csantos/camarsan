@@ -2375,29 +2375,36 @@ header {
     margin: 15px 0 !important;
 }
 
-/* Botão "Quero saber mais" padronizado idêntico ao WhatsApp da Home */
+/* =========================================================
+   BOTÃO "QUERO SABER MAIS" IDÊNTICO AO WHATSAPP DA HOME
+   ========================================================= */
+
 #produto-whatsapp.btn-whatsapp {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 12px !important;
+    box-sizing: border-box !important;
     width: 100% !important;
-    background-color: #25d366 !important;
-    color: #ffffff !important;
-    padding: 15px 20px !important;
+    padding: 14px 20px !important;
+    min-height: 54px !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid var(--dourado) !important;
     border-radius: 30px !important;
+    color: var(--branco) !important;
     font-weight: bold !important;
     font-size: 1.05rem !important;
     text-decoration: none !important;
-    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3) !important;
+    box-shadow: none !important;
     transition: var(--transicao) !important;
-    border: none !important;
     cursor: pointer !important;
     margin-top: 20px !important;
 }
 
 #produto-whatsapp.btn-whatsapp:hover {
-    background-color: #1ebd56 !important;
+    background-color: rgba(201, 162, 39, 0.2) !important;
+    border-color: var(--dourado-claro) !important;
+    color: var(--branco) !important;
     transform: translateY(-3px) !important;
 }
 
