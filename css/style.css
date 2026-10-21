@@ -2220,4 +2220,59 @@ header {
         aspect-ratio: 1 / 1 !important;
     }
 }
+/* =========================================================
+   PADRONIZAÇÃO DEFINITIVA DO CATÁLOGO (IGUAL AOS DESTAQUES)
+   ========================================================= */
+
+/* Subtítulo Dourado do Cabeçalho do Catálogo */
+.catalogo-cabecalho-texto .subtitulo-colecao {
+    color: var(--dourado-escuro) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+}
+
+.catalogo-cabecalho-texto h1 {
+    font-size: clamp(2rem, 4vw, 2.8rem) !important;
+    color: var(--grafite) !important;
+    margin-bottom: 12px !important;
+}
+
+/* Limita a Descrição dos Produtos a EXATAMENTE 3 Linhas no Celular */
+@media (max-width: 768px) {
+    #lista-catalogo .produto-card p,
+    #lista-catalogo .produto-card-body p {
+        display: -webkit-box !important;
+        -webkit-line-clamp: 3 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        font-size: 0.82rem !important;
+        line-height: 1.35 !important;
+        margin-bottom: 10px !important;
+        min-height: 3.8em !important; /* Mantém alinhamento uniforme dos botões */
+    }
+
+    /* Ajuste dos Botões no Card para caberem perfeitamente sem cortar */
+    #lista-catalogo .produto-botoes {
+        display: flex !important;
+        gap: 6px !important;
+        width: 100% !important;
+        margin-top: auto !important;
+    }
+
+    #lista-catalogo .produto-botoes a,
+    #lista-catalogo .produto-botoes button,
+    #lista-catalogo .btn-detalhes,
+    #lista-catalogo .btn-add-carrinho {
+        padding: 8px 4px !important;
+        font-size: 0.75rem !important;
+        border-radius: 6px !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+    }
+}
 
