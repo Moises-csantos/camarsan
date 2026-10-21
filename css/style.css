@@ -2224,7 +2224,6 @@ header {
    PADRONIZAÇÃO DEFINITIVA DO CATÁLOGO (IGUAL AOS DESTAQUES)
    ========================================================= */
 
-/* Subtítulo Dourado do Cabeçalho do Catálogo */
 .catalogo-cabecalho-texto .subtitulo-colecao {
     color: var(--dourado-escuro) !important;
     text-transform: uppercase !important;
@@ -2233,6 +2232,12 @@ header {
     font-size: 0.85rem !important;
     margin-bottom: 8px !important;
     display: block !important;
+    text-align: center !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    width: 100% !important;
 }
 
 .catalogo-cabecalho-texto h1 {
