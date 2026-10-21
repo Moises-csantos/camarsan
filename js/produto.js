@@ -209,12 +209,13 @@ function exibirProduto(produto) {
 
             <a
                 href="#"
-                class="btn-whatsapp"
+                class="btn-whatsapp-personalizado"
                 id="produto-whatsapp"
                 target="_blank"
                 rel="noopener noreferrer">
 
-                Quero saber mais
+                <img src="../assets/icones/whats.png" alt="WhatsApp" class="icone-contato-btn">
+                SABER MAIS
 
             </a>
 
