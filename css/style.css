@@ -2303,22 +2303,27 @@ header {
 
 .produto-imagem-principal-container {
     width: 100% !important;
-    height: 420px !important;
-    background: #f9f9f9 !important;
-    border: 1px solid var(--cinza-claro) !important;
-    border-radius: 15px !important;
+    max-width: 450px !important; /* Limita a largura máxima para não esticar demais na tela do computador */
+    margin: 0 auto !important;    /* Centraliza o quadro perfeitamente na coluna */
+    aspect-ratio: 1 / 1 !important; /* Força rigorosamente a proporção 1:1 do container */
+    background: #ffffff !important; /* Fundo limpo para destacar a peça */
+    border: 1px solid var(--dourado) !important; /* Borda fina e sofisticada no tom dourado da marca */
+    border-radius: 16px !important; /* Cantos arredondados modernos */
     overflow: hidden !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     box-shadow: var(--sombra) !important;
+    padding: 12px !important; /* Pequeno respiro interno elegante entre a moldura e a foto */
 }
 
 .produto-imagem-principal {
     width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important; /* Garante que a foto principal nunca seja cortada */
+    object-fit: contain !important; /* Garante que a foto preencha perfeitamente sem cortes */
     display: block !important;
+    background: #fcfbfa !important;
+    border-radius: 8px !important;
 }
 
 /* Miniaturas em linha logo abaixo */
