@@ -2376,10 +2376,10 @@ header {
 }
 
 /* =========================================================
-   BOTÃO "QUERO SABER MAIS" IDÊNTICO AO WHATSAPP DA HOME
+   BOTÃO WHATSAPP NA PÁGINA DE PRODUTO (PADRÃO HOME)
    ========================================================= */
 
-#produto-whatsapp.btn-whatsapp {
+#produto-whatsapp.btn-whatsapp-personalizado {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -2401,11 +2401,22 @@ header {
     margin-top: 20px !important;
 }
 
-#produto-whatsapp.btn-whatsapp:hover {
+#produto-whatsapp.btn-whatsapp-personalizado:hover {
     background-color: rgba(201, 162, 39, 0.2) !important;
     border-color: var(--dourado-claro) !important;
     color: var(--branco) !important;
     transform: translateY(-3px) !important;
+}
+
+/* Garante o tamanho correto da imagem do WhatsApp dentro do botão */
+#produto-whatsapp .icone-contato-btn {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    object-fit: contain !important;
+    display: block !important;
+    flex: 0 0 32px !important;
 }
 
 /* Responsividade para Telemóveis */
