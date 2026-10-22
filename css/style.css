@@ -2017,7 +2017,8 @@ header {
 #eventos .btn-add-carrinho,
 #lista-depoimentos-publicos button,
 #lista-depoimentos-publicos .btn,
-.secao-depoimentos-publicos > a {
+.secao-depoimentos-publicos > a,
+#btn-sair {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -2048,7 +2049,8 @@ header {
 #eventos .btn-add-carrinho:hover,
 #lista-depoimentos-publicos button:hover,
 #lista-depoimentos-publicos .btn:hover,
-.secao-depoimentos-publicos > a:hover {
+.secao-depoimentos-publicos > a:hover,
+#btn-sair:hover {
     background: var(--bordo-escuro) !important;
     color: var(--branco) !important;
     transform: translateY(-1px) !important;
