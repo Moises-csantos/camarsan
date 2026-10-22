@@ -2435,4 +2435,72 @@ header {
         height: 280px !important;
     }
 }
+#secao-painel {
+    display: none;
+}
+/* =========================================================
+   ESTILIZAÇÃO E COMPORTAMENTO DAS SANFONAS DO PAINEL ADMIN
+   ========================================================= */
 
+/* Estilo geral dos blocos de gestão */
+.bloco-sanfona {
+    background-color: var(--branco, #ffffff);
+    border: 1px solid var(--cinza-claro, #eeeeee);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+
+/* Cabeçalho de cada bloco de gestão (Botão acordeão) */
+.btn-sanfona-header {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background-color: var(--bordo, #6d111d) !important;
+    color: var(--branco, #ffffff) !important;
+    border: 1px solid var(--dourado, #c9a227) !important;
+    padding: 14px 20px !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: var(--transicao, 0.3s ease) !important;
+    border-radius: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.btn-sanfona-header:hover {
+    background-color: var(--bordo-escuro, #430b12) !important;
+    transform: none !important;
+}
+
+/* Ícone da seta */
+.icone-seta {
+    transition: transform 0.3s ease;
+    font-size: 0.85rem;
+    color: var(--dourado-claro, #e5c45a);
+}
+
+/* Rotação da seta quando a sanfona estiver ativa */
+.bloco-sanfona.ativo .icone-seta {
+    transform: rotate(180deg);
+}
+
+/* Oculta o conteúdo por defeito */
+.painel-sanfona-conteudo {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 20px;
+    background-color: var(--branco, #ffffff);
+    transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+/* Revela o conteúdo quando a classe .ativo é adicionada pelo JavaScript */
+.bloco-sanfona.ativo .painel-sanfona-conteudo {
+    max-height: 2500px; /* Altura máxima suficiente para acomodar os formulários e listas */
+    padding: 20px;
+    border-top: 1px solid var(--cinza-claro, #eeeeee);
+}
