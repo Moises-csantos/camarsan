@@ -2746,3 +2746,54 @@ header {
         min-height: 3.8em !important;
     }
 }
+/* =========================================================
+   ESTILIZAÇÃO CUSTOMIZADA: BOTÃO WHATSAPP (BORDÔ TRANSLÚCIDO E TEXTO DOURADO)
+   ========================================================= */
+
+.btn-whatsapp-personalizado,
+#produto-whatsapp.btn-whatsapp-personalizado {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    padding: 12px 20px !important;
+    min-height: 52px !important;
+    
+    /* Fundo bordô translúcido (com 85% de opacidade) */
+    background-color: rgba(109, 17, 29, 0.85) !important; 
+    
+    /* Borda dourada sofisticada */
+    border: 1px solid var(--dourado, #c9a227) !important;
+    border-radius: 30px !important;
+    
+    /* Texto em tom dourado claro para maior destaque */
+    color: var(--dourado-claro, #e5c45a) !important; 
+    
+    font-weight: bold !important;
+    font-size: 1.05rem !important;
+    text-decoration: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    transition: var(--transicao) !important;
+    cursor: pointer !important;
+}
+
+.btn-whatsapp-personalizado:hover,
+#produto-whatsapp.btn-whatsapp-personalizado:hover {
+    background-color: rgba(67, 11, 18, 0.95) !important; /* Bordô mais escuro no hover */
+    border-color: var(--dourado-claro, #e5c45a) !important;
+    color: var(--branco, #ffffff) !important; /* Opcional: fica branco ou continua dourado ao passar o mouse */
+    transform: translateY(-3px) !important;
+}
+
+/* Aumento do ícone para preencher mais o espaço interno */
+.icone-contato-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    object-fit: contain !important;
+    display: block !important;
+    flex: 0 0 36px !important;
+}
