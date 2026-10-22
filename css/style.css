@@ -2506,3 +2506,118 @@ header {
     padding: 20px;
     border-top: 1px solid var(--cinza-claro, #eeeeee);
 }
+/* =========================================================
+   PADRONIZAÇÃO COMPACTA DO CATÁLOGO E DA NUMISMÁTICA
+   ========================================================= */
+
+#lista-catalogo.produtos-grid,
+#lista-numismatica.produtos-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 16px !important;
+    width: 100% !important;
+    max-width: 1080px !important;
+    margin: 0 auto !important;
+    padding: 10px 4px 22px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+#lista-catalogo.produtos-grid::-webkit-scrollbar,
+#lista-numismatica.produtos-grid::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Largura fixa de 230px para cada card em computadores / telas grandes */
+#lista-catalogo.produtos-grid > *,
+#lista-numismatica.produtos-grid > * {
+    box-sizing: border-box !important;
+    flex: 0 0 230px !important;
+    width: 230px !important;
+    min-width: 230px !important;
+    max-width: 230px !important;
+    scroll-snap-align: start !important;
+}
+
+/* Estrutura interna dos cartões em ambas as páginas */
+#lista-catalogo .produto-card,
+#lista-numismatica .produto-card {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    margin: 0 !important;
+}
+
+#lista-catalogo .produto-card img,
+#lista-catalogo .produto-card-img,
+#lista-catalogo .produto-card-img img,
+#lista-numismatica .produto-card img,
+#lista-numismatica .produto-card-img,
+#lista-numismatica .produto-card-img img {
+    width: 100% !important;
+    height: 190px !important;
+    max-height: 190px !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: contain !important;
+    background: #f9f9f9 !important;
+}
+
+#lista-catalogo .produto-card-body,
+#lista-numismatica .produto-card-body {
+    padding: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+}
+
+#lista-catalogo .produto-card h3,
+#lista-catalogo .produto-card-body h3,
+#lista-numismatica .produto-card h3,
+#lista-numismatica .produto-card-body h3 {
+    font-size: 0.95rem !important;
+    line-height: 1.3 !important;
+}
+
+/* Responsividade para telemóveis (ajuste de largura percentual e linhas) */
+@media (max-width: 768px) {
+    #lista-catalogo.produtos-grid > *,
+    #lista-numismatica.produtos-grid > * {
+        flex-basis: 48% !important;
+        width: 48% !important;
+        min-width: 48% !important;
+        max-width: 48% !important;
+    }
+
+    #lista-catalogo .produto-card img,
+    #lista-catalogo .produto-card-img,
+    #lista-catalogo .produto-card-img img,
+    #lista-numismatica .produto-card img,
+    #lista-numismatica .produto-card-img,
+    #lista-numismatica .produto-card-img img {
+        height: auto !important;
+        max-height: none !important;
+        aspect-ratio: 1 / 1 !important;
+    }
+
+    #lista-catalogo .produto-card p,
+    #lista-catalogo .produto-card-body p,
+    #lista-numismatica .produto-card p,
+    #lista-numismatica .produto-card-body p {
+        display: -webkit-box !important;
+        -webkit-line-clamp: 3 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        font-size: 0.82rem !important;
+        line-height: 1.35 !important;
+        margin-bottom: 10px !important;
+        min-height: 3.8em !important;
+    }
+}
