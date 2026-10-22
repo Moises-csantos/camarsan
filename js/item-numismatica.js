@@ -155,13 +155,12 @@ function exibirItemNumismatica(item) {
 
             <a
                 href="#"
-                class="btn-whatsapp"
+                class="btn-whatsapp-personalizado"
                 id="item-whatsapp"
                 target="_blank"
                 rel="noopener noreferrer">
-
+                <img src="../assets/icones/whats.png" alt="WhatsApp" class="icone-contato-btn">
                 Quero adquirir esta peça
-
             </a>
 
         </div>
