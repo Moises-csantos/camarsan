@@ -28,7 +28,7 @@ function carregarCarrinho() {
 
     if (carrinho.length === 0) {
         listaContainer.innerHTML = `
-            <div style="background: #fff; padding: 30px; border-radius: 8px; text-align: center; border: 1px solid #e1e1e1; grid-column: 1 / -1;">
+            <div style="background: #fff; padding: 30px; border-radius: 8px; text-align: center; border: 1px solid #e1e1e1; width: 100%;">
                 <p style="color: var(--cinza); margin-bottom: 15px;">O seu carrinho está vazio.</p>
                 <a href="catalogo.html" class="btn-detalhes" style="display: inline-block; width: auto; padding: 10px 20px;">Ver Catálogo</a>
             </div>
@@ -47,12 +47,12 @@ function carregarCarrinho() {
         const itemDiv = document.createElement("div");
         itemDiv.className = "carrinho-item";
         itemDiv.innerHTML = `
-            <img src="${imagemCapa}" alt="${produto.nome}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px;">
-            <div style="flex-grow: 1;">
-                <h4 style="color: var(--bordo); margin-bottom: 5px;">${produto.nome}</h4>
-                <p style="color: var(--dourado-escuro); font-weight: bold;">R$ ${Number(produto.preco).toFixed(2)}</p>
+            <img src="${imagemCapa}" alt="${produto.nome}">
+            <div class="carrinho-item-info">
+                <h4>${produto.nome}</h4>
+                <p>R$ ${Number(produto.preco).toFixed(2)}</p>
+                <button onclick="removerItem(${index})" class="btn-remover-item">Remover</button>
             </div>
-            <button onclick="removerItem(${index})" style="background: transparent; border: none; color: #cc0000; cursor: pointer; font-weight: bold; padding: 8px;">Remover</button>
         `;
         listaContainer.appendChild(itemDiv);
     });
