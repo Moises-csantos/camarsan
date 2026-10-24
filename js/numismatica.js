@@ -56,8 +56,8 @@ async function carregarCatalogoNumismatica() {
                         <p>${estado}</p>
                         <div class="produto-preco">R$ ${preco}</div>
                         <div class="produto-botoes">
-                            <a href="item-numismatica.html?id=${itemId}" class="btn-detalhes">Ver Detalhes</a>
-                            <button class="btn-add-carrinho" data-produto='${JSON.stringify(item)}'>Adicionar</button>
+                            <a href="item-numismatica.html?id=${itemId}" class="btn-detalhes">DETALHES</a>
+                            <button class="btn-add-carrinho" data-produto='${JSON.stringify(item)}'>ADICIONAR</button>
                         </div>
                     </div>
                 </div>
