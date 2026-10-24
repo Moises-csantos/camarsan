@@ -1,10 +1,15 @@
+// =====================================================
+// CAMARSAN - LÓGICA DO CATÁLOGO DE ALIANÇAS COM FILTROS
+// =====================================================
+
+let listaProdutosGlobal = [];
+
 document.addEventListener("DOMContentLoaded", () => {
     const spanAno = document.getElementById("ano-atual");
     if (spanAno) {
         spanAno.textContent = new Date().getFullYear();
     }
 
-    // Atualizar o contador do carrinho ao carregar a página
     atualizarContadorCarrinho();
 
     const containerCatalogo = document.getElementById("lista-catalogo");
@@ -16,42 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.json();
         })
         .then(produtos => {
-            containerCatalogo.innerHTML = "";
-
-            if (produtos.length === 0) {
-                containerCatalogo.innerHTML = `<p class="carregando-texto">Nenhuma aliança cadastrada no momento.</p>`;
-                return;
-            }
-
-            produtos.forEach((produto, index) => {
-                const imagemCapa = (produto.imagens && produto.imagens.length > 0) 
-                    ? produto.imagens[0] 
-                    : '../assets/logo/logo.png';
-
-                const card = document.createElement("div");
-                card.className = "produto-card";
-                card.dataset.index = index; // Identificador para o marcador
-
-                card.innerHTML = `
-                    <div class="produto-card-img">
-                        <img src="${imagemCapa}" alt="${produto.nome}">
-                    </div>
-                    <div class="produto-card-body">
-                        <h3>${produto.nome}</h3>
-                        <p>${produto.descricao ? produto.descricao.substring(0, 80) + '...' : 'Aliança artesanal exclusiva.'}</p>
-                        <div class="produto-preco">R$ ${Number(produto.preco).toFixed(2)}</div>
-                        <div class="produto-botoes">
-                            <a href="produto.html?id=${produto.id}" class="btn-detalhes">Detalhes</a>
-                            <button class="btn-add-carrinho" data-produto='${JSON.stringify(produto)}'>Adicionar</button>
-                        </div>
-                    </div>
-                `;
-
-                containerCatalogo.appendChild(card);
-            });
-
-            configurarBotoesCarrinho();
-            criarMarcadoresPosicao(produtos.length);
+            listaProdutosGlobal = produtos;
+            renderizarProdutos(listaProdutosGlobal);
+            configurarFiltros();
         })
         .catch(error => {
             console.error("Erro:", error);
@@ -59,13 +31,96 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 });
 
+function renderizarProdutos(produtos) {
+    const containerCatalogo = document.getElementById("lista-catalogo");
+    containerCatalogo.innerHTML = "";
+
+    // Remove indicadores antigos antes de recriar
+    const indicadoresAntigos = document.getElementById("catalogo-indicadores");
+    if (indicadoresAntigos) indicadoresAntigos.remove();
+
+    if (produtos.length === 0) {
+        containerCatalogo.innerHTML = `<p class="carregando-texto">Nenhuma peça encontrada com os filtros selecionados.</p>`;
+        return;
+    }
+
+    produtos.forEach((produto, index) => {
+        const imagemCapa = (produto.imagens && produto.imagens.length > 0) 
+            ? produto.imagens[0] 
+            : '../assets/logo/logo.png';
+
+        const card = document.createElement("div");
+        card.className = "produto-card";
+        card.dataset.index = index;
+
+        card.innerHTML = `
+            <div class="produto-card-img">
+                <img src="${imagemCapa}" alt="${produto.nome}">
+            </div>
+            <div class="produto-card-body">
+                <h3>${produto.nome}</h3>
+                <p>${produto.descricao ? produto.descricao.substring(0, 80) + '...' : 'Aliança artesanal exclusiva.'}</p>
+                <div class="produto-preco">R$ ${Number(produto.preco).toFixed(2)}</div>
+                <div class="produto-botoes">
+                    <a href="produto.html?id=${produto.id}" class="btn-detalhes">Detalhes</a>
+                    <button class="btn-add-carrinho" data-produto='${JSON.stringify(produto)}'>Adicionar</button>
+                </div>
+            </div>
+        `;
+
+        containerCatalogo.appendChild(card);
+    });
+
+    configurarBotoesCarrinho();
+    criarMarcadoresPosicao(produtos.length);
+}
+
+function configurarFiltros() {
+    const fFormato = document.getElementById('filtro-cat-formato');
+    const fFrisos = document.getElementById('filtro-cat-frisos');
+    const fAcabamento = document.getElementById('filtro-cat-acabamento');
+    const fAco = document.getElementById('filtro-cat-aco');
+    const fFinalidade = document.getElementById('filtro-cat-finalidade');
+    const fTipo = document.getElementById('filtro-cat-tipo');
+
+    const elementosFiltro = [fFormato, fFrisos, fAcabamento, fAco, fFinalidade, fTipo];
+
+    elementosFiltro.forEach(filtro => {
+        if (filtro) {
+            filtro.addEventListener('change', aplicarFiltrosDinamicos);
+        }
+    });
+}
+
+function aplicarFiltrosDinamicos() {
+    const formatoVal = document.getElementById('filtro-cat-formato')?.value || "";
+    const frisosVal = document.getElementById('filtro-cat-frisos')?.value || "";
+    const acabamentoVal = document.getElementById('filtro-cat-acabamento')?.value || "";
+    const acoVal = document.getElementById('filtro-cat-aco')?.value || "";
+    const finalidadeVal = document.getElementById('filtro-cat-finalidade')?.value || "";
+    const tipoVal = document.getElementById('filtro-cat-tipo')?.value || "";
+
+    const produtosFiltrados = listaProdutosGlobal.filter(produto => {
+        // Compara ignorando maiúsculas/minúsculas se o campo existir no registo da API
+        if (formatoVal && produto.formato && produto.formato !== formatoVal) return false;
+        if (frisosVal && produto.frisos && produto.frisos !== frisosVal) return false;
+        if (acabamentoVal && produto.acabamento && !produto.acabamento.includes(acabamentoVal)) return false;
+        if (acoVal && produto.aco && produto.aco !== acoVal) return false;
+        if (finalidadeVal && produto.finalidade && produto.finalidade !== finalidadeVal) return false;
+        if (tipoVal && produto.tipo && produto.tipo !== tipoVal) return false;
+
+        return true;
+    });
+
+    renderizarProdutos(produtosFiltrados);
+}
+
 function criarMarcadoresPosicao(totalProdutos) {
     const containerCatalogo = document.getElementById("lista-catalogo");
     const secaoCatalogo = document.querySelector(".secao-catalogo");
 
     if (!containerCatalogo || !secaoCatalogo) return;
 
-    // Cria o container das bolinhas abaixo da grelha de produtos
     const indicadoresContainer = document.createElement("div");
     indicadoresContainer.className = "catalogo-indicadores";
     indicadoresContainer.id = "catalogo-indicadores";
@@ -77,7 +132,6 @@ function criarMarcadoresPosicao(totalProdutos) {
         bolinha.setAttribute("aria-label", `Ir para aliança ${i + 1}`);
         bolinha.dataset.index = i;
 
-        // Ação ao clicar na bolinha: rola o container até o card correspondente
         bolinha.addEventListener("click", () => {
             const cards = containerCatalogo.querySelectorAll(".produto-card");
             if (cards[i]) {
@@ -94,7 +148,6 @@ function criarMarcadoresPosicao(totalProdutos) {
 
     secaoCatalogo.appendChild(indicadoresContainer);
 
-    // Sincroniza a bolinha ativa ao fazer scroll manual
     containerCatalogo.addEventListener("scroll", () => {
         const cards = containerCatalogo.querySelectorAll(".produto-card");
         const bolinhas = indicadoresContainer.querySelectorAll(".bolinha-indicador");
