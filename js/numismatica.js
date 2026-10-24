@@ -7,7 +7,7 @@ const URL_API_NUMISMATICA = "https://aliancascamarsan1993.pythonanywhere.com/num
 document.addEventListener("DOMContentLoaded", () => {
     // Atualizar o contador do carrinho ao carregar a página
     atualizarContadorCarrinhoNumismatica();
-    
+
     // Carregar os itens da API
     carregarCatalogoNumismatica();
 });
@@ -42,30 +42,30 @@ async function carregarCatalogoNumismatica() {
             const estado = item.estado_conservacao || "Conservação não informada";
 
             const imagemCapa = (item.imagens && item.imagens.length > 0)
-                ? item.imagens[0]
-                : "../assets/logo/logo.png";
+? item.imagens[0]
+: "../assets/logo/logo.png";
 
-            html += `
-                <div class="produto-card">
-                    <div class="produto-card-img">
-                        <img src="${imagemCapa}" alt="${nome}" loading="lazy">
-                    </div>
-                    <div class="produto-card-body">
-                        <span class="evento-data-badge">${tipo} • Ano: ${ano}</span>
-                        <h3>${nome}</h3>
-                        <p>${estado}</p>
-                        <div class="produto-preco">R$ ${Number(preco).toFixed(2).replace(".", ",")}</div>
-                        <div class="produto-botoes">
-                            <a href="item-numismatica.html?id=${itemId}" class="btn-detalhes">Ver Detalhes</a>
-                            <button class="btn-add-carrinho" data-produto='${JSON.stringify(item)}'>Adicionar</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
+html += `
+<div class="produto-card">
+    <div class="produto-card-img">
+        <img src="${imagemCapa}" alt="${nome}" loading="lazy">
+    </div>
+    <div class="produto-card-body">
+        <span class="evento-data-badge">${tipo} • Ano: ${ano}</span>
+        <h3>${nome}</h3>
+        <p>${estado}</p>
+        <div class="produto-preco">R$ ${preco}</div>
+        <div class="produto-botoes">
+            <a href="item-numismatica.html?id=${itemId}" class="btn-detalhes">Ver Detalhes</a>
+            <button class="btn-add-carrinho" data-produto='${JSON.stringify(item)}'>Adicionar</button>
+        </div>
+    </div>
+</div>
+`;
+});
 
-        // Insere o HTML gerado na página primeiro
-        listaDiv.innerHTML = html;
+// Insere o HTML gerado na página primeiro
+listaDiv.innerHTML = html;
 
         // Depois ativa a funcionalidade do carrinho para os botões recém-criados
         configurarBotoesCarrinhoNumismatica();
