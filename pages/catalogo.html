@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Catálogo completo de alianças artesanais de moedas antigas da CamarSan.">
+    <title>Catálogo de Alianças | CamarSan</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" type="image/png" href="../assets/icones/favicon.png">
+</head>
+
+<body>
+
+    <!-- ==================================================
+         CABEÇALHO
+    =================================================== -->
+    <header>
+        <nav class="nav-container">
+
+            <!-- Esquerda: Apenas a Logo -->
+            <div class="nav-topo-escala">
+                <a href="../index.html" aria-label="Página inicial da CamarSan" class="logo-link">
+                    <img src="../assets/logo/logo.png" alt="CamarSan - Alianças de Moedas Antigas">
+                </a>
+            </div>
+
+            <!-- Direita: Botão de Filtros, Menu, Carrinho e Login juntos -->
+            <div class="menu-acoes-cliente">
+                <!-- Botão de Filtros (Padrão idêntico ao de menu, posicionado à esquerda do menu principal) -->
+                <button class="icone-acao-link menu-toggle-btn btn-com-som" id="filtro-toggle-btn"
+                    aria-label="Abrir opções de filtro">
+                    <img src="../assets/icones/filtro-icone.png" alt="Filtros" class="icone-acao-img">
+                </button>
+
+                <!-- Botão de Menu -->
+                <button class="icone-acao-link menu-toggle-btn btn-com-som" id="menu-toggle-btn"
+                    aria-label="Abrir menu de navegação">
+                    <img src="../assets/icones/menu-icone.png" alt="Menu" class="icone-acao-img">
+                </button>
+
+                <!-- Carrinho -->
+                <a href="carrinho.html" class="icone-acao-link btn-com-som" aria-label="Carrinho de compras">
+                    <img src="../assets/icones/carrinho.png" alt="Carrinho" class="icone-acao-img">
+                    <span id="contador-carrinho" class="contador-badge">0</span>
+                </a>
+
+                <!-- Login -->
+                <a href="login.html" class="icone-acao-link btn-com-som" aria-label="Minha Conta">
+                    <img src="../assets/icones/login.png" alt="Login" class="icone-acao-img">
+                </a>
+            </div>
+        </nav>
+
+        <!-- Menu de Navegação suspenso -->
+        <div class="nav-dropdown-menu" id="nav-dropdown-menu">
+            <ul>
+                <li><a href="../index.html" class="btn-com-som">Início</a></li>
+                <li><a href="catalogo.html" class="btn-com-som">Alianças</a></li>
+                <li><a href="numismatica.html" class="btn-com-som">Moedas e Notas</a></li>
+                <li><a href="historia.html" class="btn-com-som">Nossa História</a></li>
+                <li><a href="funciona.html" class="btn-com-som">Como Funciona</a></li>
+                <li><a href="../index.html#contato" class="btn-com-som">Contato</a></li>
+            </ul>
+        </div>
+
+        <!-- Menu Suspenso de Filtros (Com o mesmo layout e animação do menu) -->
+        <div class="nav-dropdown-menu" id="filtro-dropdown-menu">
+            <div class="filtros-dropdown-conteudo">
+                <p style="color: var(--dourado-claro); font-weight: bold; margin-bottom: 10px; font-size: 0.95rem;">
+                    Filtrar Alianças</p>
+
+                <select id="filtro-cat-formato" class="input-filtro" aria-label="Filtrar por Formato">
+                    <option value="">Todos os Formatos</option>
+                    <option value="Abaulada">Abaulada</option>
+                    <option value="Reta">Reta</option>
+                </select>
+
+                <select id="filtro-cat-frisos" class="input-filtro" aria-label="Filtrar por Frisos">
+                    <option value="">Frisos (Todos)</option>
+                    <option value="Com frisos">Com frisos</option>
+                    <option value="Sem frisos">Sem frisos</option>
+                </select>
+
+                <select id="filtro-cat-acabamento" class="input-filtro" aria-label="Filtrar por Acabamento">
+                    <option value="">Acabamento (Todos)</option>
+                    <option value="Diamantada">Diamantada</option>
+                    <option value="Lisa">Lisa</option>
+                </select>
+
+                <select id="filtro-cat-aco" class="input-filtro" aria-label="Filtrar por Detalhe em Aço">
+                    <option value="">Aço (Todos)</option>
+                    <option value="Com Aço">Com Aço</option>
+                    <option value="Sem Aço">Sem Aço</option>
+                </select>
+
+                <select id="filtro-cat-finalidade" class="input-filtro" aria-label="Filtrar por Ocasião">
+                    <option value="">Ocasião (Todos)</option>
+                    <option value="Casamento">Casamento</option>
+                    <option value="Namoro">Namoro</option>
+                </select>
+
+                <select id="filtro-cat-tipo" class="input-filtro" aria-label="Filtrar por Tipo de Peça">
+                    <option value="">Tipo (Aliança/Anel)</option>
+                    <option value="Aliança">Aliança</option>
+                    <option value="Anel">Anel</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================================================
+         CONTEÚDO PRINCIPAL (CATÁLOGO)
+    =================================================== -->
+    <main>
+        <section id="catalogo-principal" class="secao-catalogo">
+
+            <div class="catalogo-cabecalho-texto">
+                <p class="subtitulo-colecao">CONHEÇA NOSSA COLEÇÃO</p>
+                <h1>Catálogo de Alianças</h1>
+                <p>
+                    Explore todas as nossas peças forjadas artesanalmente. Clique em um modelo para ver os detalhes,
+                    especificações e múltiplas fotos.
+                </p>
+            </div>
+
+            <!-- Onde a lista de produtos da API será injetada dinamicamente -->
+            <div id="lista-catalogo" class="produtos-grid">
+                <!-- Os produtos cadastrados no ADM aparecerão aqui automaticamente -->
+                <p class="carregando-texto">A carregar alianças...</p>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ==================================================
+         RODAPÉ
+    =================================================== -->
+    <footer>
+
+        <div class="footer-marca">
+            <h2>CamarSan</h2>
+            <p>Alianças de Moedas Antigas</p>
+            <p>Forjadas para contar histórias e perpetuar gerações.</p>
+        </div>
+
+
+        <div class="footer-navegacao">
+            <h3>Navegação</h3>
+            <a href="../index.html">Início</a>
+            <a href="catalogo.html">Alianças</a>
+            <a href="historia.html">Nossa História</a>
+            <a href="como-funciona.html">Como Funciona</a>
+            <a href="contato.html">Contato</a>
+            <a href="login.html">Minha Conta</a>
+        </div>
+
+
+        <div class="footer-atendimento">
+            <h3>Atendimento</h3>
+            <p>Atendimento presencial</p>
+            <p>Motoboy</p>
+            <p>Correios</p>
+            <p>Feiras e eventos</p>
+        </div>
+
+
+        <div class="footer-redes">
+            <h3>Redes sociais</h3>
+            <a href="https://www.instagram.com/moisescamarsan/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+
+
+        <div class="footer-direitos">
+            <p>© <span id="ano-atual"></span> CamarSan Alianças de Moedas Antigas. Todos os direitos reservados.</p>
+        </div>
+
+    </footer>
+
+
+    <!-- Script específico para carregar os produtos do catálogo -->
+    <script src="../js/catalogo.js"></script>
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>
