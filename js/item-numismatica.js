@@ -170,6 +170,7 @@ function exibirItemNumismatica(item) {
     inicializarGaleriaNumismatica();
 
     // --- CONFIGURAR BOTÃO WHATSAPP ESPECÍFICO PARA A PEÇA ---
+
     const btnWhatsapp = document.getElementById("item-whatsapp");
     if (btnWhatsapp) {
         btnWhatsapp.addEventListener("click", (e) => {
@@ -185,7 +186,12 @@ function exibirItemNumismatica(item) {
             mensagem += `Preço: ${precoFormatado}\n`;
 
             if (imagemCapa) {
-                mensagem += `📷 Foto da peça: ${window.location.origin}/${imagemCapa}\n`;
+                // Converte qualquer caminho relativo (com ../ ou ./) na URL pública exata do site
+                const urlFoto = (imagemCapa.startsWith('http://') || imagemCapa.startsWith('https://'))
+                    ? imagemCapa
+                    : new URL(imagemCapa, window.location.href).href;
+
+                mensagem += `📷 Foto da peça: ${urlFoto}\n`;
             }
 
             mensagem += `\nAinda está disponível para envio?`;
