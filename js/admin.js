@@ -173,6 +173,14 @@ window.prepararEdicao = function (id, prodJsonStr) {
     document.getElementById('preco-prod').value = prod.preco || '';
     document.getElementById('largura-mm').value = prod.largura_mm || '';
     document.getElementById('material').value = prod.material || '';
+    // --- PREENCHER NOVOS CAMPOS NA EDIÇÃO ---
+    document.getElementById('filtro-formato').value = prod.formato || '';
+    document.getElementById('filtro-frisos').value = prod.frisos || '';
+    document.getElementById('filtro-acabamento-detalhe').value = prod.acabamento || '';
+    document.getElementById('filtro-aco').value = prod.aco || '';
+    document.getElementById('filtro-finalidade').value = prod.finalidade || '';
+    document.getElementById('filtro-tipo-peca').value = prod.tipo || '';
+    // ----------------------------------------
     document.getElementById('acabamento').value = prod.acabamento || '';
     document.getElementById('revestimento').value = prod.revestimento || '';
     document.getElementById('personalizacao').value = prod.personalizacao || '';
@@ -210,6 +218,14 @@ formProduto.addEventListener('submit', async function (e) {
     formData.append('preco', document.getElementById('preco-prod').value);
     formData.append('largura_mm', document.getElementById('largura-mm').value);
     formData.append('material', document.getElementById('material').value);
+    // --- NOVOS CAMPOS DE FILTRO ---
+    formData.append('formato', document.getElementById('filtro-formato').value);
+    formData.append('frisos', document.getElementById('filtro-frisos').value);
+    formData.append('acabamento', document.getElementById('filtro-acabamento-detalhe').value);
+    formData.append('aco', document.getElementById('filtro-aco').value);
+    formData.append('finalidade', document.getElementById('filtro-finalidade').value);
+    formData.append('tipo', document.getElementById('filtro-tipo-peca').value);
+    // -----------------------------
     formData.append('acabamento', document.getElementById('acabamento').value);
     formData.append('revestimento', document.getElementById('revestimento').value);
     formData.append('personalizacao', document.getElementById('personalizacao').value);
