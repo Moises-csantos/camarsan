@@ -2797,3 +2797,146 @@ header {
     display: block !important;
     flex: 0 0 36px !important;
 }
+/* =========================================================
+   ESTILIZAÇÃO DA PÁGINA "NOSSA HISTÓRIA"
+   ========================================================= */
+
+.secao-historia {
+    background-color: var(--branco) !important;
+    padding: 60px 8% !important;
+    max-width: 1300px !important;
+    margin: 0 auto !important;
+}
+
+.historia-cabecalho {
+    text-align: center !important;
+    margin-bottom: 50px !important;
+}
+
+.historia-cabecalho h1 {
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+    color: var(--grafite) !important;
+    margin-top: 8px !important;
+}
+
+.historia-grid {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr !important;
+    gap: 40px !important;
+    align-items: start !important;
+}
+
+.historia-conteudo-principal {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 50px !important;
+}
+
+.bloco-historia {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 30px !important;
+    align-items: center !important;
+    background: var(--creme) !important;
+    padding: 30px !important;
+    border-radius: 16px !important;
+    border: 1px solid var(--cinza-claro) !important;
+    box-shadow: var(--sombra) !important;
+}
+
+.bloco-historia.reverso {
+    direction: rtl !important;
+}
+
+.bloco-historia.reverso > * {
+    direction: ltr !important;
+}
+
+.texto-bloco p {
+    color: var(--cinza) !important;
+    font-size: 0.98rem !important;
+    line-height: 1.7 !important;
+    margin-bottom: 15px !important;
+}
+
+.texto-bloco p strong {
+    color: var(--grafite) !important;
+}
+
+.foto-bloco {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    text-align: center !important;
+}
+
+.foto-bloco img {
+    width: 100% !important;
+    height: 220px !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--dourado) !important;
+    box-shadow: var(--sombra) !important;
+}
+
+.foto-bloco span {
+    font-size: 0.82rem !important;
+    color: var(--dourado-escuro) !important;
+    font-weight: bold !important;
+}
+
+.citacao-historia {
+    margin-top: 20px !important;
+    padding: 15px 20px !important;
+    border-left: 4px solid var(--dourado) !important;
+    background: rgba(201, 162, 39, 0.1) !important;
+    color: var(--bordo) !important;
+    font-style: italic !important;
+    font-weight: bold !important;
+    border-radius: 0 8px 8px 0 !important;
+}
+
+/* Coluna Lateral Fixa (Mascote / Destaque) */
+.historia-lateral {
+    position: sticky !important;
+    top: 100px !important;
+}
+
+.card-imagem-historica {
+    background: var(--branco) !important;
+    border: 1px solid var(--dourado) !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    text-align: center !important;
+    box-shadow: var(--sombra) !important;
+}
+
+.card-imagem-historica img {
+    width: 100% !important;
+    max-height: 380px !important;
+    object-fit: contain !important;
+    margin-bottom: 15px !important;
+}
+
+.legenda-foto {
+    font-weight: bold !important;
+    color: var(--bordo) !important;
+    font-size: 1rem !important;
+}
+
+/* Responsividade para telemóveis */
+@media (max-width: 900px) {
+    .historia-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .bloco-historia,
+    .bloco-historia.reverso {
+        grid-template-columns: 1fr !important;
+        direction: ltr !important;
+    }
+
+    .historia-lateral {
+        position: static !important;
+    }
+}
