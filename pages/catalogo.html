@@ -66,13 +66,55 @@
         <section id="catalogo-principal" class="secao-catalogo">
 
             <div class="catalogo-cabecalho-texto">
-                <p class="subtitulo-colecao">Nossa Coleção</p>
+                <p class="subtitulo-colecao">CONHEÇA NOSSA COLEÇÃO</p>
                 <h1>Catálogo de Alianças</h1>
                 <p>
                     Explore todas as nossas peças forjadas artesanalmente. Clique em um modelo para ver os detalhes,
                     especificações e múltiplas fotos.
                 </p>
             </div>
+            <!-- Seção de Filtros de Busca -->
+            <section class="secao-filtros-catalogo">
+                <div class="filtros-grid-container">
+
+                    <select id="filtro-cat-formato" class="input-filtro" aria-label="Filtrar por Formato">
+                        <option value="">Todos os Formatos</option>
+                        <option value="Abaulada">Abaulada</option>
+                        <option value="Reta">Reta</option>
+                    </select>
+
+                    <select id="filtro-cat-frisos" class="input-filtro" aria-label="Filtrar por Frisos">
+                        <option value="">Frisos (Todos)</option>
+                        <option value="Com frisos">Com frisos</option>
+                        <option value="Sem frisos">Sem frisos</option>
+                    </select>
+
+                    <select id="filtro-cat-acabamento" class="input-filtro" aria-label="Filtrar por Acabamento">
+                        <option value="">Acabamento (Todos)</option>
+                        <option value="Diamantada">Diamantada</option>
+                        <option value="Lisa">Lisa</option>
+                    </select>
+
+                    <select id="filtro-cat-aco" class="input-filtro" aria-label="Filtrar por Detalhe em Aço">
+                        <option value="">Aço (Todos)</option>
+                        <option value="Com Aço">Com Aço</option>
+                        <option value="Sem Aço">Sem Aço</option>
+                    </select>
+
+                    <select id="filtro-cat-finalidade" class="input-filtro" aria-label="Filtrar por Ocasião">
+                        <option value="">Ocasião (Todos)</option>
+                        <option value="Casamento">Casamento</option>
+                        <option value="Namoro">Namoro</option>
+                    </select>
+
+                    <select id="filtro-cat-tipo" class="input-filtro" aria-label="Filtrar por Tipo de Peça">
+                        <option value="">Tipo (Aliança/Anel)</option>
+                        <option value="Aliança">Aliança</option>
+                        <option value="Anel">Anel</option>
+                    </select>
+
+                </div>
+            </section>
 
             <!-- Onde a lista de produtos da API será injetada dinamicamente -->
             <div id="lista-catalogo" class="produtos-grid">
