@@ -23,13 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            produtos.forEach(produto => {
+            produtos.forEach((produto, index) => {
                 const imagemCapa = (produto.imagens && produto.imagens.length > 0) 
                     ? produto.imagens[0] 
                     : '../assets/logo/logo.png';
 
                 const card = document.createElement("div");
                 card.className = "produto-card";
+                card.dataset.index = index; // Identificador para o marcador
 
                 card.innerHTML = `
                     <div class="produto-card-img">
@@ -50,12 +51,74 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             configurarBotoesCarrinho();
+            criarMarcadoresPosicao(produtos.length);
         })
         .catch(error => {
             console.error("Erro:", error);
             containerCatalogo.innerHTML = `<p class="carregando-texto" style="color: red;">Não foi possível carregar as alianças.</p>`;
         });
 });
+
+function criarMarcadoresPosicao(totalProdutos) {
+    const containerCatalogo = document.getElementById("lista-catalogo");
+    const secaoCatalogo = document.querySelector(".secao-catalogo");
+
+    if (!containerCatalogo || !secaoCatalogo) return;
+
+    // Cria o container das bolinhas abaixo da grelha de produtos
+    const indicadoresContainer = document.createElement("div");
+    indicadoresContainer.className = "catalogo-indicadores";
+    indicadoresContainer.id = "catalogo-indicadores";
+
+    for (let i = 0; i < totalProdutos; i++) {
+        const bolinha = document.createElement("button");
+        bolinha.type = "button";
+        bolinha.className = i === 0 ? "bolinha-indicador ativa" : "bolinha-indicador";
+        bolinha.setAttribute("aria-label", `Ir para aliança ${i + 1}`);
+        bolinha.dataset.index = i;
+
+        // Ação ao clicar na bolinha: rola o container até o card correspondente
+        bolinha.addEventListener("click", () => {
+            const cards = containerCatalogo.querySelectorAll(".produto-card");
+            if (cards[i]) {
+                cards[i].scrollIntoView({
+                    behavior: "smooth",
+                    inline: "start",
+                    block: "nearest"
+                });
+            }
+        });
+
+        indicadoresContainer.appendChild(bolinha);
+    }
+
+    secaoCatalogo.appendChild(indicadoresContainer);
+
+    // Sincroniza a bolinha ativa ao fazer scroll manual
+    containerCatalogo.addEventListener("scroll", () => {
+        const cards = containerCatalogo.querySelectorAll(".produto-card");
+        const bolinhas = indicadoresContainer.querySelectorAll(".bolinha-indicador");
+        
+        let cardMaisProximo = 0;
+        let menorDistancia = Infinity;
+
+        cards.forEach((card, index) => {
+            const distancia = Math.abs(card.offsetLeft - containerCatalogo.scrollLeft);
+            if (distancia < menorDistancia) {
+                menorDistancia = distancia;
+                cardMaisProximo = index;
+            }
+        });
+
+        bolinhas.forEach((bolinha, index) => {
+            if (index === cardMaisProximo) {
+                bolinha.classList.add("ativa");
+            } else {
+                bolinha.classList.remove("ativa");
+            }
+        });
+    }, { passive: true });
+}
 
 function configurarBotoesCarrinho() {
     document.querySelectorAll('.btn-add-carrinho').forEach(botao => {
