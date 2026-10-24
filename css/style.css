@@ -2941,53 +2941,55 @@ header {
     }
 }
 /* =========================================================
-   AJUSTE DE ALINHAMENTO E BOTÕES DA PÁGINA COMO FUNCIONA
+   AJUSTE DE ALINHAMENTO E BOTÕES — SOMENTE COMO FUNCIONA
+   As regras foram limitadas a .como-funciona-container para
+   evitar interferência em outras páginas do site.
    ========================================================= */
 
-.passo-card {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    text-align: left !important;
-    gap: 15px !important;
-    padding: 30px !important;
+.como-funciona-container .passo-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 15px;
+    padding: 30px;
 }
 
-.passo-bloco-superior {
-    display: flex !important;
-    justify-content: flex-start !important;
-    width: 100% !important;
+.como-funciona-container .passo-bloco-superior {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
 }
 
-.passo-numero {
-    margin-bottom: 0 !important;
+.como-funciona-container .passo-numero {
+    margin-bottom: 0;
 }
 
-.passo-conteudo {
-    width: 100% !important;
-    text-align: left !important;
+.como-funciona-container .passo-conteudo {
+    width: 100%;
+    text-align: left;
 }
 
-/* Botão "Ver Catálogo de Alianças" padronizado idêntico à home */
-.botoes-acao-como-funciona .btn-detalhes {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 14px 22px !important;
-    min-height: 54px !important;
-    border-radius: 30px !important;
-    font-size: 1.05rem !important;
-    font-weight: bold !important;
-    text-decoration: none !important;
-    background-color: var(--bordo) !important;
-    color: var(--branco) !important;
-    border: 1px solid var(--dourado) !important;
-    transition: var(--transicao) !important;
+/* Botão "Ver Catálogo de Alianças" — seletor igual ao HTML */
+.como-funciona-container .botoes-acao-como-funciona .btn-secundario-catalogo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 22px;
+    min-height: 54px;
+    border-radius: 30px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: var(--bordo);
+    color: var(--branco);
+    border: 1px solid var(--dourado);
+    transition: var(--transicao);
 }
 
-.botoes-acao-como-funciona .btn-detalhes:hover {
-    background-color: var(--bordo-escuro) !important;
-    transform: translateY(-3px) !important;
+.como-funciona-container .botoes-acao-como-funciona .btn-secundario-catalogo:hover {
+    background-color: var(--bordo-escuro);
+    transform: translateY(-3px);
 }
 /* =========================================================
    MARCADORES DE POSIÇÃO (BOLINHAS) DO CATÁLOGO
