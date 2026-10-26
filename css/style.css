@@ -3161,3 +3161,16 @@ header {
     border-color: var(--dourado, #c9a227) !important;
     background-color: var(--branco, #ffffff) !important;
 }
+/* =========================================================
+   SUBTÍTULO PERSONALIZADO DE CASAMENTO (DESTAQUES)
+   ========================================================= */
+.subtitulo-casamento-destaque {
+    text-transform: none !important; /* Remove o maiúsculo/caixa alta herdado */
+    color: var(--bordo-escuro, #430b12) !important; /* Define o tom bordo escuro */
+    font-size: 1.05rem !important;
+    font-weight: 500 !important;
+    max-width: 750px !important;
+    margin: 10px auto 25px auto !important;
+    line-height: 1.5 !important;
+    letter-spacing: normal !important;
+}
