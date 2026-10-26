@@ -1,726 +1,755 @@
-// =====================================================
-// CAMARSAN - JAVASCRIPT PRINCIPAL
-// Arquivo responsável pelos comportamentos da página inicial
-// =====================================================
+const SENHA_MESTRE = "Nat175907";
+const URL_API_BASE = "https://aliancascamarsan1993.pythonanywhere.com";
+const URL_API_PRODUTOS = `${URL_API_BASE}/produtos`;
+const URL_API_NUMISMATICA = `${URL_API_BASE}/numismatica`;
+const URL_API_DEPOIMENTOS = `${URL_API_BASE}/depoimentos`;
+const URL_API_ADMIN_DEPOIMENTOS = `${URL_API_BASE}/admin/depoimentos`;
 
-const CONFIG = {
-    // Endereço da API da CamarSan
-    API_URL: "https://aliancascamarsan1993.pythonanywhere.com",
+const secaoLogin = document.getElementById('secao-login');
+const secaoPainel = document.getElementById('secao-painel');
+const formLogin = document.getElementById('form-login');
+const formProduto = document.getElementById('form-produto');
+const btnSair = document.getElementById('btn-sair');
 
-    // Nome da aplicação
-    APP_NAME: "CamarSan"
-};
+formLogin.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const senhaDigitada = document.getElementById('senha-admin').value;
 
-
-// -----------------------------------------------------
-// INICIALIZAÇÃO
-// -----------------------------------------------------
-
-document.addEventListener("DOMContentLoaded", () => {
-    inicializarSite();
-    const menuToggleBtn = document.getElementById("menu-toggle-btn");
-    const navDropdownMenu = document.getElementById("nav-dropdown-menu");
-    
-    const filtroToggleBtn = document.getElementById("filtro-toggle-btn");
-    const filtroDropdownMenu = document.getElementById("filtro-dropdown-menu");
-
-    // Lógica do Menu Principal
-    if (menuToggleBtn && navDropdownMenu) {
-        menuToggleBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (filtroDropdownMenu) filtroDropdownMenu.classList.remove("ativo");
-            navDropdownMenu.classList.toggle("ativo");
-        });
+    if (senhaDigitada === SENHA_MESTRE) {
+        secaoLogin.style.display = 'none';
+        secaoPainel.style.display = 'block';
+        carregarProdutosAdmin();
+        carregarNumismaticaAdmin();
+        carregarDepoimentosAdmin();
+        carregarEventosAdmin();
+        inicializarSanfonaAdmin();
+    } else {
+        alert('Senha incorreta!');
     }
-
-    // Lógica do Menu de Filtros no Cabeçalho
-    if (filtroToggleBtn && filtroDropdownMenu) {
-        filtroToggleBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (navDropdownMenu) navDropdownMenu.classList.remove("ativo");
-            filtroDropdownMenu.classList.toggle("ativo");
-        });
-    }
-
-    // Fecha os menus ao clicar fora
-    document.addEventListener("click", (e) => {
-        if (navDropdownMenu && !navDropdownMenu.contains(e.target) && !menuToggleBtn?.contains(e.target)) {
-            navDropdownMenu.classList.remove("ativo");
-        }
-        if (filtroDropdownMenu && !filtroDropdownMenu.contains(e.target) && !filtroToggleBtn?.contains(e.target)) {
-            filtroDropdownMenu.classList.remove("ativo");
-        }
-    });
 });
 
-function inicializarSite() {
-    console.log(`${CONFIG.APP_NAME} iniciado.`);
+// Variável global para gerir a ordem das imagens antes do envio
+let arquivosSelecionados = [];
+const inputImagem = document.getElementById('imagem-prod');
 
-    inicializarMenu();
-    inicializarBotoes();
-    inicializarAno();
-    inicializarProdutosDestaque();
-    inicializarNumismaticaDestaque(); // <-- Adicionado para carregar as moedas e notas na home
-    inicializarEventos();
-    inicializarDepoimentos();
-    inicializarEnvioDepoimento();
-    inicializarCarrosselDiferenciais();
-    inicializarToggleDepoimento();
+// Criar dinamicamente uma área para pré-visualizar e escolher a capa
+if (inputImagem) {
+    const containerPreview = document.createElement('div');
+    containerPreview.id = 'preview-imagens-admin';
+    containerPreview.style.cssText = 'display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;';
+    inputImagem.parentNode.insertBefore(containerPreview, inputImagem.nextSibling);
+
+    inputImagem.addEventListener('change', function (e) {
+        arquivosSelecionados = Array.from(e.target.files);
+        atualizarPreviewImagens();
+    });
 }
 
-// -----------------------------------------------------
-// CARROSSEL DE DIFERENCIAIS
-// -----------------------------------------------------
+function atualizarPreviewImagens() {
+    const containerPreview = document.getElementById('preview-imagens-admin');
+    if (!containerPreview) return;
+    containerPreview.innerHTML = '';
 
-function inicializarCarrosselDiferenciais() {
-    const container = document.querySelector("#carrossel-diferenciais");
-    const containerIndicadores = document.querySelector("#indicadores-diferenciais");
+    if (arquivosSelecionados.length > 0) {
+        const aviso = document.createElement('p');
+        aviso.style.cssText = 'width: 100%; font-size: 0.85rem; color: #666; margin-bottom: 5px;';
+        aviso.innerHTML = '⭐ <strong>Capa actual:</strong> (A primeira imagem com moldura dourada será a capa). Clique noutra para definir como capa:';
+        containerPreview.appendChild(aviso);
+    }
 
-    if (!container || !containerIndicadores) return;
+    arquivosSelecionados.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const miniaturaWrapper = document.createElement('div');
+            const ehCapa = index === 0;
 
-    const cards = container.querySelectorAll(".diferencial-card");
-    containerIndicadores.innerHTML = "";
+            miniaturaWrapper.style.cssText = `
+                position: relative;
+                width: 70px;
+                height: 70px;
+                border: 3px solid ${ehCapa ? 'var(--dourado, #c9a227)' : 'transparent'};
+                border-radius: 8px;
+                overflow: hidden;
+                cursor: pointer;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                transition: transform 0.2s;
+            `;
 
-    cards.forEach((_, index) => {
-        const ponto = document.createElement("div");
-        ponto.classList.add("indicador-ponto");
-        if (index === 0) ponto.classList.add("ativo");
-        containerIndicadores.appendChild(ponto);
-    });
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+            miniaturaWrapper.appendChild(img);
 
-    const pontos = containerIndicadores.querySelectorAll(".indicador-ponto");
-
-    container.addEventListener("scroll", () => {
-        const indexAtivo = Math.round(container.scrollLeft / container.clientWidth);
-
-        pontos.forEach((ponto, index) => {
-            if (index === indexAtivo) {
-                ponto.classList.add("ativo");
-            } else {
-                ponto.classList.remove("ativo");
+            if (ehCapa) {
+                const badge = document.createElement('span');
+                badge.innerText = 'CAPA';
+                badge.style.cssText = 'position: absolute; bottom: 0; left: 0; right: 0; background: rgba(201,162,39,0.9); color: #1d1d1d; font-size: 9px; font-weight: bold; text-align: center;';
+                miniaturaWrapper.appendChild(badge);
             }
-        });
+
+            miniaturaWrapper.addEventListener('click', () => {
+                const imagemClicada = arquivosSelecionados.splice(index, 1)[0];
+                arquivosSelecionados.unshift(imagemClicada);
+                atualizarPreviewImagens();
+            });
+
+            containerPreview.appendChild(miniaturaWrapper);
+        };
+        reader.readAsDataURL(file);
     });
 }
 
-// -----------------------------------------------------
-// MENU E SONS (COMPATÍVEL COM RAIZ E SUBPASTAS)
-// -----------------------------------------------------
+// --- FUNÇÃO PARA CARREGAR PRODUTOS NO PAINEL ADMIN ---
+async function carregarProdutosAdmin() {
+    const listaDiv = document.getElementById('lista-produtos-admin');
+    if (!listaDiv) return;
 
-function inicializarMenu() {
-    const menuButton = document.querySelector("#menu-toggle-btn");
-    const menuDropdown = document.querySelector("#nav-dropdown-menu");
-
-    if (!menuButton || !menuDropdown) {
-        return;
-    }
-
-    // Deteta se a página está numa subpasta (ex: /pages/catalogo.html) para ajustar o caminho do som
-    const estaEmSubpasta = window.location.pathname.includes('/pages/');
-    const caminhoSom = estaEmSubpasta ? '../assets/sons/clique.mp3' : 'assets/sons/clique.mp3';
-
-    // Cria o objeto de áudio com o caminho dinâmico correto
-    const somClique = new Audio(caminhoSom);
-
-    // Seleciona TODOS os elementos marcados com .btn-com-som no cabeçalho e no menu suspenso
-    const elementosComSom = document.querySelectorAll(".btn-com-som");
-    
-    elementosComSom.forEach(elemento => {
-        elemento.addEventListener("click", () => {
-            somClique.currentTime = 0; // Reinicia o áudio para cliques rápidos seguidos
-            somClique.play().catch(erro => console.log("Áudio aguardando interação:", erro));
-        });
-    });
-
-    // Evento para abrir/fechar o menu ao clicar no botão principal
-    menuButton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        menuDropdown.classList.toggle("ativo");
-    });
-
-    // Fecha o menu se o utilizador clicar em qualquer outro lugar fora dele
-    document.addEventListener("click", (e) => {
-        if (!menuDropdown.contains(e.target) && !menuButton.contains(e.target)) {
-            menuDropdown.classList.remove("ativo");
-        }
-    });
-}
-// -----------------------------------------------------
-// BOTÕES
-// -----------------------------------------------------
-
-function inicializarBotoes() {
-    const botoesWhatsApp = document.querySelectorAll(".btn-whatsapp");
-
-    botoesWhatsApp.forEach((botao) => {
-        botao.addEventListener("click", () => {
-            console.log("Botão WhatsApp acionado.");
-        });
-    });
-}
-
-// -----------------------------------------------------
-// ANO DO RODAPÉ
-// -----------------------------------------------------
-
-function inicializarAno() {
-    const elementoAno = document.querySelector("#ano-atual");
-
-    if (elementoAno) {
-        elementoAno.textContent = new Date().getFullYear();
-    }
-}
-
-
-// -----------------------------------------------------
-// API - PRODUTOS EM DESTAQUE
-// -----------------------------------------------------
-
-async function inicializarProdutosDestaque() {
-    const container = document.querySelector("#produtos-destaque");
-
-    if (!container) {
-        console.warn("Container de produtos em destaque não encontrado.");
-        return;
-    }
+    listaDiv.innerHTML = '<p>A carregar produtos...</p>';
 
     try {
-        const resposta = await fetch(`${CONFIG.API_URL}/produtos`);
-
-        if (!resposta.ok) {
-            throw new Error(`Erro HTTP: ${resposta.status}`);
-        }
-
+        const resposta = await fetch(URL_API_PRODUTOS);
         const produtos = await resposta.json();
-        container.innerHTML = "";
 
         if (produtos.length === 0) {
-            container.innerHTML = "<p>Nenhuma aliança cadastrada no momento.</p>";
+            listaDiv.innerHTML = '<p>Nenhum produto cadastrado no momento.</p>';
             return;
         }
 
-        produtos.slice(0, 4).forEach(produto => {
-            const card = document.createElement("article");
-            card.classList.add("produto-card");
+        let html = '<h3>Produtos Cadastrados (Gerir)</h3><div style="display: flex; flex-direction: column; gap: 10px;">';
 
-            const fotoUrl = produto.imagens && produto.imagens.length > 0 ? produto.imagens[0] : '';
-
-            card.innerHTML = `
-                <img src="${fotoUrl}" alt="${produto.nome}">
-                <div class="produto-card-body">
-                    <h3>${produto.nome}</h3>
-                    <p class="produto-preco">R$ ${produto.preco.toFixed(2).replace(".", ",")}</p>
-                    <a href="pages/produto.html?id=${produto.id}" class="btn-detalhes">Ver detalhes</a>
-                </div>
-            `;
-
-            container.appendChild(card);
-        });
-
-        console.log(`${produtos.length} produtos carregados pela API.`);
-
-    } catch (erro) {
-        console.error("Erro ao carregar produtos:", erro);
-        container.innerHTML = "<p>Não foi possível carregar os produtos.</p>";
-    }
-}
-
-
-// -----------------------------------------------------
-// API - NUMISMÁTICA EM DESTAQUE (MOEDAS E NOTAS)
-// -----------------------------------------------------
-
-async function inicializarNumismaticaDestaque() {
-    const container = document.querySelector("#numismatica-home");
-
-    if (!container) {
-        return; // Caso a secção não esteja presente na página atual
-    }
-
-    try {
-        const resposta = await fetch(`${CONFIG.API_URL}/numismatica`);
-
-        if (!resposta.ok) {
-            throw new Error(`Erro HTTP: ${resposta.status}`);
-        }
-
-        const itens = await resposta.json();
-        container.innerHTML = "";
-
-        if (itens.length === 0) {
-            container.innerHTML = "<p>Nenhuma peça numismática cadastrada no momento.</p>";
-            return;
-        }
-
-        // Mostra até 4 peças em destaque na página inicial
-        itens.slice(0, 4).forEach(item => {
-            const card = document.createElement("article");
-            card.classList.add("produto-card");
-
-            const fotoUrl = item.imagens && item.imagens.length > 0 ? item.imagens[0] : '';
-
-            card.innerHTML = `
-                <img src="${fotoUrl}" alt="${item.nome}">
-                <div class="produto-card-body">
-                    <h3>${item.nome}</h3>
-                    <p class="produto-preco">R$ ${Number(item.preco).toFixed(2).replace(".", ",")}</p>
-                    <a href="pages/item-numismatica.html?id=${item.id}" class="btn-detalhes">Ver detalhes</a>
-                </div>
-            `;
-
-            container.appendChild(card);
-        });
-
-        console.log(`${itens.length} peças numismáticas carregadas pela API.`);
-
-    } catch (erro) {
-        console.error("Erro ao carregar numismática:", erro);
-        container.innerHTML = "<p>Não foi possível carregar as moedas e notas antigas.</p>";
-    }
-}
-
-
-async function inicializarEventos() {
-    const container = document.querySelector("#eventos-container");
-
-    if (!container) {
-        return;
-    }
-
-    try {
-        const resposta = await fetch(`${CONFIG.API_URL}/eventos`);
-
-        if (!resposta.ok) {
-            throw new Error(`Erro HTTP: ${resposta.status}`);
-        }
-
-        const eventos = await resposta.json();
-        container.innerHTML = "";
-
-        if (eventos.length === 0) {
-            container.innerHTML = "<p>Nenhum evento agendado no momento. Acompanhe o nosso Instagram para novidades!</p>";
-            return;
-        }
-
-        container.classList.add("produtos-destaque");
-
-        // Data atual do sistema (ignorando a hora para comparar apenas o dia)
-        const hoje = new Date();
-        hoje.setHours(0, 0, 0, 0);
-
-        // Lista para armazenar todos os pares de (evento + data individual válida)
-        let listaEventosFiltrados = [];
-
-        eventos.forEach(evento => {
-            const listaDatas = (evento.datas && Array.isArray(evento.datas) && evento.datas.length > 0)
-                ? evento.datas
-                : [evento.data || ""];
-
-            listaDatas.forEach(dataStr => {
-                // Converte a string "DD/MM/AAAA" para o formato Date do JavaScript (AAAA-MM-DD)
-                const partes = dataStr.split('/');
-                if (partes.length === 3) {
-                    const dia = parseInt(partes[0], 10);
-                    const mes = parseInt(partes[1], 10) - 1; // Meses no JS começam em 0
-                    const ano = parseInt(partes[2], 10);
-                    const dataObj = new Date(ano, mes, dia);
-
-                    // Verifica se a data é válida e se NÃO já passou (>= hoje)
-                    if (!isNaN(dataObj.getTime()) && dataObj >= hoje) {
-                        listaEventosFiltrados.push({
-                            evento: evento,
-                            dataStr: dataStr,
-                            dataObj: dataObj
-                        });
-                    }
-                }
-            });
-        });
-
-        // Ordena por ordem cronológica (da data mais próxima para a mais distante)
-        listaEventosFiltrados.sort((a, b) => a.dataObj - b.dataObj);
-
-        if (listaEventosFiltrados.length === 0) {
-            container.innerHTML = "<p>Nenhum evento agendado para as próximas datas. Acompanhe o nosso Instagram para novidades!</p>";
-            return;
-        }
-
-        // Renderiza cada card com base na lista filtrada e ordenada
-        listaEventosFiltrados.forEach(item => {
-            const evento = item.evento;
-            const dataIndividual = item.dataStr;
-
-            const card = document.createElement("article");
-            card.classList.add("produto-card");
-
-            const imagemHtml = evento.imagem ? `
-                <div class="produto-card-img">
-                    <img src="${evento.imagem}" alt="${evento.nome}">
-                </div>
-            ` : '';
-
-            card.innerHTML = `
-                ${imagemHtml}
-                <div class="evento-card-body">
-                    <span class="evento-data-badge">📅 ${dataIndividual}</span>
-                    <h3>${evento.nome}</h3>
-                    <div class="evento-info-extra">
-                        <span>📍 ${evento.local}</span>
-                        <span>⏰ ${evento.horario}</span>
+        produtos.forEach(prod => {
+            const produtoId = prod.id || prod._id;
+            html += `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    <div>
+                        <strong>${prod.nome}</strong> - R$ ${parseFloat(prod.preco).toFixed(2)}
+                        <br><small style="color: #666;">${prod.material || ''} | ${prod.largura_mm || ''}mm</small>
                     </div>
-                    <a href="pages/evento.html?id=${evento.id}" class="btn-detalhes">Ver detalhes</a>
-                </div>
-            `;
-
-            container.appendChild(card);
-        });
-
-        console.log(`${listaEventosFiltrados.length} ocorrências de eventos futuros carregadas e ordenadas.`);
-
-    } catch (erro) {
-        console.error("Erro ao carregar eventos:", erro);
-        container.innerHTML = "<p>Não foi possível carregar os eventos no momento.</p>";
-    }
-}
-// -----------------------------------------------------
-// API - DEPOIMENTOS PÚBLICOS
-// -----------------------------------------------------
-
-async function inicializarDepoimentos() {
-    const container = document.querySelector("#lista-depoimentos-publicos");
-
-    if (!container) {
-        return;
-    }
-
-    try {
-        const resposta = await fetch(`${CONFIG.API_URL}/depoimentos`);
-
-        if (!resposta.ok) {
-            throw new Error(`Erro HTTP: ${resposta.status}`);
-        }
-
-        const depoimentos = await resposta.json();
-        container.innerHTML = "";
-
-        if (depoimentos.length === 0) {
-            container.innerHTML = "<p>Ainda não há depoimentos publicados. Seja o primeiro a avaliar!</p>";
-            return;
-        }
-
-        depoimentos.forEach(d => {
-            const estrelasStr = "⭐".repeat(d.estrelas);
-
-            const imagemHtml = d.foto_path ? `
-                <div style="flex-shrink: 0;">
-                    <img src="${CONFIG.API_URL}/uploads/${d.foto_path}" alt="Foto do cliente" style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
-                </div>
-            ` : '';
-
-            const card = document.createElement("div");
-            card.classList.add("card-depoimento-publico");
-
-            card.innerHTML = `
-                <div style="display: flex; gap: 15px; align-items: flex-start;">
-                    ${imagemHtml}
-                    <div style="flex-grow: 1; overflow: hidden;">
-                        <div style="color: #f39c12; margin-bottom: 4px; font-size: 0.85rem;">${estrelasStr}</div>
-                        <p class="texto-depoimento-limitado" style="color: var(--cinza); font-style: italic; font-size: 0.9rem; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; transition: max-height 0.3s ease;">
-                            "${d.mensagem}"
-                        </p>
-                        <button class="btn-expandir-depo" style="background: none; border: none; color: var(--dourado-escuro); font-weight: bold; font-size: 0.8rem; cursor: pointer; padding: 0; margin-bottom: 8px; text-decoration: underline;">
-                            Ver mais
-                        </button>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" onclick="prepararEdicao('${produtoId}', '${encodeURIComponent(JSON.stringify(prod))}')" style="background: #c9a227; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Editar</button>
+                        <button type="button" onclick="excluirProduto('${produtoId}')" style="background: #d9534f; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Excluir</button>
                     </div>
                 </div>
-                <div style="margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 6px; display: flex; justify-content: space-between; align-items: center;">
-                    <strong style="font-size: 0.85rem; color: #222;">${d.nome}</strong>
-                    <small style="color: #777; font-size: 0.75rem;">${d.cidade}</small>
-                </div>
+            `;
+        });
+
+        html += '</div>';
+        listaDiv.innerHTML = html;
+
+    } catch (erro) {
+        console.error('Erro ao carregar produtos:', erro);
+        listaDiv.innerHTML = '<p style="color: red;">Erro ao carregar lista de produtos da API.</p>';
+    }
+}
+
+// --- FUNÇÃO PARA EXCLUIR PRODUTO ---
+window.excluirProduto = async function (id) {
+    if (!confirm('Tem certeza de que deseja excluir este produto?')) return;
+
+    try {
+        const resposta = await fetch(`${URL_API_PRODUTOS}/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (resposta.ok) {
+            alert('Produto excluído com sucesso!');
+            carregarProdutosAdmin();
+        } else {
+            alert('Erro ao excluir o produto.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível comunicar com a API para excluir.');
+    }
+}
+
+// --- FUNÇÃO PARA PREPARAR A EDIÇÃO ---
+window.prepararEdicao = function (id, prodJsonStr) {
+    const prod = JSON.parse(decodeURIComponent(prodJsonStr));
+
+    document.getElementById('edit-produto-id').value = id;
+    document.getElementById('nome-prod').value = prod.nome || '';
+    document.getElementById('desc-prod').value = prod.descricao || '';
+    document.getElementById('preco-prod').value = prod.preco || '';
+    document.getElementById('largura-mm').value = prod.largura_mm || '';
+    document.getElementById('material').value = prod.material || '';
+    // --- PREENCHER NOVOS CAMPOS NA EDIÇÃO ---
+    document.getElementById('filtro-formato').value = prod.formato || '';
+    document.getElementById('filtro-frisos').value = prod.frisos || '';
+    document.getElementById('filtro-acabamento-detalhe').value = prod.acabamento || '';
+    document.getElementById('filtro-aco').value = prod.aco || '';
+    document.getElementById('filtro-finalidade').value = prod.finalidade || '';
+    document.getElementById('filtro-tipo-peca').value = prod.tipo || '';
+    // ----------------------------------------
+    document.getElementById('acabamento').value = prod.acabamento || '';
+    document.getElementById('revestimento').value = prod.revestimento || '';
+    document.getElementById('personalizacao').value = prod.personalizacao || '';
+    document.getElementById('disponibilidade').value = prod.disponibilidade || '';
+
+    document.getElementById('btn-salvar-prod').innerText = 'Atualizar Produto';
+    document.getElementById('btn-cancelar-edicao').style.display = 'block';
+
+    // Abre a sanfona de produtos automaticamente ao editar
+    document.getElementById('form-produto').closest('.bloco-sanfona')?.classList.add('ativo');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('btn-cancelar-edicao')?.addEventListener('click', function () {
+    formProduto.reset();
+    document.getElementById('edit-produto-id').value = '';
+    document.getElementById('btn-salvar-prod').innerText = 'Salvar Produto no Banco';
+    this.style.display = 'none';
+    arquivosSelecionados = [];
+    const containerPreview = document.getElementById('preview-imagens-admin');
+    if (containerPreview) containerPreview.innerHTML = '';
+});
+
+// --- ENVIO DO FORMULÁRIO (CRIAÇÃO OU ATUALIZAÇÃO) ---
+formProduto.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const idEdicao = document.getElementById('edit-produto-id').value;
+    const isEditando = idEdicao !== '';
+
+    const formData = new FormData();
+    formData.append('nome', document.getElementById('nome-prod').value);
+    formData.append('descricao', document.getElementById('desc-prod').value);
+    formData.append('preco', document.getElementById('preco-prod').value);
+    formData.append('largura_mm', document.getElementById('largura-mm').value);
+    formData.append('material', document.getElementById('material').value);
+    // --- NOVOS CAMPOS DE FILTRO ---
+    formData.append('formato', document.getElementById('filtro-formato').value);
+    formData.append('frisos', document.getElementById('filtro-frisos').value);
+    formData.append('acabamento', document.getElementById('filtro-acabamento-detalhe').value);
+    formData.append('aco', document.getElementById('filtro-aco').value);
+    formData.append('finalidade', document.getElementById('filtro-finalidade').value);
+    formData.append('tipo', document.getElementById('filtro-tipo-peca').value);
+    // -----------------------------
+    formData.append('acabamento', document.getElementById('acabamento').value);
+    formData.append('revestimento', document.getElementById('revestimento').value);
+    formData.append('personalizacao', document.getElementById('personalizacao').value);
+    formData.append('disponibilidade', document.getElementById('disponibilidade').value);
+
+    arquivosSelecionados.forEach(file => {
+        formData.append('imagens', file);
+    });
+
+    const urlDestino = isEditando ? `${URL_API_PRODUTOS}/${idEdicao}` : URL_API_PRODUTOS;
+    const metodoHttp = isEditando ? 'PUT' : 'POST';
+
+    try {
+        const resposta = await fetch(urlDestino, {
+            method: metodoHttp,
+            body: formData
+        });
+
+        if (resposta.ok) {
+            alert(isEditando ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!');
+            formProduto.reset();
+            document.getElementById('edit-produto-id').value = '';
+            document.getElementById('btn-salvar-prod').innerText = 'Salvar Produto no Banco';
+            document.getElementById('btn-cancelar-edicao').style.display = 'none';
+            arquivosSelecionados = [];
+
+            const containerPreview = document.getElementById('preview-imagens-admin');
+            if (containerPreview) containerPreview.innerHTML = '';
+
+            carregarProdutosAdmin();
+        } else {
+            alert('Erro ao guardar o produto na API.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível ligar à API.');
+    }
+});
+let arquivosNumSelecionados = [];
+const inputNumImagem = document.getElementById('num-imagens');
+
+if (inputNumImagem) {
+    const containerPreviewNum = document.createElement('div');
+    containerPreviewNum.id = 'preview-numismatica-admin';
+    containerPreviewNum.style.cssText = 'display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;';
+    inputNumImagem.parentNode.insertBefore(containerPreviewNum, inputNumImagem.nextSibling);
+
+    inputNumImagem.addEventListener('change', function (e) {
+        arquivosNumSelecionados = Array.from(e.target.files);
+        atualizarPreviewNumismatica();
+    });
+}
+
+function atualizarPreviewNumismatica() {
+    const containerPreviewNum = document.getElementById('preview-numismatica-admin');
+    if (!containerPreviewNum) return;
+    containerPreviewNum.innerHTML = '';
+
+    if (arquivosNumSelecionados.length > 0) {
+        const aviso = document.createElement('p');
+        aviso.style.cssText = 'width: 100%; font-size: 0.85rem; color: #666; margin-bottom: 5px;';
+        aviso.innerHTML = '⭐ <strong>Capa actual:</strong> (A primeira imagem com moldura dourada será a capa). Clique noutra para definir como capa:';
+        containerPreviewNum.appendChild(aviso);
+    }
+
+    arquivosNumSelecionados.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const miniaturaWrapper = document.createElement('div');
+            const ehCapa = index === 0;
+
+            miniaturaWrapper.style.cssText = `
+                position: relative;
+                width: 70px;
+                height: 70px;
+                border: 3px solid ${ehCapa ? 'var(--dourado, #c9a227)' : 'transparent'};
+                border-radius: 8px;
+                overflow: hidden;
+                cursor: pointer;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                transition: transform 0.2s;
             `;
 
-            const btnExpandir = card.querySelector(".btn-expandir-depo");
-            const pMensagem = card.querySelector(".texto-depoimento-limitado");
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.cssText = 'width: 100%; height: 100%; object-fit: cover; display: block;';
+            miniaturaWrapper.appendChild(img);
 
-            if (d.mensagem.length < 120) {
-                btnExpandir.style.display = "none";
+            if (ehCapa) {
+                const badge = document.createElement('span');
+                badge.innerText = 'CAPA';
+                badge.style.cssText = 'position: absolute; bottom: 0; left: 0; right: 0; background: rgba(201,162,39,0.9); color: #1d1d1d; font-size: 9px; font-weight: bold; text-align: center;';
+                miniaturaWrapper.appendChild(badge);
             }
 
-            btnExpandir.addEventListener("click", () => {
-                if (pMensagem.style.webkitLineClamp === "unset") {
-                    pMensagem.style.webkitLineClamp = "4";
-                    pMensagem.style.display = "-webkit-box";
-                    btnExpandir.textContent = "Ver mais";
-                } else {
-                    pMensagem.style.webkitLineClamp = "unset";
-                    pMensagem.style.display = "block";
-                    btnExpandir.textContent = "Ver menos";
-                }
+            miniaturaWrapper.addEventListener('click', () => {
+                const imagemClicada = arquivosNumSelecionados.splice(index, 1)[0];
+                arquivosNumSelecionados.unshift(imagemClicada);
+                atualizarPreviewNumismatica();
             });
 
-            container.appendChild(card);
+            containerPreviewNum.appendChild(miniaturaWrapper);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+// =====================================================
+// LÓGICA DAS SECÇÕES SANFONA (ACCORDION) NO ADMIN
+// =====================================================
+function inicializarSanfonaAdmin() {
+    const botoesHeader = document.querySelectorAll('.btn-sanfona-header');
+
+    botoesHeader.forEach(botao => {
+        // Evita duplicar escutadores de evento se a função for chamada mais de uma vez
+        botao.replaceWith(botao.cloneNode(true));
+    });
+
+    // Re-seleciona os botões clonados para adicionar o evento limpo
+    document.querySelectorAll('.btn-sanfona-header').forEach(botao => {
+        botao.addEventListener('click', function () {
+            const blocoPai = this.closest('.bloco-sanfona');
+            blocoPai.classList.toggle('ativo');
+        });
+    });
+}
+// --- BOTÃO SAIR / BLOQUEAR PAINEL ---
+document.addEventListener('click', function (e) {
+    if (e.target && (e.target.id === 'btn-sair' || e.target.closest('#btn-sair'))) {
+        e.preventDefault();
+
+        if (secaoPainel) secaoPainel.style.display = 'none';
+        if (secaoLogin) secaoLogin.style.display = 'block';
+
+        const inputSenha = document.getElementById('senha-admin');
+        if (inputSenha) inputSenha.value = '';
+
+        if (formProduto) formProduto.reset();
+        document.getElementById('edit-produto-id').value = '';
+        document.getElementById('btn-salvar-prod').innerText = 'Salvar Produto no Banco';
+        const btnCancelar = document.getElementById('btn-cancelar-edicao');
+        if (btnCancelar) btnCancelar.style.display = 'none';
+
+        arquivosSelecionados = [];
+        const containerPreview = document.getElementById('preview-imagens-admin');
+        if (containerPreview) containerPreview.innerHTML = '';
+    }
+});
+
+// --- GESTÃO DE DEPOIMENTOS NO ADMIN ---
+async function carregarDepoimentosAdmin() {
+    const listaDiv = document.getElementById('lista-depoimentos-admin');
+    if (!listaDiv) return;
+
+    listaDiv.innerHTML = '<p>A carregar depoimentos...</p>';
+
+    try {
+        const resposta = await fetch(URL_API_ADMIN_DEPOIMENTOS);
+        const depoimentos = await resposta.json();
+
+        if (depoimentos.length === 0) {
+            listaDiv.innerHTML = '<p>Nenhum depoimento cadastrado no momento.</p>';
+            return;
+        }
+
+        let html = '<div class="admin-lista-depoimentos">';
+
+        depoimentos.forEach(dep => {
+            const idDep = dep.id || dep._id;
+            const statusClass = dep.aprovado ? 'badge-aprovado' : 'badge-pendente';
+            const statusTexto = dep.aprovado ? 'Aprovado' : 'Pendente';
+
+            html += `
+                <div class="admin-depoimento-card">
+                    <div class="admin-depoimento-info">
+                        <div>
+                            <span class="badge-status ${statusClass}">${statusTexto}</span> 
+                            <strong>${dep.nome}</strong> (${dep.cidade}) - ${dep.estrelas} ⭐
+                        </div>
+                        <p>"${dep.mensagem}"</p>
+                    </div>
+                    <div class="admin-depoimento-acoes">
+                        ${!dep.aprovado ? `<button type="button" class="btn-aprovar-admin" onclick="aprovarDepoimento('${idDep}')">Aprovar</button>` : ''}
+                        <button type="button" class="btn-excluir-admin" onclick="excluirDepoimento('${idDep}')">Excluir</button>
+                    </div>
+                </div>
+            `;
         });
 
-        console.log(`${depoimentos.length} depoimentos carregados pela API.`);
+        html += '</div>';
+        listaDiv.innerHTML = html;
 
     } catch (erro) {
-        console.error("Erro ao carregar depoimentos:", erro);
-        container.innerHTML = "<p>Não foi possível carregar os depoimentos no momento.</p>";
+        console.error('Erro ao carregar depoimentos:', erro);
+        listaDiv.innerHTML = '<p>Erro ao carregar a lista de depoimentos.</p>';
     }
 }
 
+window.aprovarDepoimento = async function (id) {
+    try {
+        const resposta = await fetch(`${URL_API_DEPOIMENTOS}/${id}/aprovar`, {
+            method: 'PUT'
+        });
 
-// -----------------------------------------------------
-// API - ENVIO DE NOVO DEPOIMENTO
-// -----------------------------------------------------
-
-function inicializarEnvioDepoimento() {
-    const form = document.querySelector("#form-enviar-depoimento");
-
-    if (!form) {
-        return;
+        if (resposta.ok) {
+            alert('Depoimento aprovado com sucesso!');
+            carregarDepoimentosAdmin();
+        } else {
+            alert('Erro ao aprovar o depoimento.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível comunicar com a API.');
     }
+}
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+window.excluirDepoimento = async function (id) {
+    if (!confirm('Tem certeza de que deseja excluir permanentemente este depoimento?')) return;
 
-        const formData = new FormData();
-        formData.append('nome', document.querySelector("#depo-nome").value);
-        formData.append('cidade', document.querySelector("#depo-cidade").value);
-        formData.append('estrelas', document.querySelector("#depo-estrelas").value);
-        formData.append('mensagem', document.querySelector("#depo-mensagem").value);
+    try {
+        const resposta = await fetch(`${URL_API_DEPOIMENTOS}/${id}`, {
+            method: 'DELETE'
+        });
 
-        const fotoInput = document.querySelector("#depo-foto");
-        if (fotoInput && fotoInput.files.length > 0) {
-            formData.append('foto', fotoInput.files[0]);
+        if (resposta.ok) {
+            alert('Depoimento excluído com sucesso!');
+            carregarDepoimentosAdmin();
+        } else {
+            alert('Erro ao excluir o depoimento.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível comunicar com a API para excluir.');
+    }
+}
+// =====================================================
+// GESTÃO DE EVENTOS NO PAINEL ADMIN
+// =====================================================
+
+const URL_API_EVENTOS = `${URL_API_BASE}/eventos`;
+const formEvento = document.getElementById('form-evento');
+
+async function carregarEventosAdmin() {
+    const listaDiv = document.getElementById('lista-eventos-admin');
+    if (!listaDiv) return;
+
+    listaDiv.innerHTML = '<p>A carregar eventos...</p>';
+
+    try {
+        const resposta = await fetch(URL_API_EVENTOS);
+        const eventos = await resposta.json();
+
+        if (eventos.length === 0) {
+            listaDiv.innerHTML = '<p>Nenhum evento cadastrado no momento.</p>';
+            return;
         }
 
+        let html = '<h3>Eventos Cadastrados (Gerir)</h3><div style="display: flex; flex-direction: column; gap: 10px;">';
+
+        eventos.forEach(ev => {
+            const eventoId = ev.id;
+            html += `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: left;">
+                    <div>
+                        <strong>${ev.nome}</strong> (${ev.data})
+                        <br><small style="color: #666;">📍 ${ev.local}</small>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" onclick="prepararEdicaoEvento('${eventoId}', '${encodeURIComponent(JSON.stringify(ev))}')" style="background: #c9a227; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Editar</button>
+                        <button type="button" onclick="excluirEvento('${eventoId}')" style="background: #d9534f; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Excluir</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        listaDiv.innerHTML = html;
+
+    } catch (erro) {
+        console.error('Erro ao carregar eventos:', erro);
+        listaDiv.innerHTML = '<p style="color: red;">Erro ao carregar lista de eventos da API.</p>';
+    }
+}
+
+window.excluirEvento = async function (id) {
+    if (!confirm('Tem certeza de que deseja excluir este evento?')) return;
+
+    try {
+        const resposta = await fetch(`${URL_API_EVENTOS}/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (resposta.ok) {
+            alert('Evento excluído com sucesso!');
+            carregarEventosAdmin();
+        } else {
+            alert('Erro ao excluir o evento.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível comunicar com a API para excluir.');
+    }
+}
+window.prepararEdicaoEvento = function (id, eventoJsonStr) {
+    const ev = JSON.parse(decodeURIComponent(eventoJsonStr));
+
+    document.getElementById('edit-evento-id').value = id;
+    document.getElementById('evento-nome').value = ev.nome || '';
+    document.getElementById('evento-desc').value = ev.descricao || '';
+    
+    const datasStr = Array.isArray(ev.datas) ? ev.datas.join(', ') : (ev.data || '');
+    document.getElementById('evento-datas').value = datasStr;
+
+    document.getElementById('evento-local').value = ev.local || '';
+    document.getElementById('evento-mapa').value = ev.mapa || '';
+    document.getElementById('evento-instagram').value = ev.instagram || '';
+    document.getElementById('evento-horario').value = ev.horario || '';
+
+    document.getElementById('btn-salvar-evento').innerText = 'Atualizar Evento';
+    document.getElementById('btn-cancelar-edicao-evento').style.display = 'block';
+
+    // Abre a sanfona de eventos automaticamente ao editar
+    document.getElementById('form-evento').closest('.bloco-sanfona')?.classList.add('ativo');
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+document.getElementById('btn-cancelar-edicao-evento')?.addEventListener('click', function () {
+    formEvento.reset();
+    document.getElementById('edit-evento-id').value = '';
+    document.getElementById('btn-salvar-evento').innerText = 'Salvar Evento no Banco';
+    this.style.display = 'none';
+});
+
+if (formEvento) {
+    formEvento.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const idEdicao = document.getElementById('edit-evento-id').value;
+        const isEditando = idEdicao !== '';
+
+        const formData = new FormData();
+        formData.append('nome', document.getElementById('evento-nome').value);
+        formData.append('descricao', document.getElementById('evento-desc').value);
+        
+        // Envia as datas inseridas no novo input
+        formData.append('datas', document.getElementById('evento-datas').value);
+        
+        formData.append('local', document.getElementById('evento-local').value);
+        formData.append('mapa', document.getElementById('evento-mapa').value);
+        formData.append('instagram', document.getElementById('evento-instagram').value);
+        formData.append('horario', document.getElementById('evento-horario').value);
+
+        const inputImg = document.getElementById('evento-imagem');
+        if (inputImg && inputImg.files.length > 0) {
+            formData.append('imagem', inputImg.files[0]);
+        }
+
+        const urlDestino = isEditando ? `${URL_API_EVENTOS}/${idEdicao}` : URL_API_EVENTOS;
+        const metodoHttp = isEditando ? 'PUT' : 'POST';
+
         try {
-            const resposta = await fetch(`${CONFIG.API_URL}/depoimentos`, {
-                method: 'POST',
+            const resposta = await fetch(urlDestino, {
+                method: metodoHttp,
                 body: formData
             });
 
             if (resposta.ok) {
-                alert("Muito obrigado! O seu depoimento foi enviado com sucesso e será publicado após a nossa verificação.");
-                form.reset();
+                alert(isEditando ? 'Evento atualizado com sucesso!' : 'Evento cadastrado com sucesso!');
+                formEvento.reset();
+                document.getElementById('edit-evento-id').value = '';
+                document.getElementById('btn-salvar-evento').innerText = 'Salvar Evento no Banco';
+                document.getElementById('btn-cancelar-edicao-evento').style.display = 'none';
+                carregarEventosAdmin();
             } else {
-                alert("Erro ao enviar o depoimento. Tente novamente.");
+                alert('Erro ao guardar o evento na API.');
             }
         } catch (erro) {
-            console.error("Erro:", erro);
-            alert("Não foi possível conectar ao servidor para enviar o depoimento.");
+            console.error('Erro:', erro);
+            alert('Não foi possível ligar à API.');
         }
     });
 }
+const formNumismatica = document.getElementById('form-numismatica');
 
+async function carregarNumismaticaAdmin() {
+    const listaDiv = document.getElementById('lista-numismatica-admin');
+    if (!listaDiv) return;
 
-// -----------------------------------------------------
-// TOGGLE DO FORMULÁRIO DE DEPOIMENTO
-// -----------------------------------------------------
+    listaDiv.innerHTML = '<p>A carregar moedas e notas...</p>';
 
-function inicializarToggleDepoimento() {
-    const btnToggle = document.querySelector("#btn-toggle-depoimento");
-    const wrapperForm = document.querySelector("#wrapper-form-depoimento");
+    try {
+        const resposta = await fetch(URL_API_NUMISMATICA);
+        const itens = await resposta.json();
 
-    if (!btnToggle || !wrapperForm) return;
-
-    btnToggle.addEventListener("click", () => {
-        if (wrapperForm.style.display === "none" || wrapperForm.style.display === "") {
-            wrapperForm.style.display = "block";
-            btnToggle.textContent = "Esconder formulário";
-            wrapperForm.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            wrapperForm.style.display = "none";
-            btnToggle.textContent = "Deixe o seu depoimento";
+        if (itens.length === 0) {
+            listaDiv.innerHTML = '<p>Nenhuma peça cadastrada no momento.</p>';
+            return;
         }
-    });
-}
 
-// -----------------------------------------------------
-// LÓGICA DA CONVERSA INTERATIVA COM O MOISES (7 CENAS)
-// -----------------------------------------------------
+        let html = '<h3>Peças Cadastradas (Gerir)</h3><div style="display: flex; flex-direction: column; gap: 10px;">';
 
-const roteiroConversa = [
-    {
-        fala: "Olá! Sou o Moises, artesão CamarSan. Clique em Mim para conversarmos sobre as nossas alianças artesanais e sobre este Site.",
-        botao: "Vamos lá!",
-        imagem: "mascote-img11.png"
-    },
-    {
-        fala: "Transformamos moedas antigas em joias exclusivas e cheias de história para perpetuar gerações. Clique no MENU acima e veja a Seção NOSSA HISTÓRIA!  ",
-        botao: "Como funciona?",
-        imagem: "mascote-img2.png"
-    },
-    {
-        fala: "Você escolhe o modelo ideal no catálogo, coloca no CARRINHO e clica em FINALIZAR, nós tratamos de todos os detalhes e medidas a partir daí.",
-        botao: "Quero ver os modelos!",
-        imagem: "mascote-img3.png"
-    },
-    {
-        fala: "Estes são os nossos destaques mais queridos. Você pode ver os detalhes e logo abaixo pode ver todos os Modelos do CATÁLOGO!",
-        botao: "Como faço o pedido?",
-        imagem: "mascote-img4.png",
-        acao: () => {
-            const posicaoOriginal = window.scrollY;
-            document.querySelector('#destaques').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-                window.scrollTo({
-                    top: posicaoOriginal,
-                    behavior: 'smooth'
-                });
-            }, 1500);
-        }
-    },
-    {
-        fala: "Combinamos tudo diretamente pelo WhatsApp de forma rápida, segura e totalmente personalizada.",
-        botao: "Quais as entregas?",
-        imagem: "mascote-img5.png"
-    },
-    {
-        fala: "Enviamos via Correios para todo o Brasil, entregamos por motoboy na região ou retirada local.",
-        botao: "Perfeito!",
-        imagem: "mascote-img6.png"
-    },
-    {
-        fala: "Veja mais sobre meu trabalho no instagram, sempre posto o passo a passo de como faço a forja, o polimento e demais etapas do processo produtivo.",
-        botao: "Segue lá",
-        imagem: "mascote-img7.png",
-        acao: () => {
-            const posicaoOriginal = window.scrollY;
-            document.querySelector('#redes-sociais').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-                window.scrollTo({
-                    top: posicaoOriginal,
-                    behavior: 'smooth'
-                });
-            }, 2000);
-        }
-    },
-    {
-        fala: "Veja os Eventos que Participamos em Caxias do Sul, estamos nas Melhores Feiras da Cidade!",
-        botao: "Nos Vemos Por Aí!",
-        imagem: "mascote-img8.png",
-        acao: () => {
-            const posicaoOriginal = window.scrollY;
-            document.querySelector('#eventos').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-                window.scrollTo({
-                    top: posicaoOriginal,
-                    behavior: 'smooth'
-                });
-            }, 2000);
-        }
-    },
-    {
-        fala: "Depois de sua experiência com a Camarsan deixe o seu feedback nos depoimentos abaixo, sua opinião é muito importante para nós!",
-        botao: "COMENTEM!",
-        imagem: "mascote-img9.png",
-        acao: () => {
-            const posicaoOriginal = window.scrollY;
-            document.querySelector('.secao-depoimentos-publicos').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-                window.scrollTo({
-                    top: posicaoOriginal,
-                    behavior: 'smooth'
-                });
-            }, 2000);
-        }
-    },
-    {
-        fala: "Ficou com alguma dúvida ou quer encomendar? É só me chamar no WhatsApp abaixo ou me ligar pelo telefone. Até breve!",
-        botao: "Reiniciar conversa",
-        imagem: "mascote-img10.png",
-        final: true,
-        acao: () => {
-            const posicaoOriginal = window.scrollY;
-            document.querySelector('#contato').scrollIntoView({ behavior: 'smooth' });
-            setTimeout(() => {
-                window.scrollTo({
-                    top: posicaoOriginal,
-                    behavior: 'smooth'
-                });
-            }, 2000);
-        }
+        itens.forEach(item => {
+            const itemId = item.id || item._id;
+            html += `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: left;">
+                    <div>
+                        <strong>${item.nome}</strong> (${item.tipo}) - R$ ${parseFloat(item.preco).toFixed(2)}
+                        <br><small style="color: #666;">Ano: ${item.ano || 'N/D'} | Estado: ${item.estado_conservacao || 'N/D'}</small>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" onclick="prepararEdicaoNumismatica('${itemId}', '${encodeURIComponent(JSON.stringify(item))}')" style="background: #c9a227; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Editar</button>
+                        <button type="button" onclick="excluirNumismatica('${itemId}')" style="background: #d9534f; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Excluir</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        listaDiv.innerHTML = html;
+
+    } catch (erro) {
+        console.error('Erro ao carregar numismática:', erro);
+        listaDiv.innerHTML = '<p style="color: red;">Erro ao carregar lista da API.</p>';
     }
-];
-
-let cenaAtual = 0;
-const caminhoImagens = "assets/mascote/";
-
-const areaMascote = document.getElementById('area-mascote');
-const imgMascote = document.getElementById('img-mascote');
-const balaoFala = document.getElementById('balao-fala-moises');
-const textoFala = document.getElementById('texto-fala');
-const btnProxima = document.getElementById('btn-proxima-fala');
-
-if (imgMascote) {
-    imgMascote.style.transition = "opacity 0.4s ease-in-out, transform 0.4s ease-in-out";
 }
 
-if (areaMascote && imgMascote && balaoFala && textoFala && btnProxima) {
-    function atualizarCena() {
-        const dadosCena = roteiroConversa[cenaAtual];
-        balaoFala.classList.remove('visivel');
+window.excluirNumismatica = async function (id) {
+    if (!confirm('Tem certeza de que deseja excluir esta peça?')) return;
 
-        // Transição suave apenas de fade e zoom leve, sem mexer na posição horizontal
-        imgMascote.style.opacity = 0;
-        imgMascote.style.transform = "scale(0.96)";
+    try {
+        const resposta = await fetch(`${URL_API_NUMISMATICA}/${id}`, {
+            method: 'DELETE'
+        });
 
-        setTimeout(() => {
-            imgMascote.src = caminhoImagens + dadosCena.imagem;
-            imgMascote.alt = `Moises CamarSan - Cena ${cenaAtual + 1}`;
-            
-            imgMascote.style.opacity = 1;
-            imgMascote.style.transform = "scale(1)";
+        if (resposta.ok) {
+            alert('Peça excluída com sucesso!');
+            carregarNumismaticaAdmin();
+        } else {
+            alert('Erro ao excluir a peça.');
+        }
+    } catch (erro) {
+        console.error('Erro:', erro);
+        alert('Não foi possível comunicar com a API.');
+    }
+}
 
-            textoFala.textContent = dadosCena.fala;
-            btnProxima.textContent = dadosCena.botao;
+window.prepararEdicaoNumismatica = function (id, itemJsonStr) {
+    const item = JSON.parse(decodeURIComponent(itemJsonStr));
 
-            if (dadosCena.acao) {
-                dadosCena.acao();
-            }
+    document.getElementById('edit-numismatica-id').value = id;
+    document.getElementById('num-nome').value = item.nome || '';
+    document.getElementById('num-desc').value = item.descricao || '';
+    document.getElementById('num-preco').value = item.preco || '';
+    document.getElementById('num-tipo').value = item.tipo || 'Moeda';
+    document.getElementById('num-ano').value = item.ano || '';
+    document.getElementById('num-estado').value = item.estado_conservacao || '';
 
-            if (dadosCena.final) {
-                btnProxima.style.display = 'inline-block';
+    document.getElementById('btn-salvar-num').innerText = 'Atualizar Peça';
+    document.getElementById('btn-cancelar-edicao-num').style.display = 'block';
+
+    // Abre a sanfona de numismática automaticamente ao editar
+    document.getElementById('form-numismatica').closest('.bloco-sanfona')?.classList.add('ativo');
+
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+
+document.getElementById('btn-cancelar-edicao-num')?.addEventListener('click', function () {
+    formNumismatica.reset();
+    document.getElementById('edit-numismatica-id').value = '';
+    document.getElementById('btn-salvar-num').innerText = 'Salvar Peça no Acervo';
+    this.style.display = 'none';
+    arquivosNumSelecionados = [];
+    const containerPreview = document.getElementById('preview-numismatica-admin');
+    if (containerPreview) containerPreview.innerHTML = '';
+});
+
+if (formNumismatica) {
+    formNumismatica.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const idEdicao = document.getElementById('edit-numismatica-id').value;
+        const isEditando = idEdicao !== '';
+
+        const formData = new FormData();
+        formData.append('nome', document.getElementById('num-nome').value);
+        formData.append('descricao', document.getElementById('num-desc').value);
+        formData.append('preco', document.getElementById('num-preco').value);
+        formData.append('tipo', document.getElementById('num-tipo').value);
+        formData.append('ano', document.getElementById('num-ano').value);
+        formData.append('estado_conservacao', document.getElementById('num-estado').value);
+
+        // Garante que todas as imagens (com a capa na primeira posição) são enviadas
+        arquivosNumSelecionados.forEach(file => {
+            formData.append('imagens', file);
+        });
+
+        const urlDestino = isEditando ? `${URL_API_NUMISMATICA}/${idEdicao}` : URL_API_NUMISMATICA;
+        const metodoHttp = isEditando ? 'PUT' : 'POST';
+
+        try {
+            const resposta = await fetch(urlDestino, {
+                method: metodoHttp,
+                body: formData
+            });
+
+            if (resposta.ok) {
+                alert(isEditando ? 'Peça atualizada com sucesso!' : 'Peça cadastrada com sucesso!');
+                formNumismatica.reset();
+                document.getElementById('edit-numismatica-id').value = '';
+                document.getElementById('btn-salvar-num').innerText = 'Salvar Peça no Acervo';
+                document.getElementById('btn-cancelar-edicao-num').style.display = 'none';
+                arquivosNumSelecionados = [];
+
+                const containerPreview = document.getElementById('preview-numismatica-admin');
+                if (containerPreview) containerPreview.innerHTML = '';
+
+                carregarNumismaticaAdmin();
             } else {
-                btnProxima.style.display = 'inline-block';
+                alert('Erro ao guardar a peça na API.');
             }
-
-            balaoFala.classList.add('visivel');
-        }, 300);
-    }
-
-    areaMascote.addEventListener('click', () => {
-        if (balaoFala.classList.contains('visivel')) {
-            avancarConversa();
-        } else {
-            balaoFala.classList.add('visivel');
+        } 
+        catch (erro) {
+            console.error('Erro:', erro);
+            alert('Não foi possível ligar à API.');
         }
     });
-
-    btnProxima.addEventListener('click', (e) => {
-        e.stopPropagation();
-        avancarConversa();
-    });
-
-    function avancarConversa() {
-        if (cenaAtual < roteiroConversa.length - 1) {
-            cenaAtual++;
-            atualizarCena();
-        } else {
-            cenaAtual = 0; // Reinicia o ciclo ao chegar ao fim
-            atualizarCena();
-        }
-    }
-}
-// --- FUNÇÃO PARA ABRIR O WHATSAPP COM MENSAGEM GERAL DE CONTATO ---
-function falarPeloWhatsApp(e) {
-    if (e) e.preventDefault();
-
-    const numeroWhatsApp = "5554996322787"; // O seu número configurado
-    const mensagem = "Olá! Gostaria de conversar com a CamarSan sobre sobre assuntos que vi no site e tirar algumas dúvidas.";
-    
-    const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
-    window.open(url, "_blank");
 }
