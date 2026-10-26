@@ -84,10 +84,17 @@ function configurarFiltros() {
     const fTipo = document.getElementById('filtro-cat-tipo');
 
     const elementosFiltro = [fFormato, fFrisos, fAcabamento, fAco, fFinalidade, fTipo];
+    const filtroDropdownMenu = document.getElementById('filtro-dropdown-menu');
 
     elementosFiltro.forEach(filtro => {
         if (filtro) {
-            filtro.addEventListener('change', aplicarFiltrosDinamicos);
+            filtro.addEventListener('change', () => {
+                aplicarFiltrosDinamicos();
+                // Recolhe o menu de filtros automaticamente após selecionar uma opção
+                if (filtroDropdownMenu) {
+                    filtroDropdownMenu.classList.remove('ativo');
+                }
+            });
         }
     });
 }
