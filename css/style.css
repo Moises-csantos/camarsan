@@ -3162,16 +3162,18 @@ header {
     background-color: var(--branco, #ffffff) !important;
 }
 /* =========================================================
-   CORREÇÃO GLOBAL PARA O SUBTÍTULO PERSONALIZADO
+   CORREÇÃO DEFINITIVA DE ALTA ESPECIFICIDADE PARA O SUBTÍTULO
    ========================================================= */
-section p.subtitulo-casamento-destaque,
-.secao-depoimentos-publicos p.subtitulo-casamento-destaque {
-    text-transform: none !important;                 /* Anula o maiúsculo */
-    color: var(--bordo-escuro, #430b12) !important;  /* Força o bordo escuro */
+body section p.subtitulo-casamento-destaque,
+body div.subtitulo-casamento-destaque,
+p.subtitulo-casamento-destaque,
+.subtitulo-casamento-destaque {
+    text-transform: none !important;                 /* Anula qualquer maiúscula herdada */
+    color: var(--bordo-escuro, #430b12) !important;  /* Força o tom bordo escuro */
     font-size: 1.05rem !important;
     font-weight: 500 !important;
     max-width: 750px !important;
     margin: 10px auto 25px auto !important;
     line-height: 1.5 !important;
-    letter-spacing: normal !important;               /* Remove o espaçamento forçado */
+    letter-spacing: normal !important;               /* Remove espaçamentos forçados */
 }
