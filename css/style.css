@@ -3162,15 +3162,15 @@ header {
     background-color: var(--branco, #ffffff) !important;
 }
 /* =========================================================
-   SUBTÍTULO PERSONALIZADO DE CASAMENTO (DESTAQUES) - CORRIGIDO
+   SUBTÍTULO PERSONALIZADO DE CASAMENTO (GLOBAL PARA TODAS AS SECTIONS)
    ========================================================= */
-section#destaques p.subtitulo-casamento-destaque {
-    text-transform: none !important;                 /* Anula o maiúsculo global do #destaques > p */
-    color: var(--bordo-escuro, #430b12) !important;  /* Força a cor bordo escuro */
+p.subtitulo-casamento-destaque {
+    text-transform: none !important;                 /* Remove o maiúsculo/caixa alta herdado */
+    color: var(--bordo-escuro, #430b12) !important;  /* Define o tom bordo escuro */
     font-size: 1.05rem !important;
     font-weight: 500 !important;
     max-width: 750px !important;
     margin: 10px auto 25px auto !important;
     line-height: 1.5 !important;
-    letter-spacing: normal !important;               /* Anula o letter-spacing global */
+    letter-spacing: normal !important;               /* Remove o espaçamento de letras excessivo */
 }
