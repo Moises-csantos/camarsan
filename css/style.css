@@ -3179,3 +3179,46 @@ p.subtitulo-casamento-destaque,
     line-height: 1.5 !important;
     letter-spacing: normal !important;               /* Remove espaçamentos forçados */
 }
+/* =========================================================
+   ESTILIZAÇÃO DOS INPUTS E SELECTS DO PAINEL ADMINISTRATIVO
+   ========================================================= */
+
+#form-produto select,
+#form-produto input[type="text"],
+#form-produto input[type="number"],
+#form-produto textarea,
+#form-numismatica select,
+#form-numismatica input,
+#form-numismatica textarea,
+#form-evento select,
+#form-evento input,
+#form-evento textarea {
+    width: 100% !important;
+    padding: 12px 14px !important;
+    margin-bottom: 15px !important;
+    border: 1px solid var(--cinza-claro, #eeeeee) !important;
+    border-radius: 8px !important;
+    font-size: 0.95rem !important;
+    font-family: inherit !important;
+    background-color: var(--creme, #f7f3ea) !important;
+    color: var(--grafite, #1d1d1d) !important;
+    outline: none !important;
+    transition: var(--transicao, 0.3s ease) !important;
+    box-sizing: border-box !important;
+}
+
+#form-produto select:hover,
+#form-produto select:focus,
+#form-produto input:hover,
+#form-produto input:focus,
+#form-produto textarea:hover,
+#form-produto textarea:focus,
+#form-numismatica select:hover,
+#form-numismatica select:focus,
+#form-numismatica input:hover,
+#form-numismatica input:focus,
+#form-evento input:hover,
+#form-evento input:focus {
+    border-color: var(--dourado, #c9a227) !important;
+    background-color: var(--branco, #ffffff) !important;
+}
