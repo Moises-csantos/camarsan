@@ -108,13 +108,6 @@ function inicializarCarrosselDiferenciais() {
 // -----------------------------------------------------
 
 function inicializarMenu() {
-    const menuButton = document.querySelector("#menu-toggle-btn");
-    const menuDropdown = document.querySelector("#nav-dropdown-menu");
-
-    if (!menuButton || !menuDropdown) {
-        return;
-    }
-
     // Deteta se a página está numa subpasta (ex: /pages/catalogo.html) para ajustar o caminho do som
     const estaEmSubpasta = window.location.pathname.includes('/pages/');
     const caminhoSom = estaEmSubpasta ? '../assets/sons/clique.mp3' : 'assets/sons/clique.mp3';
@@ -130,19 +123,6 @@ function inicializarMenu() {
             somClique.currentTime = 0; // Reinicia o áudio para cliques rápidos seguidos
             somClique.play().catch(erro => console.log("Áudio aguardando interação:", erro));
         });
-    });
-
-    // Evento para abrir/fechar o menu ao clicar no botão principal
-    menuButton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        menuDropdown.classList.toggle("ativo");
-    });
-
-    // Fecha o menu se o utilizador clicar em qualquer outro lugar fora dele
-    document.addEventListener("click", (e) => {
-        if (!menuDropdown.contains(e.target) && !menuButton.contains(e.target)) {
-            menuDropdown.classList.remove("ativo");
-        }
     });
 }
 // -----------------------------------------------------
