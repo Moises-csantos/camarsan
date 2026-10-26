@@ -119,13 +119,19 @@ async function carregarProdutosAdmin() {
 
         produtos.forEach(prod => {
             const produtoId = prod.id || prod._id;
+            // Pega a primeira imagem disponível ou usa um placeholder se não houver
+            const imagemSrc = (prod.imagens && prod.imagens.length > 0) ? prod.imagens[0] : '../assets/logo/logo.png';
+            
             html += `
-                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
-                    <div>
-                        <strong>${prod.nome}</strong> - R$ ${parseFloat(prod.preco).toFixed(2)}
-                        <br><small style="color: #666;">${prod.material || ''} | ${prod.largura_mm || ''}mm</small>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px; gap: 15px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img src="${imagemSrc}" alt="${prod.nome}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 6px; border: 1px solid #ccc; background: #fff;">
+                        <div>
+                            <strong>${prod.nome}</strong> - R$ ${parseFloat(prod.preco).toFixed(2)}
+                            <br><small style="color: #666;">${prod.material || ''} | ${prod.largura_mm || ''}mm</small>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 10px;">
+                    <div style="display: flex; gap: 10px; flex-shrink: 0;">
                         <button type="button" onclick="prepararEdicao('${produtoId}', '${encodeURIComponent(JSON.stringify(prod))}')" style="background: #c9a227; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Editar</button>
                         <button type="button" onclick="excluirProduto('${produtoId}')" style="background: #d9534f; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Excluir</button>
                     </div>
@@ -486,13 +492,19 @@ async function carregarEventosAdmin() {
 
         eventos.forEach(ev => {
             const eventoId = ev.id;
+            // No caso de eventos, se houver imagem guardada
+            const imagemSrc = ev.imagem ? ev.imagem : '../assets/logo/logo.png';
+
             html += `
-                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: left;">
-                    <div>
-                        <strong>${ev.nome}</strong> (${ev.data})
-                        <br><small style="color: #666;">📍 ${ev.local}</small>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: left; gap: 15px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img src="${imagemSrc}" alt="${ev.nome}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc; background: #fff;">
+                        <div>
+                            <strong>${ev.nome}</strong> (${Array.isArray(ev.datas) ? ev.datas.join(', ') : (ev.data || '')})
+                            <br><small style="color: #666;">📍 ${ev.local}</small>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 10px;">
+                    <div style="display: flex; gap: 10px; flex-shrink: 0;">
                         <button type="button" onclick="prepararEdicaoEvento('${eventoId}', '${encodeURIComponent(JSON.stringify(ev))}')" style="background: #c9a227; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Editar</button>
                         <button type="button" onclick="excluirEvento('${eventoId}')" style="background: #d9534f; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Excluir</button>
                     </div>
@@ -629,13 +641,18 @@ async function carregarNumismaticaAdmin() {
 
         itens.forEach(item => {
             const itemId = item.id || item._id;
+            const imagemSrc = (item.imagens && item.imagens.length > 0) ? item.imagens[0] : '../assets/logo/logo.png';
+
             html += `
-                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: left;">
-                    <div>
-                        <strong>${item.nome}</strong> (${item.tipo}) - R$ ${parseFloat(item.preco).toFixed(2)}
-                        <br><small style="color: #666;">Ano: ${item.ano || 'N/D'} | Estado: ${item.estado_conservacao || 'N/D'}</small>
+                <div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; border: 1px solid #ddd; border-radius: 8px; text-align: left; gap: 15px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <img src="${imagemSrc}" alt="${item.nome}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 6px; border: 1px solid #ccc; background: #fff;">
+                        <div>
+                            <strong>${item.nome}</strong> (${item.tipo}) - R$ ${parseFloat(item.preco).toFixed(2)}
+                            <br><small style="color: #666;">Ano: ${item.ano || 'N/D'} | Estado: ${item.estado_conservacao || 'N/D'}</small>
+                        </div>
                     </div>
-                    <div style="display: flex; gap: 10px;">
+                    <div style="display: flex; gap: 10px; flex-shrink: 0;">
                         <button type="button" onclick="prepararEdicaoNumismatica('${itemId}', '${encodeURIComponent(JSON.stringify(item))}')" style="background: #c9a227; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Editar</button>
                         <button type="button" onclick="excluirNumismatica('${itemId}')" style="background: #d9534f; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Excluir</button>
                     </div>
