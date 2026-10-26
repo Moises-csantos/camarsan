@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&display=swap');
 :root {
     --dourado: #c9a227;
     --dourado-claro: #e5c45a;
@@ -45,6 +46,7 @@ h1,
 h2,
 h3 {
     line-height: 1.2;
+    font-family: 'Cinzel', serif;
 }
 
 section {
