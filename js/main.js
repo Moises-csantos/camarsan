@@ -18,6 +18,39 @@ const CONFIG = {
 
 document.addEventListener("DOMContentLoaded", () => {
     inicializarSite();
+    const menuToggleBtn = document.getElementById("menu-toggle-btn");
+    const navDropdownMenu = document.getElementById("nav-dropdown-menu");
+    
+    const filtroToggleBtn = document.getElementById("filtro-toggle-btn");
+    const filtroDropdownMenu = document.getElementById("filtro-dropdown-menu");
+
+    // Lógica do Menu Principal
+    if (menuToggleBtn && navDropdownMenu) {
+        menuToggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (filtroDropdownMenu) filtroDropdownMenu.classList.remove("ativo");
+            navDropdownMenu.classList.toggle("ativo");
+        });
+    }
+
+    // Lógica do Menu de Filtros no Cabeçalho
+    if (filtroToggleBtn && filtroDropdownMenu) {
+        filtroToggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (navDropdownMenu) navDropdownMenu.classList.remove("ativo");
+            filtroDropdownMenu.classList.toggle("ativo");
+        });
+    }
+
+    // Fecha os menus ao clicar fora
+    document.addEventListener("click", (e) => {
+        if (navDropdownMenu && !navDropdownMenu.contains(e.target) && !menuToggleBtn?.contains(e.target)) {
+            navDropdownMenu.classList.remove("ativo");
+        }
+        if (filtroDropdownMenu && !filtroDropdownMenu.contains(e.target) && !filtroToggleBtn?.contains(e.target)) {
+            filtroDropdownMenu.classList.remove("ativo");
+        }
+    });
 });
 
 function inicializarSite() {
@@ -512,7 +545,7 @@ const roteiroConversa = [
     {
         fala: "Olá! Sou o Moises, artesão CamarSan. Clique em Mim para conversarmos sobre as nossas alianças artesanais e sobre este Site.",
         botao: "Vamos lá!",
-        imagem: "mascote-img.png"
+        imagem: "mascote-img11.png"
     },
     {
         fala: "Transformamos moedas antigas em joias exclusivas e cheias de história para perpetuar gerações. Clique no MENU acima e veja a Seção NOSSA HISTÓRIA!  ",
