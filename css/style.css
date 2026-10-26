@@ -1993,10 +1993,10 @@ header {
     line-height: 1.25 !important;
 }
 
-#destaques > p,
-#numismatica-destaques > p,
-#eventos > p,
-.secao-depoimentos-publicos > p {
+#destaques > p:not(.subtitulo-casamento-destaque),
+#numismatica-destaques > p:not(.subtitulo-casamento-destaque),
+#eventos > p:not(.subtitulo-casamento-destaque),
+.secao-depoimentos-publicos > p:not(.subtitulo-casamento-destaque) {
     color: var(--dourado-escuro) !important;
     text-transform: uppercase !important;
     letter-spacing: 2px !important;
